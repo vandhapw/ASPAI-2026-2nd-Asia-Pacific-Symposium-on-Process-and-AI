@@ -231,7 +231,25 @@ We evaluate augmentation quality along three dimensions:
 
 \subsection{Datasets}
 
-We use the Sepsis event log~\cite{4tu_sepsis} from the 4TU Research Data repository, a small (1,050 cases, 16 activities, $\sim$830 variants) high-variability healthcare dataset where augmentation should have the largest impact. We selected Sepsis as the primary evaluation dataset because its small size and high variability make it the most challenging for data augmentation methods.
+We use the Sepsis event log~\cite{4tu_sepsis} from the 4TU Research Data repository, a small (1,050 cases, 16 activities, $\sim$830 variants) high-variability healthcare dataset where augmentation should have the largest impact. Figure~\ref{fig:dataset} illustrates the dataset characteristics and the augmentation challenge.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/figure_dataset_illustration.pdf}
+\caption{Sepsis dataset illustration. (a) Event log structure: each row is an event, each trace is a sequence of events for one patient. (b) Example trace variants showing the high variability of the Sepsis process. (c) Data scarcity: Sepsis has 3 orders of magnitude fewer cases than typical deep learning datasets. (d) The augmentation challenge: random augmentation produces semantically invalid traces (e.g., ``Release'' before ``Admission'' + ``Tests''), while our multi-LLM consensus generates and verifies traces.}
+\label{fig:dataset}
+\end{figure*}
+
+Figure~\ref{fig:sepsis_flow} shows the simplified process flow of the Sepsis treatment process as a directly-follows graph (DFG). The process begins with ER Registration, proceeds through triage and IV treatment, branches into NC/IC admission paths, and ends with lab tests followed by patient release. The loop via ``Return ER'' captures patient readmissions.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/figure_sepsis_process_flow.pdf}
+\caption{Simplified directly-follows graph (DFG) of the Sepsis treatment process. Activities are color-coded by process stage: registration (blue), triage (green), IV treatment (red), admission (purple), lab tests (orange), release (dark green), and return (gray).}
+\label{fig:sepsis_flow}
+\end{figure}
+
+We selected Sepsis as the primary evaluation dataset because its small size and high variability make it the most challenging for data augmentation methods.
 
 \subsection{Model Selection Justification}
 

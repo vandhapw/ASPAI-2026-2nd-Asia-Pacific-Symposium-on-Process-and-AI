@@ -1,30 +1,30 @@
 {
   "exp1_generator_comparison": {
     "deepseek-r1": {
-      "total_generated": 0,
-      "structurally_valid": 0,
-      "structurally_valid_rate": 0.0,
-      "temporally_valid": 0,
-      "temporally_valid_rate": 0.0,
-      "fully_valid": 0,
-      "fully_valid_rate": 0.0,
-      "novel_traces": 0,
-      "unique_valid": 0,
-      "latency_sec": 0.63,
-      "response_preview": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+      "total_generated": 5,
+      "structurally_valid": 2,
+      "structurally_valid_rate": 0.4,
+      "temporally_valid": 5,
+      "temporally_valid_rate": 1.0,
+      "fully_valid": 2,
+      "fully_valid_rate": 0.4,
+      "novel_traces": 1,
+      "unique_valid": 2,
+      "latency_sec": 806.82,
+      "response_preview": "[\n  [\"ER Registration\", \"ER Triage\", \"ER Sepsis Triage\", \"IV Liquid\", \"Admission NC\", \"CRP\", \"Release A\"],\n  [\"ER Registration\", \"ER Triage\", \"IV Antibiotics\", \"Admission IC\", \"Lactic Acid\", \"Release "
     },
     "glm4": {
-      "total_generated": 0,
+      "total_generated": 5,
       "structurally_valid": 0,
       "structurally_valid_rate": 0.0,
-      "temporally_valid": 0,
-      "temporally_valid_rate": 0.0,
+      "temporally_valid": 5,
+      "temporally_valid_rate": 1.0,
       "fully_valid": 0,
       "fully_valid_rate": 0.0,
       "novel_traces": 0,
       "unique_valid": 0,
-      "latency_sec": 0.04,
-      "response_preview": "ERROR: model 'glm4' not found (status code: 404)"
+      "latency_sec": 122.36,
+      "response_preview": "```json\n[\n  [\n    \"ER Registration\",\n    \"ER Triage\",\n    \"ER Sepsis Triage\",\n    \"IV Liquid\",\n    \"Admission IC\",\n    \"CRP\",\n    \"Lactic Acid\",\n    \"Release B\"\n  ],\n  [\n    \"ER Registration\",\n    \"ER"
     },
     "kimi-k2": {
       "total_generated": 0,
@@ -43,14 +43,14 @@
   "exp2_verifier_comparison": {
     "deepseek-r1": {
       "tp": 5,
-      "tn": 0,
-      "fp": 5,
+      "tn": 5,
+      "fp": 0,
       "fn": 0,
-      "accuracy": 0.5,
-      "precision": 0.5,
+      "accuracy": 1.0,
+      "precision": 1.0,
       "recall": 1.0,
-      "f1": 0.667,
-      "avg_latency_sec": 0.04,
+      "f1": 1.0,
+      "avg_latency_sec": 272.29,
       "responses": [
         {
           "trace": [
@@ -64,7 +64,7 @@
           ],
           "expected": true,
           "predicted": true,
-          "response": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+          "response": "true"
         },
         {
           "trace": [
@@ -78,7 +78,7 @@
           ],
           "expected": true,
           "predicted": true,
-          "response": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+          "response": "true"
         },
         {
           "trace": [
@@ -92,7 +92,7 @@
           ],
           "expected": true,
           "predicted": true,
-          "response": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+          "response": "true"
         },
         {
           "trace": [
@@ -106,7 +106,7 @@
           ],
           "expected": true,
           "predicted": true,
-          "response": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+          "response": "true"
         },
         {
           "trace": [
@@ -120,7 +120,7 @@
           ],
           "expected": true,
           "predicted": true,
-          "response": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+          "response": "true"
         },
         {
           "trace": [
@@ -132,8 +132,8 @@
             "Release A"
           ],
           "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         },
         {
           "trace": [
@@ -143,8 +143,8 @@
             "Release A"
           ],
           "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         },
         {
           "trace": [
@@ -155,8 +155,8 @@
             "Release B"
           ],
           "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         },
         {
           "trace": [
@@ -168,8 +168,8 @@
             "Release A"
           ],
           "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         },
         {
           "trace": [
@@ -183,21 +183,21 @@
             "Release B"
           ],
           "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'deepseek-r1' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         }
       ]
     },
     "glm4": {
-      "tp": 5,
-      "tn": 0,
-      "fp": 5,
-      "fn": 0,
-      "accuracy": 0.5,
-      "precision": 0.5,
-      "recall": 1.0,
+      "tp": 3,
+      "tn": 4,
+      "fp": 1,
+      "fn": 2,
+      "accuracy": 0.7,
+      "precision": 0.75,
+      "recall": 0.6,
       "f1": 0.667,
-      "avg_latency_sec": 0.04,
+      "avg_latency_sec": 5.16,
       "responses": [
         {
           "trace": [
@@ -211,7 +211,7 @@
           ],
           "expected": true,
           "predicted": true,
-          "response": "ERROR: model 'glm4' not found (status code: 404)"
+          "response": "true"
         },
         {
           "trace": [
@@ -224,8 +224,8 @@
             "Release C"
           ],
           "expected": true,
-          "predicted": true,
-          "response": "ERROR: model 'glm4' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         },
         {
           "trace": [
@@ -239,7 +239,7 @@
           ],
           "expected": true,
           "predicted": true,
-          "response": "ERROR: model 'glm4' not found (status code: 404)"
+          "response": "true"
         },
         {
           "trace": [
@@ -253,7 +253,7 @@
           ],
           "expected": true,
           "predicted": true,
-          "response": "ERROR: model 'glm4' not found (status code: 404)"
+          "response": "true"
         },
         {
           "trace": [
@@ -266,8 +266,8 @@
             "Release E"
           ],
           "expected": true,
-          "predicted": true,
-          "response": "ERROR: model 'glm4' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         },
         {
           "trace": [
@@ -279,8 +279,8 @@
             "Release A"
           ],
           "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'glm4' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         },
         {
           "trace": [
@@ -291,7 +291,7 @@
           ],
           "expected": false,
           "predicted": true,
-          "response": "ERROR: model 'glm4' not found (status code: 404)"
+          "response": "true"
         },
         {
           "trace": [
@@ -302,8 +302,8 @@
             "Release B"
           ],
           "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'glm4' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         },
         {
           "trace": [
@@ -315,8 +315,8 @@
             "Release A"
           ],
           "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'glm4' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         },
         {
           "trace": [
@@ -330,8 +330,8 @@
             "Release B"
           ],
           "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'glm4' not found (status code: 404)"
+          "predicted": false,
+          "response": "false"
         }
       ]
     },
@@ -344,7 +344,7 @@
       "precision": 0.5,
       "recall": 1.0,
       "f1": 0.667,
-      "avg_latency_sec": 0.04,
+      "avg_latency_sec": 0.03,
       "responses": [
         {
           "trace": [
@@ -485,13 +485,13 @@
   },
   "exp4_homogeneous_vs_heterogeneous": {
     "3x_deepseek-r1": {
-      "accuracy": 0.5,
-      "correct": 5,
+      "accuracy": 1.0,
+      "correct": 10,
       "total": 10
     },
     "3x_glm4": {
-      "accuracy": 0.5,
-      "correct": 5,
+      "accuracy": 0.8,
+      "correct": 8,
       "total": 10
     },
     "3x_kimi-k2": {
@@ -500,8 +500,8 @@
       "total": 10
     },
     "deepseek-r1+glm4+kimi-k2": {
-      "accuracy": 0.5,
-      "correct": 5,
+      "accuracy": 0.9,
+      "correct": 9,
       "total": 10
     }
   },
