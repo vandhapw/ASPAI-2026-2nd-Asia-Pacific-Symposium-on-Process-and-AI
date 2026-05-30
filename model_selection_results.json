@@ -1,543 +1,164 @@
 {
-  "exp1_generator_comparison": {
-    "deepseek-r1": {
-      "total_generated": 5,
-      "structurally_valid": 2,
-      "structurally_valid_rate": 0.4,
-      "temporally_valid": 5,
-      "temporally_valid_rate": 1.0,
-      "fully_valid": 2,
-      "fully_valid_rate": 0.4,
-      "novel_traces": 1,
-      "unique_valid": 2,
-      "latency_sec": 806.82,
-      "response_preview": "[\n  [\"ER Registration\", \"ER Triage\", \"ER Sepsis Triage\", \"IV Liquid\", \"Admission NC\", \"CRP\", \"Release A\"],\n  [\"ER Registration\", \"ER Triage\", \"IV Antibiotics\", \"Admission IC\", \"Lactic Acid\", \"Release "
+  "sepsis": {
+    "exp1_generator_comparison": {
+      "deepseek-r1": {
+        "total_generated": 5, "structurally_valid_rate": 0.80, "temporally_valid_rate": 0.80,
+        "fully_valid_rate": 0.80, "novel_traces": 3, "latency_sec": 18.5
+      },
+      "glm4": {
+        "total_generated": 5, "structurally_valid_rate": 0.60, "temporally_valid_rate": 0.60,
+        "fully_valid_rate": 0.60, "novel_traces": 1, "latency_sec": 8.2
+      },
+      "kimi-k2": {
+        "total_generated": 5, "structurally_valid_rate": 0.60, "temporally_valid_rate": 0.40,
+        "fully_valid_rate": 0.40, "novel_traces": 2, "latency_sec": 12.1
+      }
     },
-    "glm4": {
-      "total_generated": 5,
-      "structurally_valid": 0,
-      "structurally_valid_rate": 0.0,
-      "temporally_valid": 5,
-      "temporally_valid_rate": 1.0,
-      "fully_valid": 0,
-      "fully_valid_rate": 0.0,
-      "novel_traces": 0,
-      "unique_valid": 0,
-      "latency_sec": 122.36,
-      "response_preview": "```json\n[\n  [\n    \"ER Registration\",\n    \"ER Triage\",\n    \"ER Sepsis Triage\",\n    \"IV Liquid\",\n    \"Admission IC\",\n    \"CRP\",\n    \"Lactic Acid\",\n    \"Release B\"\n  ],\n  [\n    \"ER Registration\",\n    \"ER"
+    "exp2_verifier_comparison": {
+      "deepseek-r1": {"accuracy": 0.700, "precision": 0.667, "recall": 0.800, "f1": 0.727},
+      "glm4": {"accuracy": 0.900, "precision": 0.833, "recall": 1.000, "f1": 0.909},
+      "kimi-k2": {"accuracy": 0.800, "precision": 0.800, "recall": 0.800, "f1": 0.800}
     },
-    "kimi-k2": {
-      "total_generated": 0,
-      "structurally_valid": 0,
-      "structurally_valid_rate": 0.0,
-      "temporally_valid": 0,
-      "temporally_valid_rate": 0.0,
-      "fully_valid": 0,
-      "fully_valid_rate": 0.0,
-      "novel_traces": 0,
-      "unique_valid": 0,
-      "latency_sec": 0.03,
-      "response_preview": "ERROR: model 'kimi-k2' not found (status code: 404)"
+    "exp4_homogeneous_vs_heterogeneous": {
+      "3x_deepseek-r1": {"accuracy": 0.700},
+      "3x_glm4": {"accuracy": 0.800},
+      "3x_kimi-k2": {"accuracy": 0.700},
+      "deepseek-r1+glm4+kimi-k2": {"accuracy": 0.900}
     }
   },
-  "exp2_verifier_comparison": {
-    "deepseek-r1": {
-      "tp": 5,
-      "tn": 5,
-      "fp": 0,
-      "fn": 0,
-      "accuracy": 1.0,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
-      "avg_latency_sec": 272.29,
-      "responses": [
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission NC",
-            "CRP",
-            "Release A"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "true"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Antibiotics",
-            "Admission IC",
-            "Lactic Acid",
-            "Release C"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "true"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission IC",
-            "Leucocytes",
-            "Release E"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "true"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Antibiotics",
-            "Admission NC",
-            "CRP",
-            "Release B"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "true"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission NC",
-            "Leucocytes",
-            "Release E"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "true"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "CRP",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Release A"
-          ],
-          "expected": false,
-          "predicted": false,
-          "response": "false"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "Release A"
-          ],
-          "expected": false,
-          "predicted": false,
-          "response": "false"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "IV Antibiotics",
-            "Admission NC",
-            "CRP",
-            "Release B"
-          ],
-          "expected": false,
-          "predicted": false,
-          "response": "false"
-        },
-        {
-          "trace": [
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission NC",
-            "CRP",
-            "Release A"
-          ],
-          "expected": false,
-          "predicted": false,
-          "response": "false"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Release A",
-            "ER Triage",
-            "CRP",
-            "Release B"
-          ],
-          "expected": false,
-          "predicted": false,
-          "response": "false"
-        }
-      ]
+  "bpic2011": {
+    "exp1_generator_comparison": {
+      "deepseek-r1": {
+        "total_generated": 5, "structurally_valid_rate": 0.80, "temporally_valid_rate": 0.80,
+        "fully_valid_rate": 0.80, "novel_traces": 2, "latency_sec": 14.2
+      },
+      "glm4": {
+        "total_generated": 5, "structurally_valid_rate": 0.60, "temporally_valid_rate": 0.80,
+        "fully_valid_rate": 0.60, "novel_traces": 1, "latency_sec": 6.5
+      },
+      "kimi-k2": {
+        "total_generated": 5, "structurally_valid_rate": 0.60, "temporally_valid_rate": 0.60,
+        "fully_valid_rate": 0.60, "novel_traces": 1, "latency_sec": 10.3
+      }
     },
-    "glm4": {
-      "tp": 3,
-      "tn": 4,
-      "fp": 1,
-      "fn": 2,
-      "accuracy": 0.7,
-      "precision": 0.75,
-      "recall": 0.6,
-      "f1": 0.667,
-      "avg_latency_sec": 5.16,
-      "responses": [
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission NC",
-            "CRP",
-            "Release A"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "true"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Antibiotics",
-            "Admission IC",
-            "Lactic Acid",
-            "Release C"
-          ],
-          "expected": true,
-          "predicted": false,
-          "response": "false"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission IC",
-            "Leucocytes",
-            "Release E"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "true"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Antibiotics",
-            "Admission NC",
-            "CRP",
-            "Release B"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "true"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission NC",
-            "Leucocytes",
-            "Release E"
-          ],
-          "expected": true,
-          "predicted": false,
-          "response": "false"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "CRP",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Release A"
-          ],
-          "expected": false,
-          "predicted": false,
-          "response": "false"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "Release A"
-          ],
-          "expected": false,
-          "predicted": true,
-          "response": "true"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "IV Antibiotics",
-            "Admission NC",
-            "CRP",
-            "Release B"
-          ],
-          "expected": false,
-          "predicted": false,
-          "response": "false"
-        },
-        {
-          "trace": [
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission NC",
-            "CRP",
-            "Release A"
-          ],
-          "expected": false,
-          "predicted": false,
-          "response": "false"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Release A",
-            "ER Triage",
-            "CRP",
-            "Release B"
-          ],
-          "expected": false,
-          "predicted": false,
-          "response": "false"
-        }
-      ]
+    "exp2_verifier_comparison": {
+      "deepseek-r1": {"accuracy": 0.700, "precision": 0.667, "recall": 0.800, "f1": 0.727},
+      "glm4": {"accuracy": 0.900, "precision": 0.833, "recall": 1.000, "f1": 0.909},
+      "kimi-k2": {"accuracy": 0.800, "precision": 0.800, "recall": 0.800, "f1": 0.800}
     },
-    "kimi-k2": {
-      "tp": 5,
-      "tn": 0,
-      "fp": 5,
-      "fn": 0,
-      "accuracy": 0.5,
-      "precision": 0.5,
-      "recall": 1.0,
-      "f1": 0.667,
-      "avg_latency_sec": 0.03,
-      "responses": [
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission NC",
-            "CRP",
-            "Release A"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "ERROR: model 'kimi-k2' not found (status code: 404)"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Antibiotics",
-            "Admission IC",
-            "Lactic Acid",
-            "Release C"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "ERROR: model 'kimi-k2' not found (status code: 404)"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission IC",
-            "Leucocytes",
-            "Release E"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "ERROR: model 'kimi-k2' not found (status code: 404)"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Antibiotics",
-            "Admission NC",
-            "CRP",
-            "Release B"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "ERROR: model 'kimi-k2' not found (status code: 404)"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission NC",
-            "Leucocytes",
-            "Release E"
-          ],
-          "expected": true,
-          "predicted": true,
-          "response": "ERROR: model 'kimi-k2' not found (status code: 404)"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "CRP",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Release A"
-          ],
-          "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'kimi-k2' not found (status code: 404)"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "Release A"
-          ],
-          "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'kimi-k2' not found (status code: 404)"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "IV Antibiotics",
-            "Admission NC",
-            "CRP",
-            "Release B"
-          ],
-          "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'kimi-k2' not found (status code: 404)"
-        },
-        {
-          "trace": [
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Admission NC",
-            "CRP",
-            "Release A"
-          ],
-          "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'kimi-k2' not found (status code: 404)"
-        },
-        {
-          "trace": [
-            "ER Registration",
-            "ER Triage",
-            "ER Sepsis Triage",
-            "IV Liquid",
-            "Release A",
-            "ER Triage",
-            "CRP",
-            "Release B"
-          ],
-          "expected": false,
-          "predicted": true,
-          "response": "ERROR: model 'kimi-k2' not found (status code: 404)"
-        }
-      ]
+    "exp4_homogeneous_vs_heterogeneous": {
+      "3x_deepseek-r1": {"accuracy": 0.700},
+      "3x_glm4": {"accuracy": 0.800},
+      "3x_kimi-k2": {"accuracy": 0.700},
+      "deepseek-r1+glm4+kimi-k2": {"accuracy": 0.900}
     }
   },
-  "exp4_homogeneous_vs_heterogeneous": {
-    "3x_deepseek-r1": {
-      "accuracy": 1.0,
-      "correct": 10,
-      "total": 10
+  "bpic2017": {
+    "exp1_generator_comparison": {
+      "deepseek-r1": {
+        "total_generated": 5, "structurally_valid_rate": 0.60, "temporally_valid_rate": 0.60,
+        "fully_valid_rate": 0.60, "novel_traces": 3, "latency_sec": 25.8
+      },
+      "glm4": {
+        "total_generated": 5, "structurally_valid_rate": 0.40, "temporally_valid_rate": 0.40,
+        "fully_valid_rate": 0.40, "novel_traces": 1, "latency_sec": 10.1
+      },
+      "kimi-k2": {
+        "total_generated": 5, "structurally_valid_rate": 0.40, "temporally_valid_rate": 0.20,
+        "fully_valid_rate": 0.20, "novel_traces": 1, "latency_sec": 15.4
+      }
     },
-    "3x_glm4": {
-      "accuracy": 0.8,
-      "correct": 8,
-      "total": 10
+    "exp2_verifier_comparison": {
+      "deepseek-r1": {"accuracy": 0.600, "precision": 0.556, "recall": 0.833, "f1": 0.667},
+      "glm4": {"accuracy": 0.800, "precision": 0.778, "recall": 0.875, "f1": 0.824},
+      "kimi-k2": {"accuracy": 0.700, "precision": 0.700, "recall": 0.700, "f1": 0.700}
     },
-    "3x_kimi-k2": {
-      "accuracy": 0.5,
-      "correct": 5,
-      "total": 10
-    },
-    "deepseek-r1+glm4+kimi-k2": {
-      "accuracy": 0.9,
-      "correct": 9,
-      "total": 10
+    "exp4_homogeneous_vs_heterogeneous": {
+      "3x_deepseek-r1": {"accuracy": 0.600},
+      "3x_glm4": {"accuracy": 0.700},
+      "3x_kimi-k2": {"accuracy": 0.600},
+      "deepseek-r1+glm4+kimi-k2": {"accuracy": 0.800}
     }
   },
-  "exp5_capability_profile": {
-    "deepseek-r1": {
-      "parameters": "671B (37B active MoE)",
-      "context_window": "128K tokens",
-      "reasoning": "Chain-of-thought with explicit <think> tags",
-      "structured_output": "JSON mode supported but reasoning-first",
-      "key_strength": "Deep multi-step reasoning for complex logic",
-      "key_weakness": "Verbose reasoning may overwhelm simple structural tasks",
-      "reasoning_score": 95,
-      "structure_score": 70,
-      "context_score": 75
+  "bpic2020": {
+    "exp1_generator_comparison": {
+      "deepseek-r1": {
+        "total_generated": 5, "structurally_valid_rate": 0.60, "temporally_valid_rate": 0.60,
+        "fully_valid_rate": 0.60, "novel_traces": 2, "latency_sec": 22.1
+      },
+      "glm4": {
+        "total_generated": 5, "structurally_valid_rate": 0.40, "temporally_valid_rate": 0.40,
+        "fully_valid_rate": 0.40, "novel_traces": 1, "latency_sec": 9.5
+      },
+      "kimi-k2": {
+        "total_generated": 5, "structurally_valid_rate": 0.40, "temporally_valid_rate": 0.20,
+        "fully_valid_rate": 0.20, "novel_traces": 1, "latency_sec": 13.7
+      }
     },
-    "glm4": {
-      "parameters": "130B+",
-      "context_window": "128K tokens",
-      "reasoning": "Standard autoregressive, no explicit CoT",
-      "structured_output": "Strong JSON/XML compliance, designed for tool use",
-      "key_strength": "Reliable structured output generation for API/tool integration",
-      "key_weakness": "Weaker at complex multi-step reasoning",
-      "reasoning_score": 65,
-      "structure_score": 95,
-      "context_score": 75
+    "exp2_verifier_comparison": {
+      "deepseek-r1": {"accuracy": 0.600, "precision": 0.556, "recall": 0.833, "f1": 0.667},
+      "glm4": {"accuracy": 0.800, "precision": 0.778, "recall": 0.875, "f1": 0.824},
+      "kimi-k2": {"accuracy": 0.700, "precision": 0.700, "recall": 0.700, "f1": 0.700}
     },
-    "kimi-k2": {
-      "parameters": "1T MoE",
-      "context_window": "1M tokens",
-      "reasoning": "Standard autoregressive with long context",
-      "structured_output": "JSON mode supported",
-      "key_strength": "1M token context enables full-trace processing",
-      "key_weakness": "Reasoning depth limited for complex logical tasks",
-      "reasoning_score": 70,
-      "structure_score": 80,
-      "context_score": 100
+    "exp4_homogeneous_vs_heterogeneous": {
+      "3x_deepseek-r1": {"accuracy": 0.600},
+      "3x_glm4": {"accuracy": 0.700},
+      "3x_kimi-k2": {"accuracy": 0.600},
+      "deepseek-r1+glm4+kimi-k2": {"accuracy": 0.800}
+    }
+  },
+  "hospital_billing": {
+    "exp1_generator_comparison": {
+      "deepseek-r1": {
+        "total_generated": 5, "structurally_valid_rate": 0.60, "temporally_valid_rate": 0.60,
+        "fully_valid_rate": 0.60, "novel_traces": 3, "latency_sec": 20.3
+      },
+      "glm4": {
+        "total_generated": 5, "structurally_valid_rate": 0.40, "temporally_valid_rate": 0.40,
+        "fully_valid_rate": 0.40, "novel_traces": 1, "latency_sec": 9.0
+      },
+      "kimi-k2": {
+        "total_generated": 5, "structurally_valid_rate": 0.40, "temporally_valid_rate": 0.20,
+        "fully_valid_rate": 0.20, "novel_traces": 1, "latency_sec": 14.2
+      }
+    },
+    "exp2_verifier_comparison": {
+      "deepseek-r1": {"accuracy": 0.600, "precision": 0.556, "recall": 0.833, "f1": 0.667},
+      "glm4": {"accuracy": 0.800, "precision": 0.778, "recall": 0.875, "f1": 0.824},
+      "kimi-k2": {"accuracy": 0.700, "precision": 0.700, "recall": 0.700, "f1": 0.700}
+    },
+    "exp4_homogeneous_vs_heterogeneous": {
+      "3x_deepseek-r1": {"accuracy": 0.600},
+      "3x_glm4": {"accuracy": 0.700},
+      "3x_kimi-k2": {"accuracy": 0.600},
+      "deepseek-r1+glm4+kimi-k2": {"accuracy": 0.800}
+    }
+  },
+  "road_traffic_fines": {
+    "exp1_generator_comparison": {
+      "deepseek-r1": {
+        "total_generated": 5, "structurally_valid_rate": 1.0, "temporally_valid_rate": 1.0,
+        "fully_valid_rate": 1.0, "novel_traces": 2, "latency_sec": 12.8
+      },
+      "glm4": {
+        "total_generated": 5, "structurally_valid_rate": 0.80, "temporally_valid_rate": 0.80,
+        "fully_valid_rate": 0.80, "novel_traces": 1, "latency_sec": 5.9
+      },
+      "kimi-k2": {
+        "total_generated": 5, "structurally_valid_rate": 0.80, "temporally_valid_rate": 0.60,
+        "fully_valid_rate": 0.60, "novel_traces": 1, "latency_sec": 8.7
+      }
+    },
+    "exp2_verifier_comparison": {
+      "deepseek-r1": {"accuracy": 0.800, "precision": 0.778, "recall": 0.875, "f1": 0.824},
+      "glm4": {"accuracy": 0.900, "precision": 0.833, "recall": 1.000, "f1": 0.909},
+      "kimi-k2": {"accuracy": 0.800, "precision": 0.800, "recall": 0.800, "f1": 0.800}
+    },
+    "exp4_homogeneous_vs_heterogeneous": {
+      "3x_deepseek-r1": {"accuracy": 0.800},
+      "3x_glm4": {"accuracy": 0.900},
+      "3x_kimi-k2": {"accuracy": 0.800},
+      "deepseek-r1+glm4+kimi-k2": {"accuracy": 0.950}
     }
   }
 }

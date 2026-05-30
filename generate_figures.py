@@ -1,14 +1,30 @@
+"""
+Generate all result figures for the multi-dataset ASPAI 2026 paper.
+Reads data from dataset_configs.py to produce cross-dataset comparison figures.
+"""
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 import os
+import sys
 
-output_dir = '/mnt/d/AI-LLM/workspaces/Claude-projects/research-grounding/ASPAI-2026-2nd-Asia-Pacific-Symposium-on-Process-and-AI/figures'
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from dataset_configs import DATASETS, DATASET_ORDER, DATASET_COLORS, METHODS, METHOD_SHORT_LABELS, METHOD_COLORS
+
+output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'figures')
 os.makedirs(output_dir, exist_ok=True)
 
-# Color palette
+# ============================================================
+# Figure 1: Architecture / Workflow Diagram (dataset-agnostic)
+# ============================================================
+fig, ax = plt.subplots(1, 1, figsize=(10, 7))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 10)
+ax.axis('off')
+
 C_DEEPSEEK = '#1a73e8'
 C_GLM = '#34a853'
 C_KIMI = '#ea4335'
@@ -17,28 +33,17 @@ C_STATISTICAL = '#9334e6'
 C_RANDOM = '#ff6d01'
 C_ORIGINAL = '#5f6368'
 
-# ============================================================
-# Figure 1: Architecture / Workflow Diagram
-# ============================================================
-fig, ax = plt.subplots(1, 1, figsize=(10, 7))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 10)
-ax.axis('off')
-
-# Stage 1: Input
 rect1 = mpatches.FancyBboxPatch((0.5, 8.5), 2.5, 1.2, boxstyle="round,pad=0.1",
     facecolor='#e8f0fe', edgecolor=C_DEEPSEEK, linewidth=2)
 ax.add_patch(rect1)
 ax.text(1.75, 9.1, 'Original\nEvent Log $L$', ha='center', va='center', fontsize=10, fontweight='bold')
 
-# Stage 2: Context Extraction
 rect2 = mpatches.FancyBboxPatch((4, 8.5), 2.5, 1.2, boxstyle="round,pad=0.1",
     facecolor='#e8f0fe', edgecolor=C_DEEPSEEK, linewidth=2)
 ax.add_patch(rect2)
 ax.text(5.25, 9.1, 'Context\nExtraction', ha='center', va='center', fontsize=10, fontweight='bold')
 ax.annotate('', xy=(4, 9.1), xytext=(3, 9.1), arrowprops=dict(arrowstyle='->', lw=1.5, color=C_DEEPSEEK))
 
-# Stage 3: Trace Generation (DeepSeek)
 rect3 = mpatches.FancyBboxPatch((7, 8.5), 2.5, 1.2, boxstyle="round,pad=0.1",
     facecolor='#d2e3fc', edgecolor=C_DEEPSEEK, linewidth=2)
 ax.add_patch(rect3)
@@ -46,17 +51,14 @@ ax.text(8.25, 9.3, 'Trace Generation', ha='center', va='center', fontsize=10, fo
 ax.text(8.25, 8.85, '(DeepSeek-R1)', ha='center', va='center', fontsize=9, color=C_DEEPSEEK)
 ax.annotate('', xy=(7, 9.1), xytext=(6.5, 9.1), arrowprops=dict(arrowstyle='->', lw=1.5, color=C_DEEPSEEK))
 
-# Arrow down from generation
 ax.annotate('', xy=(8.25, 7.3), xytext=(8.25, 8.5), arrowprops=dict(arrowstyle='->', lw=1.5, color='#333'))
 
-# Verification box (large, containing 3 verifiers)
 rect_verify = mpatches.FancyBboxPatch((3.5, 3.5), 5.5, 3.5, boxstyle="round,pad=0.15",
     facecolor='#fef7e0', edgecolor='#333', linewidth=2, linestyle='--')
 ax.add_patch(rect_verify)
 ax.text(6.25, 6.8, 'Multi-LLM Verification (2-of-3 Consensus)', ha='center', va='center',
     fontsize=11, fontweight='bold')
 
-# Verifier 1: GLM (structural)
 rect_v1 = mpatches.FancyBboxPatch((3.8, 4.8), 1.5, 1.5, boxstyle="round,pad=0.08",
     facecolor='#e6f4ea', edgecolor=C_GLM, linewidth=2)
 ax.add_patch(rect_v1)
@@ -64,7 +66,6 @@ ax.text(4.55, 5.95, 'Structural', ha='center', va='center', fontsize=9, fontweig
 ax.text(4.55, 5.5, 'Check', ha='center', va='center', fontsize=9, fontweight='bold')
 ax.text(4.55, 5.1, '(GLM-4)', ha='center', va='center', fontsize=8, color=C_GLM)
 
-# Verifier 2: Kimi (temporal)
 rect_v2 = mpatches.FancyBboxPatch((5.5, 4.8), 1.5, 1.5, boxstyle="round,pad=0.08",
     facecolor='#fce8e6', edgecolor=C_KIMI, linewidth=2)
 ax.add_patch(rect_v2)
@@ -72,7 +73,6 @@ ax.text(6.25, 5.95, 'Temporal', ha='center', va='center', fontsize=9, fontweight
 ax.text(6.25, 5.5, 'Check', ha='center', va='center', fontsize=9, fontweight='bold')
 ax.text(6.25, 5.1, '(Kimi-K2)', ha='center', va='center', fontsize=8, color=C_KIMI)
 
-# Verifier 3: Conformance (programmatic)
 rect_v3 = mpatches.FancyBboxPatch((7.2, 4.8), 1.5, 1.5, boxstyle="round,pad=0.08",
     facecolor='#fef9e6', edgecolor=C_CONFORMANCE, linewidth=2)
 ax.add_patch(rect_v3)
@@ -80,27 +80,22 @@ ax.text(7.95, 5.95, 'Conformance', ha='center', va='center', fontsize=9, fontwei
 ax.text(7.95, 5.5, 'Check', ha='center', va='center', fontsize=9, fontweight='bold')
 ax.text(7.95, 5.1, '(Petri Net)', ha='center', va='center', fontsize=8, color=C_CONFORMANCE)
 
-# Arrow down from verification
 ax.annotate('', xy=(6.25, 3.2), xytext=(6.25, 3.5), arrowprops=dict(arrowstyle='->', lw=1.5, color='#333'))
 
-# Consensus filter
 rect4 = mpatches.FancyBboxPatch((4.5, 2.0), 3.5, 1.2, boxstyle="round,pad=0.1",
     facecolor='#f3e8fd', edgecolor=C_STATISTICAL, linewidth=2)
 ax.add_patch(rect4)
 ax.text(6.25, 2.9, 'Consensus Filter', ha='center', va='center', fontsize=10, fontweight='bold')
 ax.text(6.25, 2.4, '($\\geq$ 2 of 3 votes)', ha='center', va='center', fontsize=9)
 
-# Arrow down
 ax.annotate('', xy=(6.25, 1.2), xytext=(6.25, 2.0), arrowprops=dict(arrowstyle='->', lw=1.5, color='#333'))
 
-# Output: Verified traces
 rect5 = mpatches.FancyBboxPatch((4, 0.0), 4.5, 1.2, boxstyle="round,pad=0.1",
     facecolor='#e8f5e9', edgecolor='#1b5e20', linewidth=2)
 ax.add_patch(rect5)
 ax.text(6.25, 0.9, 'Verified Augmented Traces', ha='center', va='center', fontsize=10, fontweight='bold')
 ax.text(6.25, 0.4, '$S = \\{s_1, ..., s_k\\}$ (semantically valid)', ha='center', va='center', fontsize=9)
 
-# Side: Statistical augmentation (left side)
 rect_s1 = mpatches.FancyBboxPatch((0.3, 5.5), 2.5, 1.0, boxstyle="round,pad=0.08",
     facecolor='#f3e8fd', edgecolor=C_STATISTICAL, linewidth=1.5)
 ax.add_patch(rect_s1)
@@ -108,7 +103,6 @@ ax.text(1.55, 6.2, 'Statistical', ha='center', va='center', fontsize=9, fontweig
 ax.text(1.55, 5.8, 'Augmentation', ha='center', va='center', fontsize=9, fontweight='bold')
 ax.text(1.55, 5.4, '(Insert/Del/Replace)', ha='center', va='center', fontsize=8, color=C_STATISTICAL)
 
-# Arrow from original log to statistical
 ax.annotate('', xy=(1.55, 6.5), xytext=(1.75, 8.5),
     arrowprops=dict(arrowstyle='->', lw=1.2, color=C_STATISTICAL, linestyle='--'))
 
@@ -119,44 +113,46 @@ plt.close()
 print("Figure 1 (architecture) saved.")
 
 # ============================================================
-# Figure 2: Semantic Validity Comparison (Bar Chart)
+# Figure 2: Semantic Validity Comparison (Cross-Dataset)
 # ============================================================
-fig, axes = plt.subplots(1, 3, figsize=(12, 4))
+key_methods = ["random", "stat_insert", "stat_delete", "stat_replace", "llm_single", "llm_consensus"]
+method_labels_short = ["Random", "Stat.\nInsert", "Stat.\nDelete", "Stat.\nReplace", "LLM\nSingle", "LLM\nConsensus"]
+method_bar_colors = [C_RANDOM, C_STATISTICAL, C_STATISTICAL, C_STATISTICAL, C_DEEPSEEK, '#1b5e20']
 
-methods = ['Original\n(E1)', 'Random\n(E2)', 'Stat.\nInsert\n(E3)', 'Stat.\nDelete\n(E4)',
-           'Stat.\nReplace\n(E5)', 'LLM\nSingle\n(E6)', 'LLM\nConsensus\n(E7)']
-colors = [C_ORIGINAL, C_RANDOM, C_STATISTICAL, C_STATISTICAL, C_STATISTICAL,
-          C_DEEPSEEK, '#1b5e20']
+fig, axes = plt.subplots(1, 3, figsize=(16, 5))
 
-# Conformance Fitness
-fitness = [1.0, 0.42, 0.78, 0.81, 0.76, 0.68, 0.85]
-axes[0].bar(methods, fitness, color=colors, edgecolor='#333', linewidth=0.5)
-axes[0].set_ylabel('Conformance Fitness', fontsize=10)
-axes[0].set_ylim(0, 1.1)
-axes[0].axhline(y=0.9, color='gray', linestyle='--', linewidth=0.8, label='Threshold (0.9)')
-axes[0].tick_params(axis='x', labelsize=8)
-for i, v in enumerate(fitness):
-    axes[0].text(i, v + 0.02, f'{v:.2f}', ha='center', fontsize=8)
+metrics = ["fitness", "trans_validity", "activity_coverage"]
+metric_labels = ["Conformance Fitness", "Transition Validity Rate", "Activity Coverage"]
 
-# Transition Validity Rate
-validity = [1.0, 0.38, 0.72, 0.75, 0.70, 0.61, 0.79]
-axes[1].bar(methods, validity, color=colors, edgecolor='#333', linewidth=0.5)
-axes[1].set_ylabel('Transition Validity Rate', fontsize=10)
-axes[1].set_ylim(0, 1.1)
-axes[1].tick_params(axis='x', labelsize=8)
-for i, v in enumerate(validity):
-    axes[1].text(i, v + 0.02, f'{v:.2f}', ha='center', fontsize=8)
+for ax_idx, (metric, label) in enumerate(zip(metrics, metric_labels)):
+    x = np.arange(len(DATASET_ORDER))
+    width = 0.12
+    n_methods = len(key_methods)
 
-# Activity Coverage
-coverage = [1.0, 0.67, 0.88, 0.83, 0.91, 0.94, 0.93]
-axes[2].bar(methods, coverage, color=colors, edgecolor='#333', linewidth=0.5)
-axes[2].set_ylabel('Activity Coverage', fontsize=10)
-axes[2].set_ylim(0, 1.1)
-axes[2].tick_params(axis='x', labelsize=8)
-for i, v in enumerate(coverage):
-    axes[2].text(i, v + 0.02, f'{v:.2f}', ha='center', fontsize=8)
+    for m_idx, (method, m_label) in enumerate(zip(key_methods, method_labels_short)):
+        values = [DATASETS[dk]["results"][metric][method] for dk in DATASET_ORDER]
+        offset = (m_idx - n_methods / 2 + 0.5) * width
+        bars = axes[ax_idx].bar(x + offset, values, width, label=m_label.replace('\n', ' '),
+                                  color=method_bar_colors[m_idx], edgecolor='#333', linewidth=0.3)
+        # Add value labels for LLM Consensus only (to avoid clutter)
+        if method == "llm_consensus":
+            for i, v in enumerate(values):
+                axes[ax_idx].text(x[i] + offset, v + 0.01, f'{v:.2f}', ha='center', fontsize=6, fontweight='bold')
 
-plt.suptitle('Semantic Validity Metrics (Sepsis Dataset, 2.0× Augmentation)', fontsize=12, fontweight='bold', y=1.02)
+    # Add original baseline
+    for dk_idx, dk in enumerate(DATASET_ORDER):
+        axes[ax_idx].plot([dk_idx - 0.45, dk_idx + 0.45], [1.0, 1.0],
+                          color=C_ORIGINAL, linewidth=1.2, linestyle='--', alpha=0.6)
+
+    ds_labels = [DATASETS[dk]["short_name"] for dk in DATASET_ORDER]
+    axes[ax_idx].set_xticks(x)
+    axes[ax_idx].set_xticklabels(ds_labels, fontsize=8)
+    axes[ax_idx].set_ylabel(label, fontsize=9)
+    axes[ax_idx].set_ylim(0, 1.15)
+    if ax_idx == 1:
+        axes[ax_idx].legend(fontsize=6, loc='lower left', ncol=2)
+
+plt.suptitle('Semantic Validity Metrics Across Six Event Logs (2.0x Augmentation)', fontsize=12, fontweight='bold', y=1.02)
 plt.tight_layout()
 plt.savefig(os.path.join(output_dir, 'figure_semantic_validity.pdf'), dpi=300, bbox_inches='tight')
 plt.savefig(os.path.join(output_dir, 'figure_semantic_validity.png'), dpi=300, bbox_inches='tight')
@@ -164,39 +160,41 @@ plt.close()
 print("Figure 2 (semantic validity) saved.")
 
 # ============================================================
-# Figure 3: Next-Activity Prediction Accuracy
+# Figure 3: Prediction Accuracy (Cross-Dataset)
 # ============================================================
-fig, ax = plt.subplots(figsize=(8, 5))
+fig, ax = plt.subplots(figsize=(10, 5))
 
-x = np.arange(4)
-width = 0.15
+key_methods_acc = ["random", "stat_insert", "stat_delete", "stat_replace", "llm_single", "llm_consensus"]
+method_labels_acc = ["Random", "Stat. Insert", "Stat. Delete", "Stat. Replace", "LLM Single", "LLM Consensus"]
+method_colors_acc = [C_RANDOM, C_STATISTICAL, C_STATISTICAL, C_STATISTICAL, C_DEEPSEEK, '#1b5e20']
 
-methods_short = ['Original', 'Random', 'Stat. Insert', 'Stat. Delete', 'Stat. Replace', 'LLM Single', 'LLM Consensus']
-colors_bar = [C_ORIGINAL, C_RANDOM, C_STATISTICAL, C_STATISTICAL, C_STATISTICAL, C_DEEPSEEK, '#1b5e20']
+x = np.arange(len(DATASET_ORDER))
+width = 0.12
+n_methods = len(key_methods_acc)
 
-acc_1_5 = [0.543, 0.498, 0.561, 0.555, 0.564, 0.559, 0.572]
-acc_2_0 = [0.543, 0.487, 0.572, 0.558, 0.576, 0.562, 0.589]
-acc_3_0 = [0.543, 0.471, 0.569, 0.550, 0.571, 0.548, 0.582]
+for m_idx, (method, m_label, m_color) in enumerate(zip(key_methods_acc, method_labels_acc, method_colors_acc)):
+    values = [DATASETS[dk]["results"]["accuracy"][method] for dk in DATASET_ORDER]
+    offset = (m_idx - n_methods / 2 + 0.5) * width
+    bars = ax.bar(x + offset, values, width, label=m_label, color=m_color, edgecolor='#333', linewidth=0.3)
+    if method == "llm_consensus":
+        for i, v in enumerate(values):
+            ax.text(x[i] + offset, v + 0.005, f'{v:.3f}', ha='center', fontsize=6.5, fontweight='bold')
 
-x_pos = np.arange(len(methods_short))
-bars1 = ax.bar(x_pos - width, acc_1_5, width, label='1.5×', color='#aecbfa', edgecolor='#333', linewidth=0.5)
-bars2 = ax.bar(x_pos, acc_2_0, width, label='2.0×', color='#4285f4', edgecolor='#333', linewidth=0.5)
-bars3 = ax.bar(x_pos + width, acc_3_0, width, label='3.0×', color='#1a73e8', edgecolor='#333', linewidth=0.5)
+# Add original baseline
+for dk_idx, dk in enumerate(DATASET_ORDER):
+    orig = DATASETS[dk]["results"]["accuracy"]["original"]
+    ax.plot([dk_idx - 0.5, dk_idx + 0.5], [orig, orig],
+            color=C_ORIGINAL, linewidth=1.2, linestyle='--', alpha=0.6)
 
+ds_labels = [DATASETS[dk]["short_name"] for dk in DATASET_ORDER]
+ax.set_xticks(x)
+ax.set_xticklabels(ds_labels, fontsize=9)
 ax.set_ylabel('Next-Activity Prediction Accuracy', fontsize=11)
-ax.set_xticks(x_pos)
-ax.set_xticklabels(methods_short, fontsize=8, rotation=15, ha='right')
-ax.set_ylim(0.44, 0.62)
-ax.axhline(y=0.543, color=C_ORIGINAL, linestyle='--', linewidth=1, alpha=0.5, label='Original baseline')
-ax.legend(fontsize=9)
+ax.set_ylim(0.4, 1.0)
+ax.legend(fontsize=8, loc='upper right')
+ax.axhline(y=0.543, color=C_ORIGINAL, linestyle=':', linewidth=0.8, alpha=0.4)
 
-# Add value labels on top
-for bars in [bars1, bars2, bars3]:
-    for bar in bars:
-        height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., height + 0.003,
-                f'{height:.3f}', ha='center', va='bottom', fontsize=6.5)
-
+plt.title('Next-Activity Prediction Accuracy Across Six Event Logs (2.0x Augmentation)', fontsize=12, fontweight='bold')
 plt.tight_layout()
 plt.savefig(os.path.join(output_dir, 'figure_prediction_accuracy.pdf'), dpi=300, bbox_inches='tight')
 plt.savefig(os.path.join(output_dir, 'figure_prediction_accuracy.png'), dpi=300, bbox_inches='tight')
@@ -204,30 +202,45 @@ plt.close()
 print("Figure 3 (prediction accuracy) saved.")
 
 # ============================================================
-# Figure 4: Ablation Study
+# Figure 4: Ablation Study (Cross-Dataset)
 # ============================================================
-fig, ax = plt.subplots(figsize=(8, 4))
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
-configs = ['Full\nConsensus\n(2-of-3)', 'Without\nGLM\n(structural)', 'Without\nKimi\n(temporal)',
-           'Without\nConformance\n(programmatic)', 'Single-Model\nOnly\n(DeepSeek)']
-pass_rate = [0.80, 0.73, 0.76, 0.82, 0.64]
-fitness = [0.85, 0.79, 0.82, 0.83, 0.68]
-accuracy = [0.589, 0.574, 0.581, 0.583, 0.562]
+ablation_configs = ["full", "without_glm", "without_kimi", "without_conformance", "single_model"]
+ablation_labels = ["Full\nConsensus\n(2-of-3)", "Without\nGLM\n(structural)", "Without\nKimi\n(temporal)",
+                   "Without\nConformance\n(programmatic)", "Single-Model\nOnly\n(DeepSeek)"]
+ablation_colors = ['#1b5e20', '#ea4335', '#fbbc04', '#9334e6', '#1a73e8']
 
-x = np.arange(len(configs))
-width = 0.25
+# Panel A: Fitness
+x = np.arange(len(DATASET_ORDER))
+width = 0.15
+n_configs = len(ablation_configs)
 
-bars1 = ax.bar(x - width, pass_rate, width, label='Pass Rate', color='#34a853', edgecolor='#333', linewidth=0.5)
-bars2 = ax.bar(x, fitness, width, label='Conformance Fitness', color='#4285f4', edgecolor='#333', linewidth=0.5)
-bars3 = ax.bar(x + width, accuracy, width, label='Prediction Accuracy', color='#ea4335', edgecolor='#333', linewidth=0.5)
+for c_idx, (config, c_label, c_color) in enumerate(zip(ablation_configs, ablation_labels, ablation_colors)):
+    values = [DATASETS[dk]["results"]["ablation"][config]["fitness"] for dk in DATASET_ORDER]
+    offset = (c_idx - n_configs / 2 + 0.5) * width
+    axes[0].bar(x + offset, values, width, label=c_label.replace('\n', ' '), color=c_color, edgecolor='#333', linewidth=0.3)
 
-ax.set_ylabel('Score', fontsize=11)
-ax.set_xticks(x)
-ax.set_xticklabels(configs, fontsize=8)
-ax.set_ylim(0.5, 1.0)
-ax.legend(fontsize=9)
+ds_labels = [DATASETS[dk]["short_name"] for dk in DATASET_ORDER]
+axes[0].set_xticks(x)
+axes[0].set_xticklabels(ds_labels, fontsize=8)
+axes[0].set_ylabel('Conformance Fitness', fontsize=10)
+axes[0].set_ylim(0.5, 1.05)
+axes[0].legend(fontsize=6, loc='lower left', ncol=2)
 
-plt.title('Ablation Study: Contribution of Each Verification Component (Sepsis, 2.0×)', fontsize=11, fontweight='bold')
+# Panel B: Accuracy
+for c_idx, (config, c_label, c_color) in enumerate(zip(ablation_configs, ablation_labels, ablation_colors)):
+    values = [DATASETS[dk]["results"]["ablation"][config]["accuracy"] for dk in DATASET_ORDER]
+    offset = (c_idx - n_configs / 2 + 0.5) * width
+    axes[1].bar(x + offset, values, width, label=c_label.replace('\n', ' '), color=c_color, edgecolor='#333', linewidth=0.3)
+
+axes[1].set_xticks(x)
+axes[1].set_xticklabels(ds_labels, fontsize=8)
+axes[1].set_ylabel('Prediction Accuracy', fontsize=10)
+axes[1].set_ylim(0.5, 1.0)
+axes[1].legend(fontsize=6, loc='lower left', ncol=2)
+
+plt.suptitle('Ablation Study: Contribution of Each Verification Component Across Six Event Logs (2.0x)', fontsize=11, fontweight='bold', y=1.02)
 plt.tight_layout()
 plt.savefig(os.path.join(output_dir, 'figure_ablation.pdf'), dpi=300, bbox_inches='tight')
 plt.savefig(os.path.join(output_dir, 'figure_ablation.png'), dpi=300, bbox_inches='tight')
@@ -235,32 +248,94 @@ plt.close()
 print("Figure 4 (ablation) saved.")
 
 # ============================================================
-# Figure 5: Augmentation Diversity (Trace Entropy + Novel Variants)
+# Figure 5: Augmentation Diversity (Cross-Dataset)
 # ============================================================
-fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
-methods_div = ['Original', 'Random', 'Stat. Insert', 'Stat. Delete', 'Stat. Replace', 'LLM Consensus']
-colors_div = [C_ORIGINAL, C_RANDOM, C_STATISTICAL, C_STATISTICAL, C_STATISTICAL, '#1b5e20']
+div_methods = ["random", "stat_insert", "stat_delete", "stat_replace", "llm_consensus"]
+div_labels = ["Random", "Stat. Insert", "Stat. Delete", "Stat. Replace", "LLM Consensus"]
+div_colors = [C_RANDOM, C_STATISTICAL, C_STATISTICAL, C_STATISTICAL, '#1b5e20']
 
-entropy = [9.70, 11.40, 10.80, 10.50, 10.90, 11.20]
-novel_variants = [0, 142, 67, 38, 72, 95]
+# Panel A: Trace Entropy
+x = np.arange(len(DATASET_ORDER))
+width = 0.14
+n_div = len(div_methods)
 
-axes[0].barh(methods_div, entropy, color=colors_div, edgecolor='#333', linewidth=0.5)
-axes[0].set_xlabel('Trace Entropy', fontsize=10)
-axes[0].set_xlim(9, 12)
-for i, v in enumerate(entropy):
-    axes[0].text(v + 0.05, i, f'{v:.2f}', va='center', fontsize=9)
+for m_idx, (method, m_label, m_color) in enumerate(zip(div_methods, div_labels, div_colors)):
+    values = [DATASETS[dk]["results"]["diversity"]["trace_entropy"][method] for dk in DATASET_ORDER]
+    offset = (m_idx - n_div / 2 + 0.5) * width
+    axes[0].bar(x + offset, values, width, label=m_label, color=m_color, edgecolor='#333', linewidth=0.3)
 
-axes[1].barh(methods_div, novel_variants, color=colors_div, edgecolor='#333', linewidth=0.5)
-axes[1].set_xlabel('Novel Variants', fontsize=10)
-for i, v in enumerate(novel_variants):
-    axes[1].text(v + 2, i, str(v), va='center', fontsize=9)
+ds_labels = [DATASETS[dk]["short_name"] for dk in DATASET_ORDER]
+axes[0].set_xticks(x)
+axes[0].set_xticklabels(ds_labels, fontsize=9)
+axes[0].set_ylabel('Trace Entropy', fontsize=10)
+axes[0].legend(fontsize=7, loc='upper right')
 
-plt.suptitle('Augmentation Diversity Metrics (Sepsis, 2.0×)', fontsize=11, fontweight='bold', y=1.02)
+# Panel B: Novel Variants
+for m_idx, (method, m_label, m_color) in enumerate(zip(div_methods, div_labels, div_colors)):
+    values = [DATASETS[dk]["results"]["diversity"]["novel_variants"][method] for dk in DATASET_ORDER]
+    offset = (m_idx - n_div / 2 + 0.5) * width
+    axes[1].bar(x + offset, values, width, label=m_label, color=m_color, edgecolor='#333', linewidth=0.3)
+
+axes[1].set_xticks(x)
+axes[1].set_xticklabels(ds_labels, fontsize=9)
+axes[1].set_ylabel('Novel Variants', fontsize=10)
+axes[1].legend(fontsize=7, loc='upper right')
+
+plt.suptitle('Augmentation Diversity Metrics Across Six Event Logs (2.0x)', fontsize=11, fontweight='bold', y=1.02)
 plt.tight_layout()
 plt.savefig(os.path.join(output_dir, 'figure_diversity.pdf'), dpi=300, bbox_inches='tight')
 plt.savefig(os.path.join(output_dir, 'figure_diversity.png'), dpi=300, bbox_inches='tight')
 plt.close()
 print("Figure 5 (diversity) saved.")
 
-print("\nAll figures saved to:", output_dir)
+# ============================================================
+# Figure 6: Cross-Dataset Improvement Summary
+# ============================================================
+fig, ax = plt.subplots(figsize=(10, 5))
+
+improvement_metrics = {
+    "Fitness Gain": lambda dk: DATASETS[dk]["results"]["fitness"]["llm_consensus"] - DATASETS[dk]["results"]["fitness"]["random"],
+    "Accuracy Gain (pp)": lambda dk: (DATASETS[dk]["results"]["accuracy"]["llm_consensus"] - DATASETS[dk]["results"]["accuracy"]["original"]) * 100,
+    "Novel Variants": lambda dk: DATASETS[dk]["results"]["diversity"]["novel_variants"]["llm_consensus"],
+}
+
+x = np.arange(len(DATASET_ORDER))
+width = 0.25
+colors_summary = ['#1a73e8', '#34a853', '#ea4335']
+
+for m_idx, (metric_name, fn) in enumerate(improvement_metrics.items()):
+    values = [fn(dk) for dk in DATASET_ORDER]
+    # Normalize for visualization (scale to 0-1 range)
+    if metric_name == "Novel Variants":
+        max_val = max(values) if max(values) > 0 else 1
+        normalized = [v / max_val for v in values]
+        display_vals = values
+    elif metric_name == "Accuracy Gain (pp)":
+        normalized = [v / 5.0 for v in values]  # scale: 5pp = 1.0
+        display_vals = values
+    else:
+        normalized = values  # already 0-1
+        display_vals = [f'{v:.2f}' for v in values]
+
+    bars = ax.bar(x + (m_idx - 1) * width, values, width, label=metric_name,
+                   color=colors_summary[m_idx], edgecolor='#333', linewidth=0.5)
+    for i, v in enumerate(values):
+        fmt = f'{v:.1f}' if v >= 10 else f'{v:.2f}'
+        ax.text(x[i] + (m_idx - 1) * width, v + 0.5, fmt, ha='center', fontsize=7, fontweight='bold')
+
+ds_labels = [DATASETS[dk]["short_name"] for dk in DATASET_ORDER]
+ax.set_xticks(x)
+ax.set_xticklabels(ds_labels, fontsize=10)
+ax.set_ylabel('Improvement Value', fontsize=11)
+ax.legend(fontsize=9)
+ax.set_title('Cross-Dataset Improvement from LLM Consensus Augmentation (2.0x)', fontsize=12, fontweight='bold')
+
+plt.tight_layout()
+plt.savefig(os.path.join(output_dir, 'figure_cross_dataset_summary.pdf'), dpi=300, bbox_inches='tight')
+plt.savefig(os.path.join(output_dir, 'figure_cross_dataset_summary.png'), dpi=300, bbox_inches='tight')
+plt.close()
+print("Figure 6 (cross-dataset summary) saved.")
+
+print(f"\nAll figures saved to: {output_dir}")

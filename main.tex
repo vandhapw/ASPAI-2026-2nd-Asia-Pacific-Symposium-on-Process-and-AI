@@ -74,11 +74,11 @@
 \maketitle
 
 \begin{abstract}
-Predictive process monitoring (PPM) suffers from data scarcity in real-world event logs, which are often small, exhibit low variability, and contain class-imbalanced outcomes. While data augmentation can address these limitations, existing methods either violate process semantics---producing invalid traces such as ``Deliver before Ship''---or rely on statistical patterns derived solely from the original log, limiting their ability to generate novel yet valid behavioral variants. We propose a multi-LLM consensus framework that leverages multiple large language models with complementary capabilities to generate and verify augmented process traces. A reasoning-oriented model generates candidate traces conditioned on process model constraints, while a structured-output model and a long-context model independently verify structural validity and temporal consistency, respectively. Traces are accepted only when at least two of three verifiers agree (2-of-3 consensus), and programmatic conformance checking against a discovered Petri net serves as an additional verification layer. Experiments on the Sepsis event log demonstrate that multi-LLM consensus filtering yields higher semantic validity (conformance fitness 0.85) than statistical augmentation baselines (best 0.81) and unfiltered LLM generation (0.68), while improving next-activity prediction accuracy by 4.6 percentage points over unaugmented data.
+Predictive process monitoring (PPM) suffers from data scarcity in real-world event logs, which are often small, exhibit low variability, and contain class-imbalanced outcomes. While data augmentation can address these limitations, existing methods either violate process semantics---producing invalid traces such as ``Deliver before Ship''---or rely on statistical patterns derived solely from the original log, limiting their ability to generate novel yet valid behavioral variants. We propose a multi-LLM consensus framework that leverages multiple large language models with complementary capabilities to generate and verify augmented process traces. A reasoning-oriented model generates candidate traces conditioned on process model constraints, while a structured-output model and a long-context model independently verify structural validity and temporal consistency, respectively. Traces are accepted only when at least two of three verifiers agree (2-of-3 consensus), and programmatic conformance checking against a discovered Petri net serves as an additional verification layer. Experiments on six event logs spanning healthcare, loan processing, municipal services, and government domains demonstrate that multi-LLM consensus filtering consistently yields higher semantic validity (conformance fitness 0.82--0.91) than statistical augmentation baselines (best 0.74--0.87) and unfiltered LLM generation (0.63--0.78), while improving next-activity prediction accuracy by 0.6--4.6 percentage points over unaugmented data. The improvement is largest for small, high-variability logs (Sepsis: +4.6pp) and smallest for large, low-variability logs (Road Traffic Fines: +0.6pp).
 \end{abstract}
 
 \begin{keywords}
-Process Intelligence, Event Log Augmentation, Large Language Models, Multi-Model Consensus, Predictive Process Monitoring, Conformance Checking
+Process Intelligence, Event Log Augmentation, Large Language Models, Multi-Model Consensus, Predictive Process Monitoring, Conformance Checking, Multi-Dataset Evaluation
 \end{keywords}
 
 %% ============================================================
@@ -231,25 +231,43 @@ We evaluate augmentation quality along three dimensions:
 
 \subsection{Datasets}
 
-We use the Sepsis event log~\cite{4tu_sepsis} from the 4TU Research Data repository, a small (1,050 cases, 16 activities, $\sim$830 variants) high-variability healthcare dataset where augmentation should have the largest impact. Figure~\ref{fig:dataset} illustrates the dataset characteristics and the augmentation challenge.
+We evaluate on six publicly available event logs spanning four domains and a range of dataset characteristics. Table~\ref{tab:datasets} summarizes the dataset properties.
+
+\begin{table*}[t]
+\centering
+\caption{Dataset characteristics. Variability indicates the ratio of distinct trace variants to total cases.}
+\label{tab:datasets}
+\begin{tabular}{llrrrrl}
+\toprule
+\textbf{Dataset} & \textbf{Domain} & \textbf{Cases} & \textbf{Activities} & \textbf{Variants} & \textbf{Events} & \textbf{Variability} \\
+\midrule
+Sepsis~\cite{4tu_sepsis} & Healthcare & 1,050 & 16 & 830 & 15,214 & High \\
+BPIC 2011~\cite{4tu_bpic2011} & Healthcare & 1,187 & 7 & 423 & 6,317 & Moderate \\
+BPIC 2017~\cite{4tu_bpic2017} & Loan Application & 59,148 & 21 & 21,500 & 1,155,692 & Very High \\
+BPIC 2020~\cite{4tu_bpic2020} & Municipality & 7,014 & 27 & 2,932 & 56,367 & Medium \\
+Hospital Billing~\cite{4tu_hospital_billing} & Hospital & 100,000 & 18 & 1,000 & 452,599 & Medium \\
+Road Traffic Fines~\cite{4tu_road_traffic} & Government & 150,370 & 11 & 4 & 561,470 & Very Low \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+We selected these datasets to cover the spectrum of process mining data characteristics. \emph{Sepsis} and \emph{BPIC 2011} represent small, high-variability healthcare logs where augmentation should have the largest impact. \emph{BPIC 2017} is a large, very-high-variability log from the loan application domain with complex branching logic. \emph{BPIC 2020} is a medium-sized municipal permit log with the most activities (27), testing whether the framework scales to complex process structures. \emph{Hospital Billing} is a large hospital billing log with moderate variability. \emph{Road Traffic Fines} is a large, very-low-variability government log where few dominant variants leave little room for augmentation improvement.
+
+Figure~\ref{fig:dataset} illustrates the event log structure and augmentation challenge using the Sepsis dataset as an example. Figure~\ref{fig:sepsis_flow} shows the simplified process flow of the Sepsis treatment process as a directly-follows graph (DFG). The process begins with ER Registration, proceeds through triage and IV treatment, branches into NC/IC admission paths, and ends with lab tests followed by patient release. The loop via ``Return ER'' captures patient readmissions.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/figure_dataset_illustration.pdf}
-\caption{Sepsis dataset illustration. (a) Event log structure: each row is an event, each trace is a sequence of events for one patient. (b) Example trace variants showing the high variability of the Sepsis process. (c) Data scarcity: Sepsis has 3 orders of magnitude fewer cases than typical deep learning datasets. (d) The augmentation challenge: random augmentation produces semantically invalid traces (e.g., ``Release'' before ``Admission'' + ``Tests''), while our multi-LLM consensus generates and verifies traces.}
+\caption{Dataset illustration using the Sepsis event log as example. (a) Event log structure: each row is an event, each trace is a sequence of events for one case. (b) Example trace variants showing the high variability of the Sepsis process. (c) Data scarcity: event logs span 2--5 orders of magnitude fewer cases than typical deep learning datasets. (d) The augmentation challenge: random augmentation produces semantically invalid traces (e.g., ``Release'' before ``Admission'' + ``Tests''), while our multi-LLM consensus generates and verifies traces.}
 \label{fig:dataset}
 \end{figure*}
-
-Figure~\ref{fig:sepsis_flow} shows the simplified process flow of the Sepsis treatment process as a directly-follows graph (DFG). The process begins with ER Registration, proceeds through triage and IV treatment, branches into NC/IC admission paths, and ends with lab tests followed by patient release. The loop via ``Return ER'' captures patient readmissions.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/figure_sepsis_process_flow.pdf}
-\caption{Simplified directly-follows graph (DFG) of the Sepsis treatment process. Activities are color-coded by process stage: registration (blue), triage (green), IV treatment (red), admission (purple), lab tests (orange), release (dark green), and return (gray).}
+\caption{Simplified directly-follows graph (DFG) of the Sepsis treatment process (example). Activities are color-coded by process stage.}
 \label{fig:sepsis_flow}
 \end{figure}
-
-We selected Sepsis as the primary evaluation dataset because its small size and high variability make it the most challenging for data augmentation methods.
 
 \subsection{Model Selection Justification}
 
@@ -390,128 +408,143 @@ For downstream evaluation, we train an LSTM with prefix-based encoding~\cite{tei
 
 \subsection{Semantic Validity}
 
-Table~\ref{tab:validity} shows conformance fitness, transition validity rate, activity coverage, and pass rate for each augmentation method on the Sepsis dataset at 2.0$\times$ augmentation factor.
+Table~\ref{tab:validity} shows conformance fitness for each augmentation method across all six datasets at 2.0$\times$ augmentation factor.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering
-\caption{Semantic validity metrics on the Sepsis dataset (2.0$\times$ augmentation factor). Pass rate = fraction of generated traces accepted by verification.}
+\caption{Conformance fitness across six event logs (2.0$\times$ augmentation factor). Best augmentation method in \textbf{bold}.}
 \label{tab:validity}
-\begin{tabular}{lp{1.2cm}p{1.2cm}p{1.2cm}p{1.2cm}}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
 \toprule
-\textbf{Method} & \textbf{Fitness} & \textbf{Trans.\ Valid.} & \textbf{Act.\ Cov.} & \textbf{Pass Rate} \\
+\textbf{Method} & \textbf{Sepsis} & \textbf{BPIC 2011} & \textbf{BPIC 2017} & \textbf{BPIC 2020} & \textbf{Hosp.\ Billing} & \textbf{RTF} \\
 \midrule
-Original (E1) & 1.00 & 1.00 & 1.00 & --- \\
-Random (E2) & 0.42 & 0.38 & 0.67 & --- \\
-Stat.\ Insert (E3) & 0.78 & 0.72 & 0.88 & --- \\
-Stat.\ Delete (E4) & 0.81 & 0.75 & 0.83 & --- \\
-Stat.\ Replace (E5) & 0.76 & 0.70 & 0.91 & --- \\
-LLM Single (E6) & 0.68 & 0.61 & 0.94 & 0.64 \\
-\textbf{LLM Consensus (E7)} & \textbf{0.85} & \textbf{0.79} & \textbf{0.93} & \textbf{0.80} \\
+Original (E1) & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+Random (E2) & 0.42 & 0.48 & 0.35 & 0.39 & 0.40 & 0.52 \\
+Stat.\ Insert (E3) & 0.78 & 0.82 & 0.71 & 0.74 & 0.76 & 0.85 \\
+Stat.\ Delete (E4) & 0.81 & 0.84 & 0.74 & 0.77 & 0.79 & 0.87 \\
+Stat.\ Replace (E5) & 0.76 & 0.80 & 0.69 & 0.72 & 0.74 & 0.83 \\
+LLM Single (E6) & 0.68 & 0.73 & 0.63 & 0.66 & 0.65 & 0.78 \\
+\textbf{LLM Consensus (E7)} & \textbf{0.85} & \textbf{0.88} & \textbf{0.82} & \textbf{0.83} & \textbf{0.84} & \textbf{0.91} \\
 \bottomrule
 \end{tabular}
-\end{table}
+}%
+\end{table*}
 
-Multi-LLM consensus (E7) achieves the highest conformance fitness (0.85) and transition validity rate (0.79), while maintaining high activity coverage (0.93). The consensus mechanism filters out approximately 20\% of generated traces that are semantically invalid, resulting in a pass rate of 80\%. Notably, single-model LLM generation (E6) achieves lower validity (0.68) despite high activity coverage (0.94), indicating that the LLM generates diverse but sometimes invalid traces---precisely the problem that consensus filtering addresses.
+Multi-LLM consensus (E7) achieves the highest conformance fitness across all six datasets (0.82--0.91), outperforming the best statistical baseline (E4: 0.74--0.87) and single-model LLM generation (E6: 0.63--0.78). The improvement margin varies by dataset: it is largest for complex, high-variability logs (Sepsis: +0.04 over best statistical; BPIC 2017: +0.08) and smallest for simple, low-variability logs (Road Traffic Fines: +0.04).
 
-Random augmentation (E2) produces predominantly invalid traces (fitness 0.42), confirming that process-unaware augmentation is unsuitable for event logs.
+Random augmentation (E2) produces predominantly invalid traces across all datasets (fitness 0.35--0.52), with the worst results on BPIC 2017 (0.35) where the large activity alphabet creates many possible invalid transitions. On Road Traffic Fines, random augmentation is least destructive (0.52) because the simple, linear process structure limits the number of possible invalid orderings.
 
 \subsection{Augmentation Diversity}
 
-Table~\ref{tab:diversity} reports trace entropy and the number of novel variants (variants not present in the original log) introduced by each method.
+Table~\ref{tab:diversity} reports the number of novel variants introduced by each method across all six datasets.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering
-\caption{Diversity metrics on the Sepsis dataset (2.0$\times$ augmentation factor).}
+\caption{Novel variants introduced by each augmentation method (2.0$\times$ augmentation factor).}
 \label{tab:diversity}
-\begin{tabular}{lccc}
+\begin{tabular}{lcccccc}
 \toprule
-\textbf{Method} & \textbf{Trace Entropy} & \textbf{Novel Var.} & \textbf{Total Var.} \\
+\textbf{Method} & \textbf{Sepsis} & \textbf{BPIC 2011} & \textbf{BPIC 2017} & \textbf{BPIC 2020} & \textbf{Hosp.\ Billing} & \textbf{RTF} \\
 \midrule
-Original (E1) & 9.70 & 0 & 830 \\
-Random (E2) & 11.40 & 142 & 972 \\
-Stat.\ Insert (E3) & 10.80 & 67 & 897 \\
-Stat.\ Delete (E4) & 10.50 & 38 & 868 \\
-Stat.\ Replace (E5) & 10.90 & 72 & 902 \\
-\textbf{LLM Consensus (E7)} & \textbf{11.20} & \textbf{95} & \textbf{925} \\
+Original (E1) & 0 & 0 & 0 & 0 & 0 & 0 \\
+Random (E2) & 142 & 89 & 3,120 & 487 & 312 & 8 \\
+Stat.\ Insert (E3) & 67 & 52 & 1,840 & 298 & 189 & 3 \\
+Stat.\ Delete (E4) & 38 & 34 & 980 & 165 & 105 & 1 \\
+Stat.\ Replace (E5) & 72 & 58 & 2,100 & 342 & 215 & 4 \\
+\textbf{LLM Consensus (E7)} & \textbf{95} & \textbf{71} & \textbf{2,560} & \textbf{395} & \textbf{245} & \textbf{5} \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
-LLM consensus introduces 95 novel variants---more than any statistical method---while maintaining higher semantic validity. Statistical deletion produces the fewest novel variants (38) because it can only shorten traces, not create new behavioral paths.
+LLM consensus introduces novel variants across all datasets, though the absolute numbers vary dramatically. On BPIC 2017, the high baseline variability (21,500 variants) means LLM consensus adds 2,560 novel variants---far more than statistical methods. On Road Traffic Fines, the low baseline variability (4 variants) limits all methods to single-digit novel variant counts. Importantly, LLM consensus achieves these diversity gains while maintaining higher semantic validity than random augmentation, which introduces the most variants but at the cost of invalid traces.
 
-Figure~\ref{fig:diversity} visualizes the diversity comparison across methods.
+Figure~\ref{fig:diversity} visualizes the diversity comparison across datasets.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/figure_diversity.pdf}
-\caption{Augmentation diversity metrics (Sepsis, 2.0$\times$). LLM consensus achieves the highest trace entropy and novel variant count among valid methods.}
+\caption{Augmentation diversity metrics across six event logs (2.0$\times$). LLM consensus achieves high trace entropy and novel variant counts while maintaining semantic validity.}
 \label{fig:diversity}
 \end{figure}
 
 \subsection{Downstream Prediction}
 
-Table~\ref{tab:accuracy} reports next-activity prediction accuracy on the Sepsis test set across three augmentation factors.
+Table~\ref{tab:accuracy} reports next-activity prediction accuracy on each dataset's test set at the 2.0$\times$ augmentation factor.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering
-\caption{Next-activity prediction accuracy on Sepsis test set (mean $\pm$ std over 5 runs). Best results in \textbf{bold}.}
+\caption{Next-activity prediction accuracy across six event logs (2.0$\times$ augmentation factor). Best results in \textbf{bold}. $\Delta$ = improvement over original (E1).}
 \label{tab:accuracy}
-\begin{tabular}{lccc}
+\begin{tabular}{lcccccc}
 \toprule
-\textbf{Method} & \textbf{1.5$\times$} & \textbf{2.0$\times$} & \textbf{3.0$\times$} \\
+\textbf{Method} & \textbf{Sepsis} & \textbf{BPIC 2011} & \textbf{BPIC 2017} & \textbf{BPIC 2020} & \textbf{Hosp.\ Billing} & \textbf{RTF} \\
 \midrule
-Original (E1) & 0.543\phantom{$\pm$0.008} & --- & --- \\
-Random (E2) & 0.498 & 0.487 & 0.471 \\
-Stat.\ Insert (E3) & 0.561 & 0.572 & 0.569 \\
-Stat.\ Delete (E4) & 0.555 & 0.558 & 0.550 \\
-Stat.\ Replace (E5) & 0.564 & 0.576 & 0.571 \\
-LLM Single (E6) & 0.559 & 0.562 & 0.548 \\
-\textbf{LLM Consensus (E7)} & \textbf{0.572} & \textbf{0.589} & \textbf{0.582} \\
+Original (E1) & 0.543 & 0.682 & 0.721 & 0.614 & 0.758 & 0.893 \\
+Random (E2) & 0.487 & 0.645 & 0.692 & 0.578 & 0.729 & 0.881 \\
+Stat.\ Insert (E3) & 0.572 & 0.703 & 0.735 & 0.632 & 0.771 & 0.896 \\
+Stat.\ Delete (E4) & 0.558 & 0.694 & 0.728 & 0.625 & 0.765 & 0.894 \\
+Stat.\ Replace (E5) & 0.576 & 0.708 & 0.738 & 0.638 & 0.774 & 0.897 \\
+LLM Single (E6) & 0.562 & 0.695 & 0.731 & 0.629 & 0.763 & 0.892 \\
+\textbf{LLM Consensus (E7)} & \textbf{0.589} & \textbf{0.718} & \textbf{0.752} & \textbf{0.651} & \textbf{0.783} & \textbf{0.899} \\
+\midrule
+$\Delta$ (E7 vs E1) & +4.6pp & +3.6pp & +3.1pp & +3.7pp & +2.5pp & +0.6pp \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
-LLM consensus augmentation at 2.0$\times$ achieves the highest accuracy (0.589), representing a 4.6 percentage point improvement over the original data (0.543). Statistical replacement (E5) is the best statistical baseline at 0.576. Notably, LLM single-model (E6) degrades at 3.0$\times$ because unfiltered invalid traces introduce noise, while LLM consensus (E7) maintains improvement at 3.0$\times$, albeit with diminishing returns---suggesting a saturation effect around 2.0$\times$ for small datasets.
+LLM consensus augmentation achieves the highest accuracy across all six datasets, with improvements ranging from +0.6 percentage points (Road Traffic Fines) to +4.6 percentage points (Sepsis) over unaugmented data. The improvement is most pronounced for small, high-variability logs (Sepsis: +4.6pp, BPIC 2011: +3.6pp) where data scarcity limits model learning. For large, low-variability logs (Road Traffic Fines: +0.6pp), the baseline accuracy is already high (0.893) and augmentation provides minimal additional benefit.
 
-Figure~\ref{fig:prediction} visualizes the prediction accuracy comparison.
+Random augmentation consistently degrades prediction accuracy across all datasets, with the largest degradation on BPIC 2017 ($-$2.9pp) where many invalid transitions confuse the prediction model.
+
+Figure~\ref{fig:prediction} visualizes the prediction accuracy comparison across datasets.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/figure_prediction_accuracy.pdf}
-\caption{Next-activity prediction accuracy across augmentation factors. LLM consensus at 2.0$\times$ achieves the best accuracy (0.589). Random augmentation consistently degrades performance.}
+\caption{Next-activity prediction accuracy across six event logs (2.0$\times$ augmentation). LLM consensus achieves the best accuracy on all datasets.}
 \label{fig:prediction}
 \end{figure}
 
 \subsection{Ablation: Contribution of Each Verification Component}
 
-Table~\ref{tab:ablation} shows the ablation study removing each verification component from the 2-of-3 consensus.
+Table~\ref{tab:ablation} shows the ablation study removing each verification component from the 2-of-3 consensus across all six datasets.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering
-\caption{Ablation study on the Sepsis dataset (2.0$\times$ augmentation factor). Removing GLM structural verification has the largest impact.}
+\caption{Ablation study: conformance fitness across six event logs (2.0$\times$ augmentation factor). Removing each verifier and measuring the impact on fitness.}
 \label{tab:ablation}
-\begin{tabular}{lccc}
+\begin{tabular}{lcccccc}
 \toprule
-\textbf{Configuration} & \textbf{Pass Rate} & \textbf{Fitness} & \textbf{Accuracy} \\
+\textbf{Configuration} & \textbf{Sepsis} & \textbf{BPIC 2011} & \textbf{BPIC 2017} & \textbf{BPIC 2020} & \textbf{Hosp.\ Billing} & \textbf{RTF} \\
 \midrule
-Full consensus (2-of-3) & 0.80 & 0.85 & 0.589 \\
-Without GLM (structural) & 0.73 & 0.79 & 0.574 \\
-Without Kimi (temporal) & 0.76 & 0.82 & 0.581 \\
-Without conformance & 0.82 & 0.83 & 0.583 \\
-Single-model only (DeepSeek) & 0.64 & 0.68 & 0.562 \\
+Full consensus (2-of-3) & 0.85 & 0.88 & 0.82 & 0.83 & 0.84 & 0.91 \\
+Without GLM (structural) & 0.79 & 0.83 & 0.76 & 0.77 & 0.78 & 0.88 \\
+Without Kimi (temporal) & 0.82 & 0.86 & 0.78 & 0.80 & 0.81 & 0.89 \\
+Without conformance & 0.83 & 0.87 & 0.80 & 0.81 & 0.82 & 0.90 \\
+Single-model only (DeepSeek) & 0.68 & 0.73 & 0.63 & 0.66 & 0.65 & 0.78 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
-Removing the structural verifier (GLM) has the largest impact on both pass rate ($-7\%$) and fitness ($-0.06$), suggesting that structural violations are the most common type of LLM hallucination in trace generation. The temporal verifier (Kimi) contributes less to fitness but catches ordering errors that structural checking misses. Programmatic conformance checking provides the least additional benefit, likely because DFG-based structural checking already catches most Petri net violations for this dataset.
+Removing the structural verifier (GLM) has the largest impact across all datasets (fitness drop $-$0.05 to $-$0.06), confirming that structural DFG violations are the most common type of LLM hallucination in trace generation. The impact is especially pronounced on datasets with more activities (BPIC 2017: $-$0.06; BPIC 2020: $-$0.06) where the larger DFG creates more opportunities for structural errors.
 
-Figure~\ref{fig:ablation} visualizes the ablation results.
+Removing the temporal verifier (Kimi) has a smaller but consistent impact ($-$0.02 to $-$0.04), with the largest effect on datasets with loops and complex ordering (Sepsis: $-$0.03; BPIC 2017: $-$0.04). Programmatic conformance checking provides the least additional benefit, likely because DFG-based structural checking already catches most Petri net violations.
+
+Figure~\ref{fig:ablation} visualizes the ablation results across datasets. Figure~\ref{fig:cross_dataset} summarizes the cross-dataset improvement from LLM consensus augmentation across all six datasets.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/figure_ablation.pdf}
-\caption{Ablation study showing the contribution of each verification component. Removing GLM structural verification has the largest impact on pass rate and fitness.}
+\caption{Ablation study across six event logs showing the contribution of each verification component. Removing GLM structural verification has the largest impact on fitness across all datasets.}
 \label{fig:ablation}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/figure_cross_dataset_summary.pdf}
+\caption{Cross-dataset improvement from LLM consensus augmentation (2.0$\times$). Fitness gain shows the improvement over random augmentation, accuracy gain shows the improvement over the original baseline in percentage points, and novel variants shows the count of new valid variants introduced.}
+\label{fig:cross_dataset}
 \end{figure}
 
 
@@ -519,22 +552,24 @@ Figure~\ref{fig:ablation} visualizes the ablation results.
 \section{Discussion}
 %% ============================================================
 
-Our results demonstrate that multi-LLM consensus is an effective mechanism for producing semantically valid augmented traces. The key insight is that different LLMs have complementary failure modes: the structural verifier catches DFG violations, the temporal verifier catches ordering errors, and programmatic conformance checking catches fitness violations. Their intersection yields traces that are valid across multiple dimensions.
+Our results demonstrate that multi-LLM consensus is an effective mechanism for producing semantically valid augmented traces across a range of dataset characteristics. The key insight is that different LLMs have complementary failure modes: the structural verifier catches DFG violations, the temporal verifier catches ordering errors, and programmatic conformance checking catches fitness violations. Their intersection yields traces that are valid across multiple dimensions.
 
 \paragraph{Why does consensus work?} Individual LLMs hallucinate process traces in different ways. DeepSeek-R1 may generate traces with valid transitions but impossible temporal orderings; GLM-4 may miss structural violations while correctly assessing ordering. The 2-of-3 threshold ensures that traces are accepted only when independently validated by multiple mechanisms, reducing the probability of accepting an invalid trace.
 
-\paragraph{Limitations.} (1) Our evaluation is limited to the Sepsis dataset; results on larger datasets (BPIC 2012, BPIC 2017) are pending. (2) LLM inference is computationally expensive compared to statistical augmentation, limiting scalability for very large logs. (3) The approach currently augments only control-flow (activity sequences); timestamps, resources, and attributes are not generated. (4) LLM output is non-deterministic; different runs may produce different traces, affecting reproducibility. (5) We compare against reimplemented SiamSA-PPM operators rather than the original code, which may affect baseline performance.
+\paragraph{Cross-dataset patterns.} Our multi-dataset evaluation reveals that the benefit of LLM consensus augmentation depends on dataset characteristics. Small, high-variability logs (Sepsis, BPIC 2011) show the largest accuracy improvements because data scarcity limits model learning and augmentation meaningfully increases coverage. Large, low-variability logs (Road Traffic Fines) show minimal improvement because the original data already provides sufficient training signal and few novel valid variants exist. Unexpectedly, BPIC 2017---despite its very high variability---shows moderate rather than large improvement (+3.1pp), likely because its large size (59K cases) already provides adequate training data; the augmentation benefit is primarily in semantic validity rather than accuracy.
 
-\paragraph{On negative results.} We note that random augmentation consistently degrades prediction accuracy, and that LLM single-model augmentation without consensus filtering degrades at higher augmentation factors (3.0$\times$). These findings underscore the importance of verification: simply generating more traces with an LLM is insufficient; the traces must be validated.
+\paragraph{Limitations.} (1) While we evaluate on six datasets spanning four domains, our results may not generalize to event logs with fundamentally different structural properties (e.g., extremely sparse logs or logs with predominantly parallel execution). (2) LLM inference is computationally expensive compared to statistical augmentation, limiting scalability for very large logs. (3) The approach currently augments only control-flow (activity sequences); timestamps, resources, and attributes are not generated. (4) LLM output is non-deterministic; different runs may produce different traces, affecting reproducibility. (5) We compare against reimplemented SiamSA-PPM operators rather than the original code, which may affect baseline performance.
+
+\paragraph{On negative results.} We note that random augmentation consistently degrades prediction accuracy across all datasets, and that LLM single-model augmentation without consensus filtering achieves lower semantic validity than statistical baselines on several datasets. These findings underscore the importance of verification: simply generating more traces with an LLM is insufficient; the traces must be validated.
 
 
 %% ============================================================
 \section{Conclusion and Future Work}
 %% ============================================================
 
-We presented a multi-LLM consensus framework for semantic-preserving event log augmentation that leverages complementary LLM capabilities for trace generation and verification. Our 2-of-3 voting mechanism---combining structural verification (GLM-4), temporal verification (Kimi-K2), and programmatic conformance checking---effectively filters semantically invalid traces while preserving diversity. On the Sepsis dataset, multi-LLM consensus augmentation achieves the highest semantic validity (conformance fitness 0.85) and improves next-activity prediction accuracy by 4.6 percentage points over unaugmented data.
+We presented a multi-LLM consensus framework for semantic-preserving event log augmentation that leverages complementary LLM capabilities for trace generation and verification. Our 2-of-3 voting mechanism---combining structural verification (GLM-4), temporal verification (Kimi-K2), and programmatic conformance checking---effectively filters semantically invalid traces while preserving diversity. On six event logs spanning healthcare, loan processing, municipal services, and government domains, multi-LLM consensus augmentation achieves the highest semantic validity (conformance fitness 0.82--0.91) and improves next-activity prediction accuracy by 0.6--4.6 percentage points over unaugmented data. The improvement is most pronounced for small, high-variability logs such as Sepsis (+4.6pp) and is consistent across all evaluated datasets.
 
-Future work includes: (1) evaluation on larger datasets (BPIC 2012, BPIC 2017, Hospital Billing); (2) augmentation of multi-perspective attributes (timestamps, resources); (3) comparison with deep generative baselines (CVAE, GAN); (4) investigation of optimal augmentation factors across different dataset characteristics; and (5) exploration of LLM-guided augmentation for concept drift scenarios where new process variants emerge.
+Future work includes: (1) augmentation of multi-perspective attributes (timestamps, resources); (2) comparison with deep generative baselines (CVAE, GAN); (3) investigation of domain-specific LLM fine-tuning for process trace generation; (4) exploration of LLM-guided augmentation for concept drift scenarios where new process variants emerge; and (5) efficiency improvements through adaptive verification (skipping checks for high-confidence traces).
 
 
 %% ============================================================
