@@ -121,6 +121,10 @@ The concept of multi-model agreement as a trust signal draws from the ``model co
 \section{Methodology}
 %% ============================================================
 
+Figure~\ref{fig:methodology_workflow} presents the overall research methodology workflow, from event log preprocessing through augmentation and consensus verification to evaluation.
+
+\input{figures/figure_methodology_workflow.tex}
+
 \subsection{Problem Definition}
 
 Given an event log $L = \{t_1, t_2, \ldots, t_n\}$ where each trace $t_i = \langle a_1, a_2, \ldots, a_m \rangle$ is a sequence of activities, and a discovered process model $M$ (Petri net or DFG), the augmentation problem is to generate a set of synthetic traces $S = \{s_1, s_2, \ldots, s_k\}$ such that: (1) each $s_j$ is semantically valid with respect to $M$, (2) $S$ increases trace variability beyond $L$, and (3) training on $L \cup S$ improves downstream PPM performance compared to training on $L$ alone.
