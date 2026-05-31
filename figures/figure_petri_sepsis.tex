@@ -1,0 +1,106 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+    transition/.style={rectangle, rounded corners=2pt, draw=black, fill=white,
+        minimum width=1.2cm, minimum height=0.55cm, align=center, font=\tiny,
+        inner sep=1pt, line width=0.4pt},
+    place/.style={circle, draw=black, fill=white,
+        minimum size=0.28cm, inner sep=0pt, line width=0.4pt},
+    post/.style={line width=0.35pt, draw=black!60},
+    startcolor=green!25,
+    endcolor=red!20,
+    transitioncolor=white,
+]
+  % Petri net for Sepsis
+  \node[place, label=above:{\tiny $i$}] (p_start_sepsis) at (-1.8, 0.0) {};
+  \draw[post, stealth-] (t_sepsis_0.west) -- node[above, font=\tiny] {} (p_start_sepsis);
+  \node[place, label=below:{\tiny $o$}] (p_end_sepsis) at (3.6, 4.0) {};
+  \draw[post, -stealth] (t_sepsis_10.east) -- (p_end_sepsis);
+  \draw[post, -stealth] (t_sepsis_11.east) -- (p_end_sepsis);
+  \draw[post, -stealth] (t_sepsis_12.east) -- (p_end_sepsis);
+  \draw[post, -stealth] (t_sepsis_13.east) -- (p_end_sepsis);
+  \draw[post, -stealth] (t_sepsis_14.east) -- (p_end_sepsis);
+  \node[place] (p_sepsis_0) at (0.9, -1.5) {};
+  \draw[post, -stealth] (t_sepsis_0.east) -- (p_sepsis_0);
+  \draw[post, -stealth] (p_sepsis_0) -- (t_sepsis_1.west);
+  \node[place] (p_sepsis_1) at (1.8, -3.5) {};
+  \draw[post, -stealth] (t_sepsis_1.east) -- (p_sepsis_1);
+  \draw[post, -stealth] (p_sepsis_1) -- (t_sepsis_2.west);
+  \node[place] (p_sepsis_2) at (1.8, -2.5) {};
+  \draw[post, -stealth] (t_sepsis_2.east) -- (p_sepsis_2);
+  \draw[post, -stealth] (p_sepsis_2) -- (t_sepsis_3.west);
+  \node[place] (p_sepsis_3) at (1.8, -3.0) {};
+  \draw[post, -stealth] (t_sepsis_2.east) -- (p_sepsis_3);
+  \draw[post, -stealth] (p_sepsis_3) -- (t_sepsis_4.west);
+  \node[place] (p_sepsis_4) at (1.8, -3.5) {};
+  \draw[post, -stealth] (t_sepsis_3.east) -- (p_sepsis_4);
+  \draw[post, -stealth] (p_sepsis_4) -- (t_sepsis_5.west);
+  \node[place] (p_sepsis_5) at (1.8, -4.0) {};
+  \draw[post, -stealth] (t_sepsis_3.east) -- (p_sepsis_5);
+  \draw[post, -stealth] (p_sepsis_5) -- (t_sepsis_6.west);
+  \node[place] (p_sepsis_6) at (1.8, -4.0) {};
+  \draw[post, -stealth] (t_sepsis_4.east) -- (p_sepsis_6);
+  \draw[post, -stealth] (p_sepsis_6) -- (t_sepsis_5.west);
+  \node[place] (p_sepsis_7) at (1.8, -4.5) {};
+  \draw[post, -stealth] (t_sepsis_4.east) -- (p_sepsis_7);
+  \draw[post, -stealth] (p_sepsis_7) -- (t_sepsis_6.west);
+  \node[place] (p_sepsis_8) at (1.8, -5.5) {};
+  \draw[post, -stealth] (t_sepsis_5.east) -- (p_sepsis_8);
+  \draw[post, -stealth] (p_sepsis_8) -- (t_sepsis_7.west);
+  \node[place] (p_sepsis_9) at (1.8, -3.0) {};
+  \draw[post, -stealth] (t_sepsis_5.east) -- (p_sepsis_9);
+  \draw[post, -stealth] (p_sepsis_9) -- (t_sepsis_8.west);
+  \node[place] (p_sepsis_10) at (1.8, -2.5) {};
+  \draw[post, -stealth] (t_sepsis_5.east) -- (p_sepsis_10);
+  \draw[post, -stealth] (p_sepsis_10) -- (t_sepsis_9.west);
+  \node[place] (p_sepsis_11) at (1.8, -6.0) {};
+  \draw[post, -stealth] (t_sepsis_6.east) -- (p_sepsis_11);
+  \draw[post, -stealth] (p_sepsis_11) -- (t_sepsis_7.west);
+  \node[place] (p_sepsis_12) at (1.8, -3.5) {};
+  \draw[post, -stealth] (t_sepsis_6.east) -- (p_sepsis_12);
+  \draw[post, -stealth] (p_sepsis_12) -- (t_sepsis_8.west);
+  \node[place] (p_sepsis_13) at (1.8, -3.0) {};
+  \draw[post, -stealth] (t_sepsis_6.east) -- (p_sepsis_13);
+  \draw[post, -stealth] (p_sepsis_13) -- (t_sepsis_9.west);
+  \node[place] (p_sepsis_14) at (1.8, -1.5) {};
+  \draw[post, -stealth] (t_sepsis_7.east) -- (p_sepsis_14);
+  \draw[post, -stealth] (p_sepsis_14) -- (t_sepsis_10.west);
+  \node[place] (p_sepsis_15) at (1.8, -1.0) {};
+  \draw[post, -stealth] (t_sepsis_7.east) -- (p_sepsis_15);
+  \draw[post, -stealth] (p_sepsis_15) -- (t_sepsis_11.west);
+  \node[place] (p_sepsis_16) at (1.8, 2.0) {};
+  \draw[post, -stealth] (t_sepsis_8.east) -- (p_sepsis_16);
+  \draw[post, -stealth] (p_sepsis_16) -- (t_sepsis_12.west);
+  \node[place] (p_sepsis_17) at (1.8, 2.5) {};
+  \draw[post, -stealth] (t_sepsis_8.east) -- (p_sepsis_17);
+  \draw[post, -stealth] (p_sepsis_17) -- (t_sepsis_13.west);
+  \node[place] (p_sepsis_18) at (1.8, 3.5) {};
+  \draw[post, -stealth] (t_sepsis_9.east) -- (p_sepsis_18);
+  \draw[post, -stealth] (p_sepsis_18) -- (t_sepsis_14.west);
+  \node[place] (p_sepsis_19) at (1.8, 4.5) {};
+  \draw[post, -stealth] (t_sepsis_10.east) -- (p_sepsis_19);
+  \draw[post, -stealth] (p_sepsis_19) -- (t_sepsis_15.west);
+  \node[place] (p_sepsis_20) at (1.8, 2.0) {};
+  \draw[post, -stealth] (t_sepsis_15.east) -- (p_sepsis_20);
+  \draw[post, -stealth] (p_sepsis_20) -- (t_sepsis_1.west);
+  \node[transition, fill=startcolor] (t_sepsis_0) at (0.0, 0.0) {\tiny Reg.};
+  \node[transition, fill=transitioncolor] (t_sepsis_1) at (1.8, -3.0) {\tiny Triage};
+  \node[transition, fill=transitioncolor] (t_sepsis_2) at (1.8, -4.0) {\tiny Seps.Triage};
+  \node[transition, fill=transitioncolor] (t_sepsis_3) at (1.8, -1.0) {\tiny IV Liq.};
+  \node[transition, fill=transitioncolor] (t_sepsis_4) at (1.8, -2.0) {\tiny IV Abx.};
+  \node[transition, fill=transitioncolor] (t_sepsis_5) at (1.8, -6.0) {\tiny Adm.NC};
+  \node[transition, fill=transitioncolor] (t_sepsis_6) at (1.8, -7.0) {\tiny Adm.IC};
+  \node[transition, fill=transitioncolor] (t_sepsis_7) at (1.8, -5.0) {\tiny CRP};
+  \node[transition, fill=transitioncolor] (t_sepsis_8) at (1.8, 0.0) {\tiny Lac.Acid};
+  \node[transition, fill=transitioncolor] (t_sepsis_9) at (1.8, 1.0) {\tiny Leuc.};
+  \node[transition, fill=endcolor] (t_sepsis_10) at (1.8, 2.0) {\tiny Rel.A};
+  \node[transition, fill=endcolor] (t_sepsis_11) at (1.8, 3.0) {\tiny Rel.B};
+  \node[transition, fill=endcolor] (t_sepsis_12) at (1.8, 4.0) {\tiny Rel.C};
+  \node[transition, fill=endcolor] (t_sepsis_13) at (1.8, 5.0) {\tiny Rel.D};
+  \node[transition, fill=endcolor] (t_sepsis_14) at (1.8, 6.0) {\tiny Rel.E};
+  \node[transition, fill=transitioncolor] (t_sepsis_15) at (1.8, 7.0) {\tiny Ret.ER};
+\node[font=\footnotesize] at (current bounding box.north) {Sepsis};
+\end{tikzpicture}
+\caption{Petri net representation of the Sepsis event log (1050 cases, 16 activities, 830 variants).}
+\label{fig:petri_sepsis}
+\end{figure}
