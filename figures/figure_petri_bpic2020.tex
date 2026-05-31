@@ -7,11 +7,38 @@
     place/.style={circle, draw=black, fill=white,
         minimum size=0.28cm, inner sep=0pt, line width=0.4pt},
     post/.style={line width=0.35pt, draw=black!60},
-    startcolor=green!25,
-    endcolor=red!20,
-    transitioncolor=white,
 ]
+\colorlet{startcolor}{green!25}
+\colorlet{endcolor}{red!20}
+\colorlet{transitioncolor}{white}
   % Petri net for BPIC'20
+  \node[transition, fill=startcolor] (t_bpic2020_0) at (0.0, 0.0) {\tiny Req.submitted};
+  \node[transition, fill=transitioncolor] (t_bpic2020_1) at (1.8, 0.0) {\tiny Req.received};
+  \node[transition, fill=transitioncolor] (t_bpic2020_2) at (3.6, 12.0) {\tiny Req.reviewed};
+  \node[transition, fill=transitioncolor] (t_bpic2020_3) at (3.6, 5.0) {\tiny Perm.approved};
+  \node[transition, fill=transitioncolor] (t_bpic2020_4) at (3.6, 6.0) {\tiny Perm.rejected};
+  \node[transition, fill=transitioncolor] (t_bpic2020_5) at (3.6, 11.0) {\tiny Req.forwarded};
+  \node[transition, fill=transitioncolor] (t_bpic2020_6) at (3.6, -12.0) {\tiny Add.Info Req.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_7) at (3.6, -2.0) {\tiny Info Prov.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_8) at (3.6, -7.0) {\tiny Decision};
+  \node[transition, fill=endcolor] (t_bpic2020_9) at (3.6, 10.0) {\tiny Req.closed};
+  \node[transition, fill=endcolor] (t_bpic2020_10) at (3.6, 9.0) {\tiny Req.cancelled};
+  \node[transition, fill=transitioncolor] (t_bpic2020_11) at (3.6, 4.0) {\tiny Pay handled};
+  \node[transition, fill=transitioncolor] (t_bpic2020_12) at (3.6, 0.0) {\tiny Insp.Sched.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_13) at (3.6, -1.0) {\tiny Insp.Comp.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_14) at (3.6, 8.0) {\tiny Report Gen.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_15) at (3.6, -8.0) {\tiny Consult};
+  \node[transition, fill=transitioncolor] (t_bpic2020_16) at (3.6, -9.0) {\tiny Appr.Req.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_17) at (3.6, -10.0) {\tiny Appr.Grant};
+  \node[transition, fill=transitioncolor] (t_bpic2020_18) at (3.6, -11.0) {\tiny Appr.Deny};
+  \node[transition, fill=transitioncolor] (t_bpic2020_19) at (3.6, -5.0) {\tiny Doc.Upload};
+  \node[transition, fill=transitioncolor] (t_bpic2020_20) at (3.6, -4.0) {\tiny Doc.Verify};
+  \node[transition, fill=transitioncolor] (t_bpic2020_21) at (3.6, -6.0) {\tiny Doc.Reject};
+  \node[transition, fill=transitioncolor] (t_bpic2020_22) at (3.6, 1.0) {\tiny Notif.Sent};
+  \node[transition, fill=transitioncolor] (t_bpic2020_23) at (3.6, 7.0) {\tiny Remind.Sent};
+  \node[transition, fill=transitioncolor] (t_bpic2020_24) at (3.6, -3.0) {\tiny Fine Issued};
+  \node[transition, fill=transitioncolor] (t_bpic2020_25) at (3.6, 3.0) {\tiny Obj.Submit};
+  \node[transition, fill=transitioncolor] (t_bpic2020_26) at (3.6, 2.0) {\tiny Obj.Review};
   \node[place, label=above:{\tiny $i$}] (p_start_bpic2020) at (-1.8, 0.0) {};
   \draw[post, stealth-] (t_bpic2020_0.west) -- node[above, font=\tiny] {} (p_start_bpic2020);
   \node[place, label=below:{\tiny $o$}] (p_end_bpic2020) at (5.4, 9.5) {};
@@ -116,33 +143,6 @@
   \node[place] (p_bpic2020_32) at (3.6, 7.0) {};
   \draw[post, -stealth] (t_bpic2020_26.east) -- (p_bpic2020_32);
   \draw[post, -stealth] (p_bpic2020_32) -- (t_bpic2020_2.west);
-  \node[transition, fill=startcolor] (t_bpic2020_0) at (0.0, 0.0) {\tiny Req.submitted};
-  \node[transition, fill=transitioncolor] (t_bpic2020_1) at (1.8, 0.0) {\tiny Req.received};
-  \node[transition, fill=transitioncolor] (t_bpic2020_2) at (3.6, 12.0) {\tiny Req.reviewed};
-  \node[transition, fill=transitioncolor] (t_bpic2020_3) at (3.6, 5.0) {\tiny Perm.approved};
-  \node[transition, fill=transitioncolor] (t_bpic2020_4) at (3.6, 6.0) {\tiny Perm.rejected};
-  \node[transition, fill=transitioncolor] (t_bpic2020_5) at (3.6, 11.0) {\tiny Req.forwarded};
-  \node[transition, fill=transitioncolor] (t_bpic2020_6) at (3.6, -12.0) {\tiny Add.Info Req.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_7) at (3.6, -2.0) {\tiny Info Prov.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_8) at (3.6, -7.0) {\tiny Decision};
-  \node[transition, fill=endcolor] (t_bpic2020_9) at (3.6, 10.0) {\tiny Req.closed};
-  \node[transition, fill=endcolor] (t_bpic2020_10) at (3.6, 9.0) {\tiny Req.cancelled};
-  \node[transition, fill=transitioncolor] (t_bpic2020_11) at (3.6, 4.0) {\tiny Pay handled};
-  \node[transition, fill=transitioncolor] (t_bpic2020_12) at (3.6, 0.0) {\tiny Insp.Sched.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_13) at (3.6, -1.0) {\tiny Insp.Comp.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_14) at (3.6, 8.0) {\tiny Report Gen.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_15) at (3.6, -8.0) {\tiny Consult};
-  \node[transition, fill=transitioncolor] (t_bpic2020_16) at (3.6, -9.0) {\tiny Appr.Req.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_17) at (3.6, -10.0) {\tiny Appr.Grant};
-  \node[transition, fill=transitioncolor] (t_bpic2020_18) at (3.6, -11.0) {\tiny Appr.Deny};
-  \node[transition, fill=transitioncolor] (t_bpic2020_19) at (3.6, -5.0) {\tiny Doc.Upload};
-  \node[transition, fill=transitioncolor] (t_bpic2020_20) at (3.6, -4.0) {\tiny Doc.Verify};
-  \node[transition, fill=transitioncolor] (t_bpic2020_21) at (3.6, -6.0) {\tiny Doc.Reject};
-  \node[transition, fill=transitioncolor] (t_bpic2020_22) at (3.6, 1.0) {\tiny Notif.Sent};
-  \node[transition, fill=transitioncolor] (t_bpic2020_23) at (3.6, 7.0) {\tiny Remind.Sent};
-  \node[transition, fill=transitioncolor] (t_bpic2020_24) at (3.6, -3.0) {\tiny Fine Issued};
-  \node[transition, fill=transitioncolor] (t_bpic2020_25) at (3.6, 3.0) {\tiny Obj.Submit};
-  \node[transition, fill=transitioncolor] (t_bpic2020_26) at (3.6, 2.0) {\tiny Obj.Review};
 \node[font=\footnotesize] at (current bounding box.north) {BPIC'20};
 \end{tikzpicture}
 \caption{Petri net representation of the BPIC'20 event log (7014 cases, 27 activities, 2932 variants).}

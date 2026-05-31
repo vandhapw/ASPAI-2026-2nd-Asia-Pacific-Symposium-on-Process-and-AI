@@ -7,11 +7,29 @@
     place/.style={circle, draw=black, fill=white,
         minimum size=0.28cm, inner sep=0pt, line width=0.4pt},
     post/.style={line width=0.35pt, draw=black!60},
-    startcolor=green!25,
-    endcolor=red!20,
-    transitioncolor=white,
 ]
+\colorlet{startcolor}{green!25}
+\colorlet{endcolor}{red!20}
+\colorlet{transitioncolor}{white}
   % Petri net for Hosp.Bill.
+  \node[transition, fill=startcolor] (t_hospital_billing_0) at (0.0, 0.0) {\tiny New};
+  \node[transition, fill=endcolor] (t_hospital_billing_1) at (3.6, -0.5) {\tiny FIN};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_2) at (3.6, -2.5) {\tiny Code};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_3) at (3.6, 0.5) {\tiny Modify};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_4) at (3.6, 5.5) {\tiny Reopen};
+  \node[transition, fill=endcolor] (t_hospital_billing_5) at (3.6, -3.5) {\tiny Cancel};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_6) at (3.6, -4.5) {\tiny Billed};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_7) at (3.6, 1.5) {\tiny Pay};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_8) at (3.6, 3.5) {\tiny Reject};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_9) at (3.6, -6.5) {\tiny Appeal};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_10) at (3.6, -5.5) {\tiny Approve};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_11) at (3.6, -1.5) {\tiny Deny};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_12) at (1.8, 0.0) {\tiny Review};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_13) at (3.6, 4.5) {\tiny Release};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_14) at (3.6, 2.5) {\tiny Query};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_15) at (3.6, 6.5) {\tiny Response};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_16) at (3.6, -7.5) {\tiny Adjust};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_17) at (3.6, 7.5) {\tiny Writeoff};
   \node[place, label=above:{\tiny $i$}] (p_start_hospital_billing) at (-1.8, 0.0) {};
   \draw[post, stealth-] (t_hospital_billing_0.west) -- node[above, font=\tiny] {} (p_start_hospital_billing);
   \node[place, label=below:{\tiny $o$}] (p_end_hospital_billing) at (5.4, -2.0) {};
@@ -98,24 +116,6 @@
   \node[place] (p_hospital_billing_26) at (3.6, 3.5) {};
   \draw[post, -stealth] (t_hospital_billing_17.east) -- (p_hospital_billing_26);
   \draw[post, -stealth] (p_hospital_billing_26) -- (t_hospital_billing_1.west);
-  \node[transition, fill=startcolor] (t_hospital_billing_0) at (0.0, 0.0) {\tiny New};
-  \node[transition, fill=endcolor] (t_hospital_billing_1) at (3.6, -0.5) {\tiny FIN};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_2) at (3.6, -2.5) {\tiny Code};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_3) at (3.6, 0.5) {\tiny Modify};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_4) at (3.6, 5.5) {\tiny Reopen};
-  \node[transition, fill=endcolor] (t_hospital_billing_5) at (3.6, -3.5) {\tiny Cancel};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_6) at (3.6, -4.5) {\tiny Billed};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_7) at (3.6, 1.5) {\tiny Pay};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_8) at (3.6, 3.5) {\tiny Reject};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_9) at (3.6, -6.5) {\tiny Appeal};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_10) at (3.6, -5.5) {\tiny Approve};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_11) at (3.6, -1.5) {\tiny Deny};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_12) at (1.8, 0.0) {\tiny Review};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_13) at (3.6, 4.5) {\tiny Release};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_14) at (3.6, 2.5) {\tiny Query};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_15) at (3.6, 6.5) {\tiny Response};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_16) at (3.6, -7.5) {\tiny Adjust};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_17) at (3.6, 7.5) {\tiny Writeoff};
 \node[font=\footnotesize] at (current bounding box.north) {Hosp.Bill.};
 \end{tikzpicture}
 \caption{Petri net representation of the Hosp.Bill. event log (100000 cases, 18 activities, 1000 variants).}

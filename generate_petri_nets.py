@@ -183,6 +183,17 @@ def make_tikz_petri(dataset_key, scale=1.0):
             y = y_start + act_idx * y_spacing
             coords[act] = (x, y)
 
+    # Draw transitions (activities) FIRST - must be defined before arcs reference them
+    for act in activities:
+        if act in coords:
+            x, y = coords[act]
+            idx = activities.index(act)
+            label = label_map.get(act, act[:12])
+            is_start = act in starts
+            is_end = act in ends
+            fill_color = "startcolor" if is_start else "endcolor" if is_end else "transitioncolor"
+            lines.append(f"  \\node[transition, fill={fill_color}] (t_{dataset_key}_{idx}) at ({x}, {y}) {{\\tiny {label}}};")
+
     # Start place -> start activities
     start_y = coords[starts[0]][1]
     lines.append(f"  \\node[place, label=above:{{\\tiny $i$}}] (p_start_{dataset_key}) at ({-x_spacing}, {start_y}) {{}};")
@@ -225,17 +236,6 @@ def make_tikz_petri(dataset_key, scale=1.0):
             lines.append(f"  \\draw[post, -stealth] (t_{dataset_key}_{src_idx}.east) -- ({pn});")
             lines.append(f"  \\draw[post, -stealth] ({pn}) -- (t_{dataset_key}_{dst_idx}.west);")
 
-    # Draw transitions (activities)
-    for act in activities:
-        if act in coords:
-            x, y = coords[act]
-            idx = activities.index(act)
-            label = label_map.get(act, act[:12])
-            is_start = act in starts
-            is_end = act in ends
-            fill_color = "startcolor" if is_start else "endcolor" if is_end else "transitioncolor"
-            lines.append(f"  \\node[transition, fill={fill_color}] (t_{dataset_key}_{idx}) at ({x}, {y}) {{\\tiny {label}}};")
-
     return "\n".join(lines)
 
 
@@ -250,11 +250,11 @@ combined_tikz = r"""
     place/.style={circle, draw=black, fill=white,
         minimum size=0.28cm, inner sep=0pt, line width=0.4pt},
     post/.style={line width=0.35pt, draw=black!60},
-    startcolor=green!25,
-    endcolor=red!20,
-    transitioncolor=white,
     scale=0.85,
 ]
+\colorlet{startcolor}{green!25}
+\colorlet{endcolor}{red!20}
+\colorlet{transitioncolor}{white}
 """
 
 ds_short = {
@@ -316,10 +316,10 @@ for dk in DATASET_ORDER:
         "    place/.style={circle, draw=black, fill=white,\n"
         "        minimum size=0.28cm, inner sep=0pt, line width=0.4pt},\n"
         "    post/.style={line width=0.35pt, draw=black!60},\n"
-        "    startcolor=green!25,\n"
-        "    endcolor=red!20,\n"
-        "    transitioncolor=white,\n"
         "]\n"
+        "\\colorlet{startcolor}{green!25}\n"
+        "\\colorlet{endcolor}{red!20}\n"
+        "\\colorlet{transitioncolor}{white}\n"
         + tikz_body + "\n"
         "\\node[font=\\footnotesize] at (current bounding box.north) {" + short_name + "};\n"
         "\\end{tikzpicture}\n"

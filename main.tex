@@ -40,6 +40,7 @@
 \newcommand{\cortext}[2]{}
 \newcommand{\sep}{, }
 \newenvironment{keywords}{\par\noindent\textbf{Keywords: }}{\par}
+\newenvironment{acknowledgments}{\section*{Acknowledgments}}{\par}
 
 % Colors
 \definecolor{deepseekblue}{RGB}{26,115,232}
@@ -55,6 +56,9 @@
 \definecolor{lightred}{RGB}{252,232,230}
 \definecolor{lightyellow}{RGB}{254,249,230}
 \definecolor{lightpurple}{RGB}{243,232,253}
+\colorlet{startcolor}{green!25}
+\colorlet{endcolor}{red!20}
+\colorlet{transitioncolor}{white}
 \definecolor{darkgreen}{RGB}{27,94,32}
 
 % Conference info
@@ -220,7 +224,7 @@ Figure~\ref{fig:architecture} presents the overall architecture of our proposed 
 \State Extract context $C \leftarrow \textsc{ExtractContext}(L, M)$ \Comment{Stage 1}
 \State $N \leftarrow \lceil \alpha \cdot |L| \rceil$ \Comment{Number of candidates}
 \State $\mathcal{C} \leftarrow \emptyset$ \Comment{Candidate trace set}
-\For{$i = 1$ \To $N$}
+\For{$i = 1$ \textbf{to} $N$}
     \State $s_i \leftarrow \textsc{GenerateTrace}(\text{DeepSeek-R1}, C)$ \Comment{Stage 2}
     \State $\mathcal{C} \leftarrow \mathcal{C} \cup \{s_i\}$
 \EndFor

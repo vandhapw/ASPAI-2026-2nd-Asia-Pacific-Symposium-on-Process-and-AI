@@ -7,11 +7,32 @@
     place/.style={circle, draw=black, fill=white,
         minimum size=0.28cm, inner sep=0pt, line width=0.4pt},
     post/.style={line width=0.35pt, draw=black!60},
-    startcolor=green!25,
-    endcolor=red!20,
-    transitioncolor=white,
 ]
+\colorlet{startcolor}{green!25}
+\colorlet{endcolor}{red!20}
+\colorlet{transitioncolor}{white}
   % Petri net for BPIC'17
+  \node[transition, fill=startcolor] (t_bpic2017_0) at (0.0, 0.0) {\tiny Create Appl};
+  \node[transition, fill=transitioncolor] (t_bpic2017_1) at (1.8, 0.0) {\tiny Submitted};
+  \node[transition, fill=transitioncolor] (t_bpic2017_2) at (3.6, -6.0) {\tiny Concept};
+  \node[transition, fill=transitioncolor] (t_bpic2017_3) at (3.6, -9.0) {\tiny Accepted};
+  \node[transition, fill=transitioncolor] (t_bpic2017_4) at (3.6, 0.0) {\tiny Create Offer};
+  \node[transition, fill=transitioncolor] (t_bpic2017_5) at (3.6, 2.0) {\tiny Sent};
+  \node[transition, fill=transitioncolor] (t_bpic2017_6) at (3.6, 3.0) {\tiny Sent (web)};
+  \node[transition, fill=transitioncolor] (t_bpic2017_7) at (3.6, 1.0) {\tiny Returned};
+  \node[transition, fill=transitioncolor] (t_bpic2017_8) at (3.6, -2.0) {\tiny O-Accept};
+  \node[transition, fill=transitioncolor] (t_bpic2017_9) at (3.6, -1.0) {\tiny O-Cancel};
+  \node[transition, fill=transitioncolor] (t_bpic2017_10) at (3.6, -7.0) {\tiny Complete};
+  \node[transition, fill=endcolor] (t_bpic2017_11) at (3.6, -4.0) {\tiny Pending};
+  \node[transition, fill=endcolor] (t_bpic2017_12) at (3.6, -8.0) {\tiny Cancelled};
+  \node[transition, fill=endcolor] (t_bpic2017_13) at (3.6, -5.0) {\tiny Denied};
+  \node[transition, fill=transitioncolor] (t_bpic2017_14) at (3.6, -3.0) {\tiny Validating};
+  \node[transition, fill=transitioncolor] (t_bpic2017_15) at (3.6, 4.0) {\tiny Call Offers};
+  \node[transition, fill=transitioncolor] (t_bpic2017_16) at (3.6, 5.0) {\tiny Compl.Appl};
+  \node[transition, fill=transitioncolor] (t_bpic2017_17) at (3.6, 6.0) {\tiny Handle Lead};
+  \node[transition, fill=transitioncolor] (t_bpic2017_18) at (3.6, 7.0) {\tiny Loan Coll.};
+  \node[transition, fill=transitioncolor] (t_bpic2017_19) at (3.6, 8.0) {\tiny Short Compl.};
+  \node[transition, fill=transitioncolor] (t_bpic2017_20) at (3.6, 9.0) {\tiny Valid.Appl};
   \node[place, label=above:{\tiny $i$}] (p_start_bpic2017) at (-1.8, 0.0) {};
   \draw[post, stealth-] (t_bpic2017_0.west) -- node[above, font=\tiny] {} (p_start_bpic2017);
   \node[place, label=below:{\tiny $o$}] (p_end_bpic2017) at (5.4, -5.666666666666667) {};
@@ -93,27 +114,6 @@
   \node[place] (p_bpic2017_24) at (3.6, 0.5) {};
   \draw[post, -stealth] (t_bpic2017_19.east) -- (p_bpic2017_24);
   \draw[post, -stealth] (p_bpic2017_24) -- (t_bpic2017_10.west);
-  \node[transition, fill=startcolor] (t_bpic2017_0) at (0.0, 0.0) {\tiny Create Appl};
-  \node[transition, fill=transitioncolor] (t_bpic2017_1) at (1.8, 0.0) {\tiny Submitted};
-  \node[transition, fill=transitioncolor] (t_bpic2017_2) at (3.6, -6.0) {\tiny Concept};
-  \node[transition, fill=transitioncolor] (t_bpic2017_3) at (3.6, -9.0) {\tiny Accepted};
-  \node[transition, fill=transitioncolor] (t_bpic2017_4) at (3.6, 0.0) {\tiny Create Offer};
-  \node[transition, fill=transitioncolor] (t_bpic2017_5) at (3.6, 2.0) {\tiny Sent};
-  \node[transition, fill=transitioncolor] (t_bpic2017_6) at (3.6, 3.0) {\tiny Sent (web)};
-  \node[transition, fill=transitioncolor] (t_bpic2017_7) at (3.6, 1.0) {\tiny Returned};
-  \node[transition, fill=transitioncolor] (t_bpic2017_8) at (3.6, -2.0) {\tiny O-Accept};
-  \node[transition, fill=transitioncolor] (t_bpic2017_9) at (3.6, -1.0) {\tiny O-Cancel};
-  \node[transition, fill=transitioncolor] (t_bpic2017_10) at (3.6, -7.0) {\tiny Complete};
-  \node[transition, fill=endcolor] (t_bpic2017_11) at (3.6, -4.0) {\tiny Pending};
-  \node[transition, fill=endcolor] (t_bpic2017_12) at (3.6, -8.0) {\tiny Cancelled};
-  \node[transition, fill=endcolor] (t_bpic2017_13) at (3.6, -5.0) {\tiny Denied};
-  \node[transition, fill=transitioncolor] (t_bpic2017_14) at (3.6, -3.0) {\tiny Validating};
-  \node[transition, fill=transitioncolor] (t_bpic2017_15) at (3.6, 4.0) {\tiny Call Offers};
-  \node[transition, fill=transitioncolor] (t_bpic2017_16) at (3.6, 5.0) {\tiny Compl.Appl};
-  \node[transition, fill=transitioncolor] (t_bpic2017_17) at (3.6, 6.0) {\tiny Handle Lead};
-  \node[transition, fill=transitioncolor] (t_bpic2017_18) at (3.6, 7.0) {\tiny Loan Coll.};
-  \node[transition, fill=transitioncolor] (t_bpic2017_19) at (3.6, 8.0) {\tiny Short Compl.};
-  \node[transition, fill=transitioncolor] (t_bpic2017_20) at (3.6, 9.0) {\tiny Valid.Appl};
 \node[font=\footnotesize] at (current bounding box.north) {BPIC'17};
 \end{tikzpicture}
 \caption{Petri net representation of the BPIC'17 event log (59148 cases, 21 activities, 21500 variants).}

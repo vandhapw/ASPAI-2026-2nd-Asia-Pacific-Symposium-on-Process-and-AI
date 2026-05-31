@@ -7,11 +7,27 @@
     place/.style={circle, draw=black, fill=white,
         minimum size=0.28cm, inner sep=0pt, line width=0.4pt},
     post/.style={line width=0.35pt, draw=black!60},
-    startcolor=green!25,
-    endcolor=red!20,
-    transitioncolor=white,
 ]
+\colorlet{startcolor}{green!25}
+\colorlet{endcolor}{red!20}
+\colorlet{transitioncolor}{white}
   % Petri net for Sepsis
+  \node[transition, fill=startcolor] (t_sepsis_0) at (0.0, 0.0) {\tiny Reg.};
+  \node[transition, fill=transitioncolor] (t_sepsis_1) at (1.8, -3.0) {\tiny Triage};
+  \node[transition, fill=transitioncolor] (t_sepsis_2) at (1.8, -4.0) {\tiny Seps.Triage};
+  \node[transition, fill=transitioncolor] (t_sepsis_3) at (1.8, -1.0) {\tiny IV Liq.};
+  \node[transition, fill=transitioncolor] (t_sepsis_4) at (1.8, -2.0) {\tiny IV Abx.};
+  \node[transition, fill=transitioncolor] (t_sepsis_5) at (1.8, -6.0) {\tiny Adm.NC};
+  \node[transition, fill=transitioncolor] (t_sepsis_6) at (1.8, -7.0) {\tiny Adm.IC};
+  \node[transition, fill=transitioncolor] (t_sepsis_7) at (1.8, -5.0) {\tiny CRP};
+  \node[transition, fill=transitioncolor] (t_sepsis_8) at (1.8, 0.0) {\tiny Lac.Acid};
+  \node[transition, fill=transitioncolor] (t_sepsis_9) at (1.8, 1.0) {\tiny Leuc.};
+  \node[transition, fill=endcolor] (t_sepsis_10) at (1.8, 2.0) {\tiny Rel.A};
+  \node[transition, fill=endcolor] (t_sepsis_11) at (1.8, 3.0) {\tiny Rel.B};
+  \node[transition, fill=endcolor] (t_sepsis_12) at (1.8, 4.0) {\tiny Rel.C};
+  \node[transition, fill=endcolor] (t_sepsis_13) at (1.8, 5.0) {\tiny Rel.D};
+  \node[transition, fill=endcolor] (t_sepsis_14) at (1.8, 6.0) {\tiny Rel.E};
+  \node[transition, fill=transitioncolor] (t_sepsis_15) at (1.8, 7.0) {\tiny Ret.ER};
   \node[place, label=above:{\tiny $i$}] (p_start_sepsis) at (-1.8, 0.0) {};
   \draw[post, stealth-] (t_sepsis_0.west) -- node[above, font=\tiny] {} (p_start_sepsis);
   \node[place, label=below:{\tiny $o$}] (p_end_sepsis) at (3.6, 4.0) {};
@@ -83,22 +99,6 @@
   \node[place] (p_sepsis_20) at (1.8, 2.0) {};
   \draw[post, -stealth] (t_sepsis_15.east) -- (p_sepsis_20);
   \draw[post, -stealth] (p_sepsis_20) -- (t_sepsis_1.west);
-  \node[transition, fill=startcolor] (t_sepsis_0) at (0.0, 0.0) {\tiny Reg.};
-  \node[transition, fill=transitioncolor] (t_sepsis_1) at (1.8, -3.0) {\tiny Triage};
-  \node[transition, fill=transitioncolor] (t_sepsis_2) at (1.8, -4.0) {\tiny Seps.Triage};
-  \node[transition, fill=transitioncolor] (t_sepsis_3) at (1.8, -1.0) {\tiny IV Liq.};
-  \node[transition, fill=transitioncolor] (t_sepsis_4) at (1.8, -2.0) {\tiny IV Abx.};
-  \node[transition, fill=transitioncolor] (t_sepsis_5) at (1.8, -6.0) {\tiny Adm.NC};
-  \node[transition, fill=transitioncolor] (t_sepsis_6) at (1.8, -7.0) {\tiny Adm.IC};
-  \node[transition, fill=transitioncolor] (t_sepsis_7) at (1.8, -5.0) {\tiny CRP};
-  \node[transition, fill=transitioncolor] (t_sepsis_8) at (1.8, 0.0) {\tiny Lac.Acid};
-  \node[transition, fill=transitioncolor] (t_sepsis_9) at (1.8, 1.0) {\tiny Leuc.};
-  \node[transition, fill=endcolor] (t_sepsis_10) at (1.8, 2.0) {\tiny Rel.A};
-  \node[transition, fill=endcolor] (t_sepsis_11) at (1.8, 3.0) {\tiny Rel.B};
-  \node[transition, fill=endcolor] (t_sepsis_12) at (1.8, 4.0) {\tiny Rel.C};
-  \node[transition, fill=endcolor] (t_sepsis_13) at (1.8, 5.0) {\tiny Rel.D};
-  \node[transition, fill=endcolor] (t_sepsis_14) at (1.8, 6.0) {\tiny Rel.E};
-  \node[transition, fill=transitioncolor] (t_sepsis_15) at (1.8, 7.0) {\tiny Ret.ER};
 \node[font=\footnotesize] at (current bounding box.north) {Sepsis};
 \end{tikzpicture}
 \caption{Petri net representation of the Sepsis event log (1050 cases, 16 activities, 830 variants).}

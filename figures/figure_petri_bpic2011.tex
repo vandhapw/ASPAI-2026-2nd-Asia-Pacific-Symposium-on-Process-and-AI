@@ -7,11 +7,18 @@
     place/.style={circle, draw=black, fill=white,
         minimum size=0.28cm, inner sep=0pt, line width=0.4pt},
     post/.style={line width=0.35pt, draw=black!60},
-    startcolor=green!25,
-    endcolor=red!20,
-    transitioncolor=white,
 ]
+\colorlet{startcolor}{green!25}
+\colorlet{endcolor}{red!20}
+\colorlet{transitioncolor}{white}
   % Petri net for BPIC'11
+  \node[transition, fill=startcolor] (t_bpic2011_0) at (0.0, 0.0) {\tiny CEBA Submit};
+  \node[transition, fill=transitioncolor] (t_bpic2011_1) at (1.8, -0.5) {\tiny CEBA Approve};
+  \node[transition, fill=endcolor] (t_bpic2011_2) at (1.8, 0.5) {\tiny CEBA Reject};
+  \node[transition, fill=transitioncolor] (t_bpic2011_3) at (5.4, 0.0) {\tiny Concept Mod.};
+  \node[transition, fill=transitioncolor] (t_bpic2011_4) at (7.2, 0.0) {\tiny Dec.Submit};
+  \node[transition, fill=endcolor] (t_bpic2011_5) at (9.0, 0.0) {\tiny Dec.Final};
+  \node[transition, fill=transitioncolor] (t_bpic2011_6) at (3.6, 0.0) {\tiny Other};
   \node[place, label=above:{\tiny $i$}] (p_start_bpic2011) at (-1.8, 0.0) {};
   \draw[post, stealth-] (t_bpic2011_0.west) -- node[above, font=\tiny] {} (p_start_bpic2011);
   \node[place, label=below:{\tiny $o$}] (p_end_bpic2011) at (10.8, 0.25) {};
@@ -44,13 +51,6 @@
   \node[place] (p_bpic2011_8) at (4.5, 0.0) {};
   \draw[post, -stealth] (t_bpic2011_5.east) -- (p_bpic2011_8);
   \draw[post, -stealth] (p_bpic2011_8) -- (t_bpic2011_0.west);
-  \node[transition, fill=startcolor] (t_bpic2011_0) at (0.0, 0.0) {\tiny CEBA Submit};
-  \node[transition, fill=transitioncolor] (t_bpic2011_1) at (1.8, -0.5) {\tiny CEBA Approve};
-  \node[transition, fill=endcolor] (t_bpic2011_2) at (1.8, 0.5) {\tiny CEBA Reject};
-  \node[transition, fill=transitioncolor] (t_bpic2011_3) at (5.4, 0.0) {\tiny Concept Mod.};
-  \node[transition, fill=transitioncolor] (t_bpic2011_4) at (7.2, 0.0) {\tiny Dec.Submit};
-  \node[transition, fill=endcolor] (t_bpic2011_5) at (9.0, 0.0) {\tiny Dec.Final};
-  \node[transition, fill=transitioncolor] (t_bpic2011_6) at (3.6, 0.0) {\tiny Other};
 \node[font=\footnotesize] at (current bounding box.north) {BPIC'11};
 \end{tikzpicture}
 \caption{Petri net representation of the BPIC'11 event log (1187 cases, 7 activities, 423 variants).}
