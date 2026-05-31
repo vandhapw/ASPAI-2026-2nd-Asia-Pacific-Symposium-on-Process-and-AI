@@ -217,23 +217,23 @@ Figure~\ref{fig:architecture} presents the overall architecture of our proposed 
 \begin{algorithmic}[1]
 \Require Event log $L$, process model $M$, augmentation factor $\alpha$
 \Ensure Augmented log $L' = L \cup S$
-\STATE Extract context $C \leftarrow \textsc{ExtractContext}(L, M)$ \COMMENT{Stage 1}
-\STATE $N \leftarrow \lceil \alpha \cdot |L| \rceil$ \COMMENT{Number of candidates}
-\STATE $\mathcal{C} \leftarrow \emptyset$ \COMMENT{Candidate trace set}
-\FOR{$i = 1$ \TO $N$}
-    \STATE $s_i \leftarrow \textsc{GenerateTrace}(\text{DeepSeek-R1}, C)$ \COMMENT{Stage 2}
-    \STATE $\mathcal{C} \leftarrow \mathcal{C} \cup \{s_i\}$
-\ENDFOR
-\STATE $S \leftarrow \emptyset$ \COMMENT{Verified trace set}
-\FOR{each $s \in \mathcal{C}$}
-    \STATE $v_1 \leftarrow \textsc{VerifyStructural}(\text{GLM-4}, s, M)$ \COMMENT{Stage 3}
-    \STATE $v_2 \leftarrow \textsc{VerifyTemporal}(\text{Kimi-K2}, s, M)$
-    \STATE $v_3 \leftarrow \textsc{ConformanceCheck}(s, M)$
-    \IF{$\sum_{j=1}^{3} v_j \geq 2$} \COMMENT{2-of-3 consensus}
-        \STATE $S \leftarrow S \cup \{s\}$
-    \ENDIF
-\ENDFOR
-\RETURN $L' = L \cup S$
+\State Extract context $C \leftarrow \textsc{ExtractContext}(L, M)$ \Comment{Stage 1}
+\State $N \leftarrow \lceil \alpha \cdot |L| \rceil$ \Comment{Number of candidates}
+\State $\mathcal{C} \leftarrow \emptyset$ \Comment{Candidate trace set}
+\For{$i = 1$ \To $N$}
+    \State $s_i \leftarrow \textsc{GenerateTrace}(\text{DeepSeek-R1}, C)$ \Comment{Stage 2}
+    \State $\mathcal{C} \leftarrow \mathcal{C} \cup \{s_i\}$
+\EndFor
+\State $S \leftarrow \emptyset$ \Comment{Verified trace set}
+\For{each $s \in \mathcal{C}$}
+    \State $v_1 \leftarrow \textsc{VerifyStructural}(\text{GLM-4}, s, M)$ \Comment{Stage 3}
+    \State $v_2 \leftarrow \textsc{VerifyTemporal}(\text{Kimi-K2}, s, M)$
+    \State $v_3 \leftarrow \textsc{ConformanceCheck}(s, M)$
+    \If{$\sum_{j=1}^{3} v_j \geq 2$} \Comment{2-of-3 consensus}
+        \State $S \leftarrow S \cup \{s\}$
+    \EndIf
+\EndFor
+\Return $L' = L \cup S$
 \end{algorithmic}
 \end{algorithm}
 
