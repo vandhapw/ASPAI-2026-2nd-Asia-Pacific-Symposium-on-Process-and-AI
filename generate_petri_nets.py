@@ -166,8 +166,8 @@ def make_tikz_petri(dataset_key, scale=1.0):
     max_layer_len = max(len(l) for l in layers) if layers else 1
     n_layers = len(layers)
 
-    x_spacing = 1.8 * scale
-    y_spacing = 1.0 * scale
+    x_spacing = 1.5 * scale
+    y_spacing = 0.75 * scale
     total_width = n_layers * x_spacing
 
     lines = []
@@ -245,15 +245,15 @@ combined_tikz = r"""
 \centering
 \begin{tikzpicture}[
     transition/.style={rectangle, rounded corners=2pt, draw=black, fill=white,
-        minimum width=1.2cm, minimum height=0.55cm, align=center, font=\tiny,
-        inner sep=1pt, line width=0.4pt},
-    place/.style={circle, draw=black, fill=white,
-        minimum size=0.28cm, inner sep=0pt, line width=0.4pt},
-    post/.style={line width=0.35pt, draw=black!60},
-    scale=0.85,
+        minimum width=1.1cm, minimum height=0.5cm, align=center, font=\tiny,
+        inner sep=1pt, line width=0.45pt},
+    place/.style={circle, draw=black, fill=black!8,
+        minimum size=0.24cm, inner sep=0pt, line width=0.4pt},
+    post/.style={line width=0.45pt, draw=black!50},
+    separator/.style={draw=black!20, line width=0.3pt},
 ]
-\colorlet{startcolor}{green!25}
-\colorlet{endcolor}{red!20}
+\colorlet{startcolor}{green!30}
+\colorlet{endcolor}{red!25}
 \colorlet{transitioncolor}{white}
 """
 
@@ -264,11 +264,10 @@ ds_short = {
 }
 
 # Layout positions for 6 sub-petri-nets in 3x2 grid
-# Each Petri net is drawn in its own scope with a shift
 grid_cols = 3
 grid_rows = 2
-cell_width = 7.0
-cell_height = 4.5
+cell_width = 5.0
+cell_height = 3.2
 
 for idx, dk in enumerate(DATASET_ORDER):
     col = idx % grid_cols
@@ -311,14 +310,14 @@ for dk in DATASET_ORDER:
         "\\centering\n"
         "\\begin{tikzpicture}[\n"
         "    transition/.style={rectangle, rounded corners=2pt, draw=black, fill=white,\n"
-        "        minimum width=1.2cm, minimum height=0.55cm, align=center, font=\\tiny,\n"
-        "        inner sep=1pt, line width=0.4pt},\n"
-        "    place/.style={circle, draw=black, fill=white,\n"
-        "        minimum size=0.28cm, inner sep=0pt, line width=0.4pt},\n"
-        "    post/.style={line width=0.35pt, draw=black!60},\n"
+        "        minimum width=1.1cm, minimum height=0.5cm, align=center, font=\\tiny,\n"
+        "        inner sep=1pt, line width=0.45pt},\n"
+        "    place/.style={circle, draw=black, fill=black!8,\n"
+        "        minimum size=0.24cm, inner sep=0pt, line width=0.4pt},\n"
+        "    post/.style={line width=0.45pt, draw=black!50},\n"
         "]\n"
-        "\\colorlet{startcolor}{green!25}\n"
-        "\\colorlet{endcolor}{red!20}\n"
+        "\\colorlet{startcolor}{green!30}\n"
+        "\\colorlet{endcolor}{red!25}\n"
         "\\colorlet{transitioncolor}{white}\n"
         + tikz_body + "\n"
         "\\node[font=\\footnotesize] at (current bounding box.north) {" + short_name + "};\n"

@@ -2,145 +2,145 @@
 \centering
 \begin{tikzpicture}[
     transition/.style={rectangle, rounded corners=2pt, draw=black, fill=white,
-        minimum width=1.2cm, minimum height=0.55cm, align=center, font=\tiny,
-        inner sep=1pt, line width=0.4pt},
-    place/.style={circle, draw=black, fill=white,
-        minimum size=0.28cm, inner sep=0pt, line width=0.4pt},
-    post/.style={line width=0.35pt, draw=black!60},
+        minimum width=1.1cm, minimum height=0.5cm, align=center, font=\tiny,
+        inner sep=1pt, line width=0.45pt},
+    place/.style={circle, draw=black, fill=black!8,
+        minimum size=0.24cm, inner sep=0pt, line width=0.4pt},
+    post/.style={line width=0.45pt, draw=black!50},
 ]
-\colorlet{startcolor}{green!25}
-\colorlet{endcolor}{red!20}
+\colorlet{startcolor}{green!30}
+\colorlet{endcolor}{red!25}
 \colorlet{transitioncolor}{white}
   % Petri net for BPIC'20
   \node[transition, fill=startcolor] (t_bpic2020_0) at (0.0, 0.0) {\tiny Req.submitted};
-  \node[transition, fill=transitioncolor] (t_bpic2020_1) at (1.8, 0.0) {\tiny Req.received};
-  \node[transition, fill=transitioncolor] (t_bpic2020_2) at (3.6, 12.0) {\tiny Req.reviewed};
-  \node[transition, fill=transitioncolor] (t_bpic2020_3) at (3.6, 5.0) {\tiny Perm.approved};
-  \node[transition, fill=transitioncolor] (t_bpic2020_4) at (3.6, 6.0) {\tiny Perm.rejected};
-  \node[transition, fill=transitioncolor] (t_bpic2020_5) at (3.6, 11.0) {\tiny Req.forwarded};
-  \node[transition, fill=transitioncolor] (t_bpic2020_6) at (3.6, -12.0) {\tiny Add.Info Req.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_7) at (3.6, -2.0) {\tiny Info Prov.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_8) at (3.6, -7.0) {\tiny Decision};
-  \node[transition, fill=endcolor] (t_bpic2020_9) at (3.6, 10.0) {\tiny Req.closed};
-  \node[transition, fill=endcolor] (t_bpic2020_10) at (3.6, 9.0) {\tiny Req.cancelled};
-  \node[transition, fill=transitioncolor] (t_bpic2020_11) at (3.6, 4.0) {\tiny Pay handled};
-  \node[transition, fill=transitioncolor] (t_bpic2020_12) at (3.6, 0.0) {\tiny Insp.Sched.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_13) at (3.6, -1.0) {\tiny Insp.Comp.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_14) at (3.6, 8.0) {\tiny Report Gen.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_15) at (3.6, -8.0) {\tiny Consult};
-  \node[transition, fill=transitioncolor] (t_bpic2020_16) at (3.6, -9.0) {\tiny Appr.Req.};
-  \node[transition, fill=transitioncolor] (t_bpic2020_17) at (3.6, -10.0) {\tiny Appr.Grant};
-  \node[transition, fill=transitioncolor] (t_bpic2020_18) at (3.6, -11.0) {\tiny Appr.Deny};
-  \node[transition, fill=transitioncolor] (t_bpic2020_19) at (3.6, -5.0) {\tiny Doc.Upload};
-  \node[transition, fill=transitioncolor] (t_bpic2020_20) at (3.6, -4.0) {\tiny Doc.Verify};
-  \node[transition, fill=transitioncolor] (t_bpic2020_21) at (3.6, -6.0) {\tiny Doc.Reject};
-  \node[transition, fill=transitioncolor] (t_bpic2020_22) at (3.6, 1.0) {\tiny Notif.Sent};
-  \node[transition, fill=transitioncolor] (t_bpic2020_23) at (3.6, 7.0) {\tiny Remind.Sent};
-  \node[transition, fill=transitioncolor] (t_bpic2020_24) at (3.6, -3.0) {\tiny Fine Issued};
-  \node[transition, fill=transitioncolor] (t_bpic2020_25) at (3.6, 3.0) {\tiny Obj.Submit};
-  \node[transition, fill=transitioncolor] (t_bpic2020_26) at (3.6, 2.0) {\tiny Obj.Review};
-  \node[place, label=above:{\tiny $i$}] (p_start_bpic2020) at (-1.8, 0.0) {};
+  \node[transition, fill=transitioncolor] (t_bpic2020_1) at (1.5, 0.0) {\tiny Req.received};
+  \node[transition, fill=transitioncolor] (t_bpic2020_2) at (3.0, 9.0) {\tiny Req.reviewed};
+  \node[transition, fill=transitioncolor] (t_bpic2020_3) at (3.0, 3.75) {\tiny Perm.approved};
+  \node[transition, fill=transitioncolor] (t_bpic2020_4) at (3.0, 4.5) {\tiny Perm.rejected};
+  \node[transition, fill=transitioncolor] (t_bpic2020_5) at (3.0, 8.25) {\tiny Req.forwarded};
+  \node[transition, fill=transitioncolor] (t_bpic2020_6) at (3.0, -9.0) {\tiny Add.Info Req.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_7) at (3.0, -1.5) {\tiny Info Prov.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_8) at (3.0, -5.25) {\tiny Decision};
+  \node[transition, fill=endcolor] (t_bpic2020_9) at (3.0, 7.5) {\tiny Req.closed};
+  \node[transition, fill=endcolor] (t_bpic2020_10) at (3.0, 6.75) {\tiny Req.cancelled};
+  \node[transition, fill=transitioncolor] (t_bpic2020_11) at (3.0, 3.0) {\tiny Pay handled};
+  \node[transition, fill=transitioncolor] (t_bpic2020_12) at (3.0, 0.0) {\tiny Insp.Sched.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_13) at (3.0, -0.75) {\tiny Insp.Comp.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_14) at (3.0, 6.0) {\tiny Report Gen.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_15) at (3.0, -6.0) {\tiny Consult};
+  \node[transition, fill=transitioncolor] (t_bpic2020_16) at (3.0, -6.75) {\tiny Appr.Req.};
+  \node[transition, fill=transitioncolor] (t_bpic2020_17) at (3.0, -7.5) {\tiny Appr.Grant};
+  \node[transition, fill=transitioncolor] (t_bpic2020_18) at (3.0, -8.25) {\tiny Appr.Deny};
+  \node[transition, fill=transitioncolor] (t_bpic2020_19) at (3.0, -3.75) {\tiny Doc.Upload};
+  \node[transition, fill=transitioncolor] (t_bpic2020_20) at (3.0, -3.0) {\tiny Doc.Verify};
+  \node[transition, fill=transitioncolor] (t_bpic2020_21) at (3.0, -4.5) {\tiny Doc.Reject};
+  \node[transition, fill=transitioncolor] (t_bpic2020_22) at (3.0, 0.75) {\tiny Notif.Sent};
+  \node[transition, fill=transitioncolor] (t_bpic2020_23) at (3.0, 5.25) {\tiny Remind.Sent};
+  \node[transition, fill=transitioncolor] (t_bpic2020_24) at (3.0, -2.25) {\tiny Fine Issued};
+  \node[transition, fill=transitioncolor] (t_bpic2020_25) at (3.0, 2.25) {\tiny Obj.Submit};
+  \node[transition, fill=transitioncolor] (t_bpic2020_26) at (3.0, 1.5) {\tiny Obj.Review};
+  \node[place, label=above:{\tiny $i$}] (p_start_bpic2020) at (-1.5, 0.0) {};
   \draw[post, stealth-] (t_bpic2020_0.west) -- node[above, font=\tiny] {} (p_start_bpic2020);
-  \node[place, label=below:{\tiny $o$}] (p_end_bpic2020) at (5.4, 9.5) {};
+  \node[place, label=below:{\tiny $o$}] (p_end_bpic2020) at (4.5, 7.125) {};
   \draw[post, -stealth] (t_bpic2020_9.east) -- (p_end_bpic2020);
   \draw[post, -stealth] (t_bpic2020_10.east) -- (p_end_bpic2020);
-  \node[place] (p_bpic2020_0) at (0.9, 0.0) {};
+  \node[place] (p_bpic2020_0) at (0.75, 0.0) {};
   \draw[post, -stealth] (t_bpic2020_0.east) -- (p_bpic2020_0);
   \draw[post, -stealth] (p_bpic2020_0) -- (t_bpic2020_1.west);
-  \node[place] (p_bpic2020_1) at (2.7, 6.0) {};
+  \node[place] (p_bpic2020_1) at (2.25, 4.5) {};
   \draw[post, -stealth] (t_bpic2020_1.east) -- (p_bpic2020_1);
   \draw[post, -stealth] (p_bpic2020_1) -- (t_bpic2020_2.west);
-  \node[place] (p_bpic2020_2) at (3.6, 11.5) {};
+  \node[place] (p_bpic2020_2) at (3.0, 8.625) {};
   \draw[post, -stealth] (t_bpic2020_2.east) -- (p_bpic2020_2);
   \draw[post, -stealth] (p_bpic2020_2) -- (t_bpic2020_5.west);
-  \node[place] (p_bpic2020_3) at (3.6, 0.0) {};
+  \node[place] (p_bpic2020_3) at (3.0, 0.0) {};
   \draw[post, -stealth] (t_bpic2020_2.east) -- (p_bpic2020_3);
   \draw[post, -stealth] (p_bpic2020_3) -- (t_bpic2020_6.west);
-  \node[place] (p_bpic2020_4) at (3.6, 10.5) {};
+  \node[place] (p_bpic2020_4) at (3.0, 7.875) {};
   \draw[post, -stealth] (t_bpic2020_2.east) -- (p_bpic2020_4);
   \draw[post, -stealth] (p_bpic2020_4) -- (t_bpic2020_10.west);
-  \node[place] (p_bpic2020_5) at (3.6, 8.0) {};
+  \node[place] (p_bpic2020_5) at (3.0, 6.0) {};
   \draw[post, -stealth] (t_bpic2020_5.east) -- (p_bpic2020_5);
   \draw[post, -stealth] (p_bpic2020_5) -- (t_bpic2020_3.west);
-  \node[place] (p_bpic2020_6) at (3.6, 8.5) {};
+  \node[place] (p_bpic2020_6) at (3.0, 6.375) {};
   \draw[post, -stealth] (t_bpic2020_5.east) -- (p_bpic2020_6);
   \draw[post, -stealth] (p_bpic2020_6) -- (t_bpic2020_4.west);
-  \node[place] (p_bpic2020_7) at (3.6, 1.5) {};
+  \node[place] (p_bpic2020_7) at (3.0, 1.125) {};
   \draw[post, -stealth] (t_bpic2020_5.east) -- (p_bpic2020_7);
   \draw[post, -stealth] (p_bpic2020_7) -- (t_bpic2020_15.west);
-  \node[place] (p_bpic2020_8) at (3.6, -7.0) {};
+  \node[place] (p_bpic2020_8) at (3.0, -5.25) {};
   \draw[post, -stealth] (t_bpic2020_6.east) -- (p_bpic2020_8);
   \draw[post, -stealth] (p_bpic2020_8) -- (t_bpic2020_7.west);
-  \node[place] (p_bpic2020_9) at (3.6, 5.0) {};
+  \node[place] (p_bpic2020_9) at (3.0, 3.75) {};
   \draw[post, -stealth] (t_bpic2020_7.east) -- (p_bpic2020_9);
   \draw[post, -stealth] (p_bpic2020_9) -- (t_bpic2020_2.west);
-  \node[place] (p_bpic2020_10) at (3.6, -1.0) {};
+  \node[place] (p_bpic2020_10) at (3.0, -0.75) {};
   \draw[post, -stealth] (t_bpic2020_3.east) -- (p_bpic2020_10);
   \draw[post, -stealth] (p_bpic2020_10) -- (t_bpic2020_8.west);
-  \node[place] (p_bpic2020_11) at (3.6, 7.5) {};
+  \node[place] (p_bpic2020_11) at (3.0, 5.625) {};
   \draw[post, -stealth] (t_bpic2020_4.east) -- (p_bpic2020_11);
   \draw[post, -stealth] (p_bpic2020_11) -- (t_bpic2020_10.west);
-  \node[place] (p_bpic2020_12) at (3.6, -8.5) {};
+  \node[place] (p_bpic2020_12) at (3.0, -6.375) {};
   \draw[post, -stealth] (t_bpic2020_15.east) -- (p_bpic2020_12);
   \draw[post, -stealth] (p_bpic2020_12) -- (t_bpic2020_16.west);
-  \node[place] (p_bpic2020_13) at (3.6, -9.5) {};
+  \node[place] (p_bpic2020_13) at (3.0, -7.125) {};
   \draw[post, -stealth] (t_bpic2020_16.east) -- (p_bpic2020_13);
   \draw[post, -stealth] (p_bpic2020_13) -- (t_bpic2020_17.west);
-  \node[place] (p_bpic2020_14) at (3.6, -10.0) {};
+  \node[place] (p_bpic2020_14) at (3.0, -7.5) {};
   \draw[post, -stealth] (t_bpic2020_16.east) -- (p_bpic2020_14);
   \draw[post, -stealth] (p_bpic2020_14) -- (t_bpic2020_18.west);
-  \node[place] (p_bpic2020_15) at (3.6, -2.5) {};
+  \node[place] (p_bpic2020_15) at (3.0, -1.875) {};
   \draw[post, -stealth] (t_bpic2020_17.east) -- (p_bpic2020_15);
   \draw[post, -stealth] (p_bpic2020_15) -- (t_bpic2020_3.west);
-  \node[place] (p_bpic2020_16) at (3.6, -1.0) {};
+  \node[place] (p_bpic2020_16) at (3.0, -0.75) {};
   \draw[post, -stealth] (t_bpic2020_18.east) -- (p_bpic2020_16);
   \draw[post, -stealth] (p_bpic2020_16) -- (t_bpic2020_10.west);
-  \node[place] (p_bpic2020_17) at (3.6, 1.5) {};
+  \node[place] (p_bpic2020_17) at (3.0, 1.125) {};
   \draw[post, -stealth] (t_bpic2020_8.east) -- (p_bpic2020_17);
   \draw[post, -stealth] (p_bpic2020_17) -- (t_bpic2020_9.west);
-  \node[place] (p_bpic2020_18) at (3.6, -1.5) {};
+  \node[place] (p_bpic2020_18) at (3.0, -1.125) {};
   \draw[post, -stealth] (t_bpic2020_8.east) -- (p_bpic2020_18);
   \draw[post, -stealth] (p_bpic2020_18) -- (t_bpic2020_11.west);
-  \node[place] (p_bpic2020_19) at (3.6, 7.0) {};
+  \node[place] (p_bpic2020_19) at (3.0, 5.25) {};
   \draw[post, -stealth] (t_bpic2020_11.east) -- (p_bpic2020_19);
   \draw[post, -stealth] (p_bpic2020_19) -- (t_bpic2020_9.west);
-  \node[place] (p_bpic2020_20) at (3.6, 2.5) {};
+  \node[place] (p_bpic2020_20) at (3.0, 1.875) {};
   \draw[post, -stealth] (t_bpic2020_3.east) -- (p_bpic2020_20);
   \draw[post, -stealth] (p_bpic2020_20) -- (t_bpic2020_12.west);
-  \node[place] (p_bpic2020_21) at (3.6, -0.5) {};
+  \node[place] (p_bpic2020_21) at (3.0, -0.375) {};
   \draw[post, -stealth] (t_bpic2020_12.east) -- (p_bpic2020_21);
   \draw[post, -stealth] (p_bpic2020_21) -- (t_bpic2020_13.west);
-  \node[place] (p_bpic2020_22) at (3.6, 3.5) {};
+  \node[place] (p_bpic2020_22) at (3.0, 2.625) {};
   \draw[post, -stealth] (t_bpic2020_13.east) -- (p_bpic2020_22);
   \draw[post, -stealth] (p_bpic2020_22) -- (t_bpic2020_14.west);
-  \node[place] (p_bpic2020_23) at (3.6, 0.5) {};
+  \node[place] (p_bpic2020_23) at (3.0, 0.375) {};
   \draw[post, -stealth] (t_bpic2020_14.east) -- (p_bpic2020_23);
   \draw[post, -stealth] (p_bpic2020_23) -- (t_bpic2020_8.west);
-  \node[place] (p_bpic2020_24) at (3.6, -4.5) {};
+  \node[place] (p_bpic2020_24) at (3.0, -3.375) {};
   \draw[post, -stealth] (t_bpic2020_19.east) -- (p_bpic2020_24);
   \draw[post, -stealth] (p_bpic2020_24) -- (t_bpic2020_20.west);
-  \node[place] (p_bpic2020_25) at (3.6, 4.0) {};
+  \node[place] (p_bpic2020_25) at (3.0, 3.0) {};
   \draw[post, -stealth] (t_bpic2020_20.east) -- (p_bpic2020_25);
   \draw[post, -stealth] (p_bpic2020_25) -- (t_bpic2020_2.west);
-  \node[place] (p_bpic2020_26) at (3.6, -5.5) {};
+  \node[place] (p_bpic2020_26) at (3.0, -4.125) {};
   \draw[post, -stealth] (t_bpic2020_19.east) -- (p_bpic2020_26);
   \draw[post, -stealth] (p_bpic2020_26) -- (t_bpic2020_21.west);
-  \node[place] (p_bpic2020_27) at (3.6, -9.0) {};
+  \node[place] (p_bpic2020_27) at (3.0, -6.75) {};
   \draw[post, -stealth] (t_bpic2020_21.east) -- (p_bpic2020_27);
   \draw[post, -stealth] (p_bpic2020_27) -- (t_bpic2020_6.west);
-  \node[place] (p_bpic2020_28) at (3.6, 4.0) {};
+  \node[place] (p_bpic2020_28) at (3.0, 3.0) {};
   \draw[post, -stealth] (t_bpic2020_22.east) -- (p_bpic2020_28);
   \draw[post, -stealth] (p_bpic2020_28) -- (t_bpic2020_23.west);
-  \node[place] (p_bpic2020_29) at (3.6, -2.5) {};
+  \node[place] (p_bpic2020_29) at (3.0, -1.875) {};
   \draw[post, -stealth] (t_bpic2020_23.east) -- (p_bpic2020_29);
   \draw[post, -stealth] (p_bpic2020_29) -- (t_bpic2020_6.west);
-  \node[place] (p_bpic2020_30) at (3.6, 0.0) {};
+  \node[place] (p_bpic2020_30) at (3.0, 0.0) {};
   \draw[post, -stealth] (t_bpic2020_24.east) -- (p_bpic2020_30);
   \draw[post, -stealth] (p_bpic2020_30) -- (t_bpic2020_25.west);
-  \node[place] (p_bpic2020_31) at (3.6, 2.5) {};
+  \node[place] (p_bpic2020_31) at (3.0, 1.875) {};
   \draw[post, -stealth] (t_bpic2020_25.east) -- (p_bpic2020_31);
   \draw[post, -stealth] (p_bpic2020_31) -- (t_bpic2020_26.west);
-  \node[place] (p_bpic2020_32) at (3.6, 7.0) {};
+  \node[place] (p_bpic2020_32) at (3.0, 5.25) {};
   \draw[post, -stealth] (t_bpic2020_26.east) -- (p_bpic2020_32);
   \draw[post, -stealth] (p_bpic2020_32) -- (t_bpic2020_2.west);
 \node[font=\footnotesize] at (current bounding box.north) {BPIC'20};

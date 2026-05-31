@@ -1,236 +1,179 @@
 
 \begin{figure*}[t]
 \centering
-\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
-    node distance=0.6cm and 0.8cm,
-    % Style definitions
-    stepbox/.style={rectangle, rounded corners=6pt, draw=#1, fill=#1!8, line width=1.5pt,
-        minimum width=14.5cm, minimum height=1cm, align=center},
-    subbox/.style={rectangle, rounded corners=3pt, draw=#1, fill=#1!12, line width=0.8pt,
-        minimum width=3.2cm, minimum height=1.4cm, align=center, font=\scriptsize},
-    tinybox/.style={rectangle, rounded corners=2pt, draw=#1!70!black, fill=#1!15, line width=0.6pt,
-        minimum width=2.8cm, minimum height=0.8cm, align=center, font=\tiny},
-    metricbox/.style={rectangle, rounded corners=2pt, draw=#1!70!black, fill=#1!15, line width=0.6pt,
-        minimum width=2.2cm, minimum height=0.65cm, align=center, font=\tiny\bfseries},
-    arr/.style={-{Stealth[length=5pt]}, line width=1pt, color=#1},
-    darr/.style={-{Stealth[length=5pt]}, line width=0.8pt, color=#1, dashed},
+    node distance=0.5cm and 0.6cm,
+    % Step header bars
+    stepbar/.style={rectangle, rounded corners=4pt, draw=#1!60!black, fill=#1!10,
+        minimum width=14.5cm, minimum height=0.7cm, align=center,
+        font=\footnotesize\bfseries, line width=1pt},
+    % Main process boxes
+    box/.style={rectangle, rounded corners=3pt, draw=#1!60!black, fill=#1!12,
+        minimum width=2.6cm, minimum height=0.9cm, align=center,
+        font=\scriptsize\bfseries, line width=0.8pt},
+    % Small verifier/metric boxes
+    sbox/.style={rectangle, rounded corners=2pt, draw=#1!60!black, fill=#1!15,
+        minimum width=2.2cm, minimum height=0.85cm, align=center,
+        font=\tiny, line width=0.7pt},
+    % Wide boxes
+    widebox/.style={rectangle, rounded corners=3pt, draw=#1!60!black, fill=#1!12,
+        minimum width=5.5cm, minimum height=0.9cm, align=center,
+        font=\scriptsize\bfseries, line width=0.8pt},
+    % Arrows
+    arr/.style={-{Stealth[length=4pt]}, line width=0.8pt, color=#1},
+    % Labels
+    lbl/.style={font=\tiny\itshape, text=black!60},
 ]
 
 % ============================================================
-% ORIGINAL EVENT LOGS
+% ROW 1: INPUT DATA
 % ============================================================
-\node[stepbox=deepseekblue] (logs) at (0, 0) {
-    \textbf{Original Event Logs} \quad
-    {\footnotesize Sepsis \(\cdot\) BPIC 2011 \(\cdot\) BPIC 2017 \(\cdot\) BPIC 2020 \(\cdot\) Hospital Billing \(\cdot\) Road Traffic Fines}
-};
+\node[stepbar=deepseekblue] (header1) at (0, 0) {Input: Six Public Event Logs};
 
-% ============================================================
-% STEP 1: PREPROCESSING
-% ============================================================
-\node[stepbox=glmgreen, below=0.7cm of logs] (step1) {
-    \textbf{Step 1: Preprocessing}
-};
+\node[box=deepseekblue, below=0.3cm of header1.south west, xshift=0.4cm, anchor=north west] (load)
+    {Load \& Parse\\{\tiny pm4py XES}};
+\node[box=deepseekblue, right=0.4cm of load] (discover)
+    {Discover Models\\{\tiny DFG + Petri Net}};
+\node[box=deepseekblue, right=0.4cm of discover] (extract)
+    {Extract Context\\{\tiny Alphabet + Variants}};
+\node[box=deepseekblue, right=0.4cm of extract] (split)
+    {Split Data\\{\tiny 80/20 Temporal}};
 
-\node[subbox=glmgreen, below=0.4cm of step1.south west, xshift=0.3cm, anchor=north west] (load) {
-    \textbf{Load Event}\\
-    \textbf{Logs (pm4py)}
-};
-
-\node[subbox=glmgreen, right=0.3cm of load] (discover) {
-    \textbf{Discover Process}\\
-    \textbf{Models (DFG/Petri)}
-};
-
-\node[subbox=glmgreen, right=0.3cm of discover] (extract) {
-    \textbf{Extract Frequent}\\
-    \textbf{Patterns \& Context}
-};
-
-\node[subbox=glmgreen, right=0.3cm of extract] (split) {
-    \textbf{Split}\\
-    \textbf{Train/Test Sets}
-};
-
-% Arrows inside step 1
-\draw[arr=glmgreen!70!black] (load) -- (discover);
-\draw[arr=glmgreen!70!black] (discover) -- (extract);
-\draw[arr=glmgreen!70!black] (extract) -- (split);
-
-% Arrow from logs to step1
-\draw[arr=deepseekblue!70!black] (logs.south) -- ++(0,-0.25) -| (step1.north);
+\draw[arr=deepseekblue!60] (load) -- (discover);
+\draw[arr=deepseekblue!60] (discover) -- (extract);
+\draw[arr=deepseekblue!60] (extract) -- (split);
 
 % ============================================================
-% STEP 2: AUGMENTATION APPROACHES
+% ROW 2: AUGMENTATION APPROACHES
 % ============================================================
-\node[stepbox=kimired, below=0.8cm of step1] (step2) {
-    \textbf{Step 2: Augmentation Approaches}
-};
+\node[stepbar=kimired, below=0.8cm of header1] (header2)
+    {Step 1: Augmentation Approaches};
 
-% Statistical baselines (left side)
-\node[subbox=statpurple, below=0.4cm of step2.south west, xshift=0.3cm, anchor=north west, minimum width=4cm, minimum height=2.2cm] (stat) {
-    \textbf{Statistical Baselines}\\
-    \textbf{(SiamSA-PPM)}
-};
+% Left: Statistical branch
+\node[widebox=statpurple, below=0.3cm of header2.south west, xshift=1.0cm,
+      anchor=north west, minimum height=1.5cm] (stat)
+    {Statistical Baseline\\[2pt]
+     {\tiny SiamSA-PPM: Insert / Delete / Replace}};
 
-\node[tinybox=statpurple, below=0.15cm of stat.south] (ops) {
-    Insert \(\cdot\) Delete \(\cdot\) Replace
-};
+% Right: LLM branch
+\node[widebox=deepseekblue, below=0.3cm of header2.south east, xshift=-1.0cm,
+      anchor=north east, minimum height=1.5cm] (llm)
+    {LLM-Based Generation\\[2pt]
+     {\tiny DeepSeek-R1 $\cdot$ Temperature 0.7}};
 
-\draw[arr=statpurple!70!black] (stat.south) -- (ops.north);
-
-% LLM augmentation (right side)
-\node[subbox=kimired, right=0.5cm of stat, minimum width=9.5cm, minimum height=2.2cm] (llm) {
-};
-
-% LLM sub-label
-\node[font=\scriptsize\bfseries, text=kimired!70!black] at ([yshift=-0.15cm]llm.north) {LLM-Based Augmentation};
-
-% Generator
-\node[tinybox=deepseekblue, below=0.2cm of llm.north, minimum width=3cm] (gen) {
-    \textbf{DeepSeek-R1}\\
-    {\tiny Generator}
-};
-
-% Three verifiers
-\node[tinybox=glmgreen, below=0.3cm of gen.south west, xshift=0.1cm, anchor=north west, minimum width=2.5cm] (v_glm) {
-    \textbf{GLM-4}\\
-    {\tiny Structural Verifier}
-};
-
-\node[tinybox=kimired, right=0.2cm of v_glm, minimum width=2.5cm] (v_kimi) {
-    \textbf{Kimi-K2}\\
-    {\tiny Temporal Verifier}
-};
-
-\node[tinybox=conforange, right=0.2cm of v_kimi, minimum width=2.5cm] (v_conf) {
-    \textbf{Conformance}\\
-    {\tiny Check (Petri Net)}
-};
-
-% Arrows in LLM box
-\draw[arr=deepseekblue!70!black] (gen.south) -- ++(0,-0.15) -| (v_glm.north);
-\draw[arr=deepseekblue!70!black] (gen.south) -- ++(0,-0.15) -| (v_kimi.north);
-\draw[arr=deepseekblue!70!black] (gen.south) -- ++(0,-0.15) -| (v_conf.north);
-
-% Arrow from step1 to step2
-\draw[arr=glmgreen!70!black] ([xshift=-3cm]step1.south) -- ++(0,-0.25) -| (stat.north);
-\draw[arr=glmgreen!70!black] ([xshift=3cm]step1.south) -- ++(0,-0.25) -| (llm.north);
+% Arrows from preprocessing to both branches
+\draw[arr=deepseekblue!50] (split.south) -- ++(0,-0.25) -| (stat.north);
+\draw[arr=deepseekblue!50] (split.south) -- ++(0,-0.25) -| (llm.north);
 
 % ============================================================
-% STEP 3: MULTI-LLM CONSENSUS VERIFICATION
+% ROW 3: VERIFICATION (for LLM path only)
 % ============================================================
-\node[stepbox=consensusgreen, below=1.2cm of step2] (step3) {
-    \textbf{Step 3: Multi-LLM Consensus Verification}
-};
+\node[stepbar=glmgreen, below=0.7cm of header2] (header3)
+    {Step 2: Multi-LLM Consensus Verification (2-of-3 Voting)};
 
-% Trace candidates
-\node[tinybox=deepseekblue, below=0.3cm of step3] (candidates) {
-    \textbf{LLM Trace Candidates}
-};
+% Three verifiers centered under LLM branch
+\node[sbox=glmgreen, below=0.3cm of header3.south, xshift=-3.0cm] (v1)
+    {Structural\\[-1pt]{\tiny GLM-4 ($\tau{=}0.1$)}};
+\node[sbox=kimired, right=0.3cm of v1] (v2)
+    {Temporal\\[-1pt]{\tiny Kimi-K2 ($\tau{=}0.3$)}};
+\node[sbox=conforange, right=0.3cm of v2] (v3)
+    {Conformance\\[-1pt]{\tiny Petri Net Replay}};
 
-\draw[arr=deepseekblue!70!black] (step3.south) -- (candidates.north);
+% Arrows: LLM -> verifiers
+\draw[arr=deepseekblue!60] (llm.south) -- ++(0,-0.2) -| (v1.north);
+\draw[arr=deepseekblue!60] (llm.south) -- ++(0,-0.2) -| (v2.north);
+\draw[arr=deepseekblue!60] (llm.south) -- ++(0,-0.2) -| (v3.north);
 
-% Three verifier boxes
-\node[tinybox=glmgreen, below=0.35cm of candidates.south west, xshift=0.6cm, anchor=north, minimum width=2.5cm] (v_glm2) {
-    \textbf{GLM-4}\\
-    {\tiny Structural}
-};
+% Consensus box below verifiers
+\node[box=statpurple, below=0.45cm of v2, minimum width=4.5cm] (consensus)
+    {Consensus: $\geq$ 2 of 3 Accept};
 
-\node[tinybox=kimired, right=0.3cm of v_glm2, minimum width=2.5cm] (v_kimi2) {
-    \textbf{Kimi-K2}\\
-    {\tiny Temporal}
-};
-
-\node[tinybox=conforange, right=0.3cm of v_kimi2, minimum width=2.5cm] (v_conf2) {
-    \textbf{Conformance}\\
-    {\tiny Check}
-};
-
-\draw[arr=black] (candidates.south) -- ++(0,-0.12) -| (v_glm2.north);
-\draw[arr=black] (candidates.south) -- ++(0,-0.12) -| (v_kimi2.north);
-\draw[arr=black] (candidates.south) -- ++(0,-0.12) -| (v_conf2.north);
-
-% 2-of-3 consensus
-\node[tinybox=statpurple, below=0.4cm of v_kimi2, minimum width=4.5cm, minimum height=0.9cm, font=\small\bfseries] (voting) {
-    2-of-3 Consensus (Majority Voting)
-};
-
-\draw[arr=glmgreen!70!black] (v_glm2.south) -- (voting.north -| v_glm2.south);
-\draw[arr=kimired!70!black] (v_kimi2.south) -- (voting.north);
-\draw[arr=conforange!70!black] (v_conf2.south) -- (voting.north -| v_conf2.south);
-
-% Verified traces
-\node[tinybox=consensusgreen, below=0.35cm of voting, minimum width=4.5cm, minimum height=0.9cm, font=\small\bfseries] (verified) {
-    Verified Semantic Traces
-};
-
-\draw[arr=consensusgreen!70!black] (voting.south) -- (verified.north);
-
-% Arrow from step2 to step3 (LLM path)
-\draw[arr=kimired!70!black] ([xshift=2cm]step2.south) -- ++(0,-0.3) -| (step3.north -| step3.west);
+\draw[arr=glmgreen!60]  (v1.south) -- (v1.south |- consensus.north);
+\draw[arr=kimired!60]   (v2.south) -- (consensus.north);
+\draw[arr=conforange!60] (v3.south) -- (v3.south |- consensus.north);
 
 % ============================================================
-% OUTPUT: AUGMENTED DATA + EVALUATION
+% ROW 4: OUTPUT & EVALUATION
 % ============================================================
-\node[stepbox=randorange, below=1cm of step3, minimum height=1cm] (eval) {
-    \textbf{Evaluation \& Downstream Prediction}
+\node[stepbar=darkgreen, below=0.8cm of header3] (header4)
+    {Step 3: Evaluation \& Downstream Prediction};
+
+% Three data sources
+\node[box=statpurple, below=0.35cm of header4.south west, xshift=0.6cm,
+      anchor=north west, minimum width=3.8cm] (src_stat)
+    {Statistical\\Augmented Data};
+
+\node[box=consensusgreen, below=0.35cm of header4.south, anchor=north,
+      minimum width=3.8cm] (src_llm)
+    {LLM Consensus\\Augmented Data};
+
+\node[box=origgray, below=0.35cm of header4.south east, xshift=-0.6cm,
+      anchor=north east, minimum width=3.8cm] (src_orig)
+    {Original Data\\(No Augmentation)};
+
+% Arrows to data sources
+\draw[arr=statpurple!60] (stat.south) -- ++(0,-0.2) -| (src_stat.north);
+\draw[arr=consensusgreen!60] (consensus.south) -- ++(0,-0.2) -| (src_llm.north);
+\draw[arr=deepseekblue!40] (split.south) -- ++(0,-0.2) -| (src_orig.north);
+
+% Metrics for Statistical
+\node[sbox=statpurple, below=0.35cm of src_stat, minimum width=3.2cm] (m1)
+    {Semantic Validity};
+\node[sbox=statpurple, below=0.12cm of m1, minimum width=3.2cm] (m2)
+    {Trace Diversity};
+\node[sbox=statpurple, below=0.12cm of m2, minimum width=3.2cm] (m3)
+    {Prediction Accuracy};
+
+% Metrics for LLM Consensus
+\node[sbox=consensusgreen, below=0.35cm of src_llm, minimum width=3.2cm] (m4)
+    {Conformance Fitness};
+\node[sbox=consensusgreen, below=0.12cm of m4, minimum width=3.2cm] (m5)
+    {Novel Variant Rate};
+\node[sbox=consensusgreen, below=0.12cm of m5, minimum width=3.2cm] (m6)
+    {Next-Activity Acc.};
+
+% Metrics for Original
+\node[sbox=origgray, below=0.35cm of src_orig, minimum width=3.2cm] (m7)
+    {Baseline Accuracy};
+\node[sbox=origgray, below=0.12cm of m7, minimum width=3.2cm] (m8)
+    {Ablation Study};
+\node[sbox=origgray, below=0.12cm of m8, minimum width=3.2cm] (m9)
+    {Consensus Rate};
+
+% Arrows from sources to first metric
+\draw[arr=statpurple!60] (src_stat.south) -- (m1.north);
+\draw[arr=consensusgreen!60] (src_llm.south) -- (m4.north);
+\draw[arr=origgray!60] (src_orig.south) -- (m7.north);
+
+% ============================================================
+% ROW 5: RESEARCH QUESTIONS
+% ============================================================
+\node[rectangle, rounded corners=5pt, draw=black!60, fill=yellow!8, line width=0.9pt,
+      minimum width=14.5cm, minimum height=1.2cm, align=center, font=\footnotesize,
+      below=0.5cm of m2] (rq) {
+    \textbf{Research Questions}\\[2pt]
+    \textbf{H1:} Multi-LLM consensus $\,>\,$ statistical baselines on semantic validity?
+    \hspace{0.4cm}
+    \textbf{H2:} Augmented data improves downstream prediction accuracy?
+    \hspace{0.4cm}
+    \textbf{H3:} Heterogeneous consensus $\,>\,$ single-model verification?
 };
 
-% Three output branches
-\node[tinybox=statpurple, below=0.5cm of eval.south west, xshift=0.5cm, anchor=north, minimum width=3.2cm, minimum height=0.9cm] (stat_out) {
-    \textbf{Statistical}\\
-    \textbf{Augmented Data}
-};
+% Connect metrics to RQs
+\draw[arr=black!30] (m3.south)  -- ++(0,-0.2) -| (rq.north -| m3.south);
+\draw[arr=black!30] (m6.south)  -- ++(0,-0.2) -| (rq.north);
+\draw[arr=black!30] (m9.south)  -- ++(0,-0.2) -| (rq.north -| m9.south);
 
-\node[tinybox=consensusgreen, below=0.5cm of eval.south, anchor=north, minimum width=3.2cm, minimum height=0.9cm] (llm_out) {
-    \textbf{LLM Consensus}\\
-    \textbf{Augmented Data}
-};
-
-\node[tinybox=origgray, below=0.5cm of eval.south east, xshift=-0.5cm, anchor=north, minimum width=3.2cm, minimum height=0.9cm] (orig_out) {
-    \textbf{Original Data}\\
-    \textbf{(No Augmentation)}
-};
-
-\draw[arr=statpurple!70!black] (eval.south -| stat_out.north) -- (stat_out.north);
-\draw[arr=consensusgreen!70!black] (eval.south) -- (llm_out.north);
-\draw[arr=origgray] (eval.south -| orig_out.north) -- (orig_out.north);
-
-% Evaluation metrics
-\node[metricbox=deepseekblue, below=0.5cm of stat_out, yshift=-0.1cm] (m1) {Semantic Validity};
-\node[metricbox=statpurple, below=0.15cm of m1] (m2) {Trace Diversity};
-\node[metricbox=kimired, below=0.15cm of m2] (m3) {Prediction Accuracy};
-
-\node[metricbox=deepseekblue, below=0.5cm of llm_out, yshift=-0.1cm] (m4) {Conformance Fitness};
-\node[metricbox=statpurple, below=0.15cm of m4] (m5) {Novel Variants};
-\node[metricbox=kimired, below=0.15cm of m5] (m6) {Next-Activity Acc.};
-
-\node[metricbox=origgray, below=0.5cm of orig_out, yshift=-0.1cm] (m7) {Baseline Accuracy};
-\node[metricbox=statpurple, below=0.15cm of m7] (m8) {Ablation Study};
-\node[metricbox=conforange, below=0.15cm of m8] (m9) {Consensus Rate};
-
-% Research questions
-\node[rectangle, rounded corners=4pt, draw=black, fill=yellow!10, line width=0.8pt,
-      minimum width=14.5cm, minimum height=1.6cm, align=center, font=\small,
-      below=0.4cm of m2] (rq) {
-    \textbf{Research Questions:}\\[2pt]
-    \textbf{H1:} Multi-LLM consensus $>$ Statistical baselines on semantic validity? \quad
-    \textbf{H2:} Augmented data improves downstream prediction accuracy? \quad
-    \textbf{H3:} Heterogeneous consensus $>$ Single-model verification?
-};
-
-% Arrows from metrics to research questions
-\draw[arr=black!50] (m3.south) -- ++(0,-0.15) -| (rq.north -| m3.south);
-\draw[arr=black!50] (m6.south) -- ++(0,-0.15) -| (rq.north);
-\draw[arr=black!50] (m9.south) -- ++(0,-0.15) -| (rq.north -| m9.south);
-
-% Arrows from stat and llm paths to step3
-\draw[darr=statpurple!70!black] (stat.south) -- ++(0,-0.3) -| ([xshift=-4cm]eval.north);
-\draw[arr=consensusgreen!70!black] (verified.south) -- ++(0,-0.3) -| (eval.north -| eval.west);
+% Side connection: statistical path bypasses verification -> direct to evaluation
+\draw[arr=statpurple!40, dashed] (stat.east) --
+    ++(1.2cm, 0) |-
+    ([yshift=1.0cm]consensus.east) --
+    (consensus.east);
+\node[font=\tiny\itshape, text=statpurple!70!black, align=center]
+    at ([xshift=2.0cm, yshift=-0.8cm]stat.east)
+    {Statistical path bypasses\\LLM verification stage};
 
 \end{tikzpicture}
-}%
-\caption{Research methodology workflow. Step~1 preprocesses event logs and discovers process models. Step~2 applies statistical baselines and LLM-based augmentation with three verification mechanisms. Step~3 applies 2-of-3 majority voting consensus filtering. Augmented data is evaluated against original and statistical baselines on semantic validity, diversity, and downstream prediction accuracy.}
+\caption{Research methodology workflow. The pipeline processes six event logs through preprocessing and model discovery, applies both statistical and LLM-based augmentation, verifies LLM-generated traces via 2-of-3 multi-model consensus, and evaluates augmented data on semantic validity, diversity, and downstream prediction accuracy against three research hypotheses.}
 \label{fig:methodology_workflow}
 \end{figure*}

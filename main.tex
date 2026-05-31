@@ -145,60 +145,73 @@ Figure~\ref{fig:architecture} presents the overall architecture of our proposed 
 
 \begin{figure*}[t]
 \centering
-\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
-    node distance=1.2cm and 1.5cm,
-    box/.style={rectangle, rounded corners=4pt, draw=#1, fill=#1!10, line width=1.2pt,
-        minimum width=2.8cm, minimum height=1.2cm, align=center, font=\small},
-    smallbox/.style={rectangle, rounded corners=3pt, draw=#1, fill=#1!10, line width=1pt,
-        minimum width=2.2cm, minimum height=1cm, align=center, font=\footnotesize},
-    bigbox/.style={rectangle, rounded corners=6pt, draw=gray!70, fill=yellow!5, line width=1.5pt,
-        dashed, minimum width=7cm, minimum height=3.8cm},
-    arr/.style={-{Stealth[length=6pt]}, line width=1.2pt, color=#1},
-    label/.style={font=\footnotesize\itshape, text=#1},
+    node distance=0.8cm and 1.2cm,
+    % Main process boxes
+    process/.style={rectangle, rounded corners=4pt, draw=#1!70!black, fill=#1!12,
+        minimum width=2.6cm, minimum height=1cm, align=center, font=\footnotesize\bfseries,
+        line width=1pt},
+    % Verifier boxes (smaller)
+    verifier/.style={rectangle, rounded corners=3pt, draw=#1!70!black, fill=#1!12,
+        minimum width=2.2cm, minimum height=1.2cm, align=center, font=\scriptsize,
+        line width=0.8pt},
+    % Group bounding boxes
+    group/.style={rectangle, rounded corners=6pt, draw=#1!50, fill=#1!5,
+        minimum width=8.5cm, line width=1pt, dashed},
+    % Arrows
+    arr/.style={-{Stealth[length=5pt]}, line width=0.9pt, color=#1},
+    % Stage labels
+    stagelabel/.style={font=\footnotesize\bfseries, text=black!70},
 ]
 
-% Row 1: Input pipeline
-\node[box=deepseekblue] (log) {Original\\Event Log $L$};
-\node[box=deepseekblue, right=1.5cm of log] (ctx) {Context\\Extraction};
-\node[box=deepseekblue, right=1.5cm of ctx] (gen) {Trace Generation\\{\color{deepseekblue}(DeepSeek-R1)}};
+% ===== STAGE 1: Input & Context =====
+\node[process=deepseekblue] (log)     {Event Log\\$L$};
+\node[process=deepseekblue, right=1.5cm of log] (ctx) {Context\\Extraction};
+\node[process=deepseekblue, right=1.5cm of ctx] (gen) {Trace\\Generation};
+\node[font=\scriptsize, text=deepseekblue!70!black, below=0.15cm of gen] {(DeepSeek-R1)};
 
-\draw[arr=deepseekblue] (log) -- (ctx);
-\draw[arr=deepseekblue] (ctx) -- (gen);
+\draw[arr=deepseekblue!60] (log) -- (ctx);
+\draw[arr=deepseekblue!60] (ctx) -- (gen);
 
-% Arrow down to verification
-\node[below=1.8cm of gen] (verstart) {};
-\draw[arr=black] (gen) -- (verstart);
+% Context detail
+\node[font=\tiny, text=gray, below=0.25cm of ctx, align=center] {DFG, Petri net,\\frequent patterns};
 
-% Verification box
-\node[bigbox, below=1.5cm of gen] (verifybox) {};
-\node[above=0.1cm of verifybox.north, font=\small\bfseries] {Multi-LLM Verification (2-of-3 Consensus)};
+% ===== STAGE 2: Multi-LLM Verification =====
+\node[group=black, below=1.5cm of ctx, minimum height=3.2cm,
+      xshift=0.75cm] (vgroup) {};
+\node[stagelabel, above=0cm of vgroup.north] {Stage 2: Multi-LLM Verification (2-of-3 Consensus)};
 
-\node[smallbox=glmgreen] (v1) at ([xshift=-2.3cm]verifybox.center) {Structural\\Check\\{\color{glmgreen}(GLM-4)}};
-\node[smallbox=kimired] (v2) at (verifybox.center) {Temporal\\Check\\{\color{kimired}(Kimi-K2)}};
-\node[smallbox=conforange] (v3) at ([xshift=2.3cm]verifybox.center) {Conformance\\Check\\{\color{conforange}(Petri Net)}};
+% Three verifiers side by side
+\node[verifier=glmgreen]  (v1) at ([xshift=-2.8cm, yshift=-0.5cm]vgroup.center) {Structural\\Check\\[-2pt]{\tiny (GLM-4)}};
+\node[verifier=kimired]   (v2) at ([yshift=-0.5cm]vgroup.center)         {Temporal\\Check\\[-2pt]{\tiny (Kimi-K2)}};
+\node[verifier=conforange] (v3) at ([xshift=2.8cm, yshift=-0.5cm]vgroup.center) {Conformance\\Check\\[-2pt]{\tiny (Petri Net)}};
 
-% Arrow down to consensus filter
-\node[box=statpurple, below=1.5cm of verifybox] (filter) {Consensus Filter\\($\geq$ 2 of 3 votes)};
+% Arrows from generator to each verifier
+\draw[arr=deepseekblue!60] (gen.south) -- ++(0,-0.6) -| (v1.north);
+\draw[arr=deepseekblue!60] (gen.south) -- ++(0,-0.6) -| (v2.north);
+\draw[arr=deepseekblue!60] (gen.south) -- ++(0,-0.6) -| (v3.north);
 
-\draw[arr=black] (verifybox.south) -- (filter);
+% ===== STAGE 3: Consensus & Output =====
+\node[process=statpurple, below=1.0cm of vgroup] (filter) {Consensus Filter\\($\geq$ 2 of 3 votes)};
 
-% Arrow down to output
-\node[box=darkgreen, below=1.2cm of filter] (output) {Verified Augmented Traces\\$S = \{s_1, \ldots, s_k\}$ (semantically valid)};
+\draw[arr=glmgreen!60]  (v1.south) -- ++(0,-0.3) -| (filter.north);
+\draw[arr=kimired!60]   (v2.south) -- ++(0,-0.3) -| (filter.north);
+\draw[arr=conforange!60] (v3.south) -- ++(0,-0.3) -| (filter.north);
 
-\draw[arr=darkgreen] (filter) -- (output);
+% Output
+\node[process=darkgreen, below=1.0cm of filter] (output) {Augmented Traces\\[-2pt]{\footnotesize $S = \{s_1, \ldots, s_k\}$}};
 
-% Side: Statistical augmentation
-\node[box=statpurple, left=2.5cm of verifybox] (stat) {Statistical\\Augmentation\\{\color{statpurple}(Insert/Del/Replace)}};
+\draw[arr=darkgreen!60] (filter) -- (output);
 
-\draw[arr=statpurple, dashed] (log.south) |- (stat.west);
+% ===== Side: Statistical Baseline =====
+\node[process=statpurple, left=3.2cm of ctx, minimum width=2.4cm] (stat) {Statistical\\Augmentation\\[-2pt]{\tiny Insert / Delete / Replace}};
+\node[font=\tiny, text=statpurple, above=0.1cm of stat.north] {Baseline};
 
-% Context extraction details (below the boxes)
-\node[below=0.3cm of ctx, font=\tiny, align=center, text=gray] {DFG + Petri net\\+ frequent patterns};
+\draw[arr=statpurple!60, dashed] (log.west) -- ++(-0.6, 0) |- (stat.north);
+\draw[arr=statpurple!60, dashed] (stat.east) -- ++(0.6, 0) |- (filter.west);
 
 \end{tikzpicture}
-}%
-\caption{Architecture of the Multi-LLM Consensus Framework for Event Log Augmentation. The original event log is processed through context extraction, LLM-based trace generation, and multi-model verification before consensus filtering. The statistical augmentation path (left) serves as a baseline.}
+\caption{Architecture of the Multi-LLM Consensus Framework. Stage 1 extracts process context (DFG, Petri net, frequent patterns). Stage 2 routes candidate traces from the DeepSeek-R1 generator to three independent verifiers (GLM-4, Kimi-K2, conformance checking). Stage 3 applies 2-of-3 consensus filtering and outputs verified traces. Dashed lines show the statistical augmentation baseline path.}
 \label{fig:architecture}
 \end{figure*}
 
@@ -412,50 +425,66 @@ For LLM-based generation and verification, we use the following API configuratio
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}[
-    node distance=0.6cm and 0.8cm,
-    emb/.style={rectangle, rounded corners=2pt, draw=deepseekblue, fill=deepseekblue!15,
-        minimum width=1cm, minimum height=0.6cm, font=\tiny, align=center},
-    lstmcell/.style={rectangle, rounded corners=3pt, draw=glmgreen!80!black, fill=glmgreen!15,
-        minimum width=1.2cm, minimum height=0.8cm, font=\tiny, align=center, line width=1pt},
-    hidden/.style={circle, draw=conforange!80!black, fill=conforange!15,
-        minimum size=0.5cm, font=\tiny, inner sep=1pt, line width=1pt},
-    softmax/.style={rectangle, rounded corners=3pt, draw=kimired!80!black, fill=kimired!15,
-        minimum width=1.5cm, minimum height=0.6cm, font=\tiny, align=center, line width=1pt},
-    arr/.style={-{Stealth[length=4pt]}, line width=0.8pt},
-    label/.style={font=\tiny\itshape},
+    node distance=0.7cm and 1.0cm,
+    % Activity embedding boxes
+    emb/.style={rectangle, rounded corners=2pt, draw=deepseekblue!70, fill=deepseekblue!12,
+        minimum width=1.0cm, minimum height=0.65cm, font=\footnotesize, align=center},
+    % LSTM cell boxes
+    lstm/.style={rectangle, rounded corners=3pt, draw=glmgreen!70!black, fill=glmgreen!12,
+        minimum width=1.3cm, minimum height=0.75cm, font=\footnotesize, align=center, line width=0.9pt},
+    % Hidden state
+    hidden/.style={circle, draw=conforange!70!black, fill=conforange!12,
+        minimum size=0.55cm, font=\footnotesize, inner sep=0pt, line width=0.9pt},
+    % Softmax layer
+    softmax/.style={rectangle, rounded corners=3pt, draw=kimired!70!black, fill=kimired!12,
+        minimum width=1.8cm, minimum height=0.65cm, font=\footnotesize, align=center, line width=0.9pt},
+    % Prediction output
+    pred/.style={font=\footnotesize\bfseries},
+    % Arrows
+    arr/.style={-{Stealth[length=4pt]}, line width=0.7pt},
+    % Group box
+    group/.style={rectangle, rounded corners=4pt, draw=gray!50, fill=gray!5,
+        line width=0.6pt, inner sep=6pt},
 ]
+
+% Layer labels
+\node[font=\footnotesize\itshape, text=glmgreen!60!black] (l2label) at (7.5, 3.4) {Layer 2};
+\node[font=\footnotesize\itshape, text=glmgreen!60!black] (l1label) at (7.5, 1.85) {Layer 1};
+
+% Activity embeddings and LSTM cells
 \foreach \i/\act in {1/$a_1$, 2/$a_2$, 3/$a_3$, 4/$\cdots$, 5/$a_k$} {
-    \node[emb] (act\i) at (\i*1.6, 0) {\act};
-    \node[lstmcell, above=0.4cm of act\i] (lstm1\i) {LSTM};
+    \pgfmathsetmacro\xpos{(\i-1)*1.7}
+    \node[emb] (emb\i) at (\xpos, 0) {\act};
+    \node[lstm] (l1\i) at (\xpos, 1.2) {LSTM};
+    \node[lstm] (l2\i) at (\xpos, 2.8) {LSTM};
+    \draw[arr, deepseekblue!60] (emb\i) -- (l1\i);
+    \draw[arr, glmgreen!70!black] (l1\i) -- (l2\i);
 }
-\node[label, below=0.1cm of act1] {Prefix};
-\node[label, below=0.1cm of act3] {position};
-\foreach \i in {1,2,3,4,5} {
-    \draw[arr, deepseekblue] (act\i) -- (lstm1\i);
-}
+
+% Horizontal arrows Layer 1
 \foreach \i/\j in {1/2, 2/3, 3/4, 4/5} {
-    \draw[arr, glmgreen!80!black] (lstm1\i) -- (lstm1\j);
+    \draw[arr, glmgreen!50!black] (l1\i.east) -- (l1\j.west);
 }
-\foreach \i in {1,2,3,4,5} {
-    \node[lstmcell, above=0.4cm of lstm1\i, draw=glmgreen!60!black] (lstm2\i) {LSTM};
-    \draw[arr, glmgreen!80!black] (lstm1\i) -- (lstm2\i);
-}
+% Horizontal arrows Layer 2
 \foreach \i/\j in {1/2, 2/3, 3/4, 4/5} {
-    \draw[arr, glmgreen!60!black] (lstm2\i) -- (lstm2\j);
+    \draw[arr, glmgreen!30!black] (l2\i.east) -- (l2\j.west);
 }
-\node[hidden, above=0.5cm of lstm25] (h) {$h_k$};
-\draw[arr, conforange!80!black] (lstm25) -- (h);
-\node[softmax, above=0.4cm of h] (sm) {Softmax};
-\draw[arr, kimired!80!black] (h) -- (sm);
-\node[above=0.3cm of sm, font=\tiny] (out) {$\hat{y}$: Next Activity};
-\draw[arr, kimired!80!black] (sm) -- (out);
-\node[label, left=0.3cm of lstm11] {Layer 1};
-\node[label, left=0.3cm of lstm21] {Layer 2};
-\draw[decorate, decoration={brace, mirror, amplitude=4pt}, line width=0.6pt]
-    ([yshift=-0.2cm]act1.south west) -- ([yshift=-0.2cm]act5.south east)
-    node[midway, below=4pt, font=\tiny] {Prefix of length $k$ from trace $t_i$};
+
+% Hidden state and classifier
+\node[hidden, above=0.7cm of l25] (h) {$h_k$};
+\draw[arr, conforange!70!black] (l25.north) -- (h.south);
+\node[softmax, above=0.5cm of h] (sm) {Softmax};
+\draw[arr, kimired!70!black] (h.north) -- (sm.south);
+\node[pred, above=0.35cm of sm] (out) {$\hat{y}\,$: Next Activity};
+\draw[arr, kimired!70!black] (sm.north) -- (out.south);
+
+% Prefix group brace
+\node[group, fit=(emb1)(emb5)(emb1|-l1label), yshift=0pt] (prefixgroup) {};
+\node[font=\footnotesize\itshape, below=0.25cm of prefixgroup.south, align=center]
+    {Prefix of length $k$ from trace $t_i$};
+
 \end{tikzpicture}
-\caption{LSTM with prefix-based encoding for next-activity prediction. Each activity $a_j$ in the prefix is embedded and processed by a 2-layer LSTM (128 hidden units). The final hidden state $h_k$ is classified via softmax to predict the next activity.}
+\caption{LSTM architecture for next-activity prediction with prefix-based encoding. Each activity in the prefix is embedded, then processed by a 2-layer LSTM (128 hidden units per layer). The final hidden state $h_k$ is classified via softmax to predict the next activity $\hat{y}$.}
 \label{fig:lstm}
 \end{figure}
 

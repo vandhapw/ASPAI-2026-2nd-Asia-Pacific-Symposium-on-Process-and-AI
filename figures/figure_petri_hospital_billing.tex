@@ -2,118 +2,118 @@
 \centering
 \begin{tikzpicture}[
     transition/.style={rectangle, rounded corners=2pt, draw=black, fill=white,
-        minimum width=1.2cm, minimum height=0.55cm, align=center, font=\tiny,
-        inner sep=1pt, line width=0.4pt},
-    place/.style={circle, draw=black, fill=white,
-        minimum size=0.28cm, inner sep=0pt, line width=0.4pt},
-    post/.style={line width=0.35pt, draw=black!60},
+        minimum width=1.1cm, minimum height=0.5cm, align=center, font=\tiny,
+        inner sep=1pt, line width=0.45pt},
+    place/.style={circle, draw=black, fill=black!8,
+        minimum size=0.24cm, inner sep=0pt, line width=0.4pt},
+    post/.style={line width=0.45pt, draw=black!50},
 ]
-\colorlet{startcolor}{green!25}
-\colorlet{endcolor}{red!20}
+\colorlet{startcolor}{green!30}
+\colorlet{endcolor}{red!25}
 \colorlet{transitioncolor}{white}
   % Petri net for Hosp.Bill.
   \node[transition, fill=startcolor] (t_hospital_billing_0) at (0.0, 0.0) {\tiny New};
-  \node[transition, fill=endcolor] (t_hospital_billing_1) at (3.6, -0.5) {\tiny FIN};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_2) at (3.6, -2.5) {\tiny Code};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_3) at (3.6, 0.5) {\tiny Modify};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_4) at (3.6, 5.5) {\tiny Reopen};
-  \node[transition, fill=endcolor] (t_hospital_billing_5) at (3.6, -3.5) {\tiny Cancel};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_6) at (3.6, -4.5) {\tiny Billed};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_7) at (3.6, 1.5) {\tiny Pay};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_8) at (3.6, 3.5) {\tiny Reject};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_9) at (3.6, -6.5) {\tiny Appeal};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_10) at (3.6, -5.5) {\tiny Approve};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_11) at (3.6, -1.5) {\tiny Deny};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_12) at (1.8, 0.0) {\tiny Review};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_13) at (3.6, 4.5) {\tiny Release};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_14) at (3.6, 2.5) {\tiny Query};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_15) at (3.6, 6.5) {\tiny Response};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_16) at (3.6, -7.5) {\tiny Adjust};
-  \node[transition, fill=transitioncolor] (t_hospital_billing_17) at (3.6, 7.5) {\tiny Writeoff};
-  \node[place, label=above:{\tiny $i$}] (p_start_hospital_billing) at (-1.8, 0.0) {};
+  \node[transition, fill=endcolor] (t_hospital_billing_1) at (3.0, -0.375) {\tiny FIN};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_2) at (3.0, -1.875) {\tiny Code};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_3) at (3.0, 0.375) {\tiny Modify};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_4) at (3.0, 4.125) {\tiny Reopen};
+  \node[transition, fill=endcolor] (t_hospital_billing_5) at (3.0, -2.625) {\tiny Cancel};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_6) at (3.0, -3.375) {\tiny Billed};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_7) at (3.0, 1.125) {\tiny Pay};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_8) at (3.0, 2.625) {\tiny Reject};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_9) at (3.0, -4.875) {\tiny Appeal};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_10) at (3.0, -4.125) {\tiny Approve};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_11) at (3.0, -1.125) {\tiny Deny};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_12) at (1.5, 0.0) {\tiny Review};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_13) at (3.0, 3.375) {\tiny Release};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_14) at (3.0, 1.875) {\tiny Query};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_15) at (3.0, 4.875) {\tiny Response};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_16) at (3.0, -5.625) {\tiny Adjust};
+  \node[transition, fill=transitioncolor] (t_hospital_billing_17) at (3.0, 5.625) {\tiny Writeoff};
+  \node[place, label=above:{\tiny $i$}] (p_start_hospital_billing) at (-1.5, 0.0) {};
   \draw[post, stealth-] (t_hospital_billing_0.west) -- node[above, font=\tiny] {} (p_start_hospital_billing);
-  \node[place, label=below:{\tiny $o$}] (p_end_hospital_billing) at (5.4, -2.0) {};
+  \node[place, label=below:{\tiny $o$}] (p_end_hospital_billing) at (4.5, -1.5) {};
   \draw[post, -stealth] (t_hospital_billing_1.east) -- (p_end_hospital_billing);
   \draw[post, -stealth] (t_hospital_billing_5.east) -- (p_end_hospital_billing);
-  \node[place] (p_hospital_billing_0) at (1.8, -1.25) {};
+  \node[place] (p_hospital_billing_0) at (1.5, -0.9375) {};
   \draw[post, -stealth] (t_hospital_billing_0.east) -- (p_hospital_billing_0);
   \draw[post, -stealth] (p_hospital_billing_0) -- (t_hospital_billing_2.west);
-  \node[place] (p_hospital_billing_1) at (0.9, 0.0) {};
+  \node[place] (p_hospital_billing_1) at (0.75, 0.0) {};
   \draw[post, -stealth] (t_hospital_billing_0.east) -- (p_hospital_billing_1);
   \draw[post, -stealth] (p_hospital_billing_1) -- (t_hospital_billing_12.west);
-  \node[place] (p_hospital_billing_2) at (3.6, -1.0) {};
+  \node[place] (p_hospital_billing_2) at (3.0, -0.75) {};
   \draw[post, -stealth] (t_hospital_billing_2.east) -- (p_hospital_billing_2);
   \draw[post, -stealth] (p_hospital_billing_2) -- (t_hospital_billing_3.west);
-  \node[place] (p_hospital_billing_3) at (3.6, -1.5) {};
+  \node[place] (p_hospital_billing_3) at (3.0, -1.125) {};
   \draw[post, -stealth] (t_hospital_billing_2.east) -- (p_hospital_billing_3);
   \draw[post, -stealth] (p_hospital_billing_3) -- (t_hospital_billing_1.west);
-  \node[place] (p_hospital_billing_4) at (3.6, 0.0) {};
+  \node[place] (p_hospital_billing_4) at (3.0, 0.0) {};
   \draw[post, -stealth] (t_hospital_billing_3.east) -- (p_hospital_billing_4);
   \draw[post, -stealth] (p_hospital_billing_4) -- (t_hospital_billing_1.west);
-  \node[place] (p_hospital_billing_5) at (3.6, 1.5) {};
+  \node[place] (p_hospital_billing_5) at (3.0, 1.125) {};
   \draw[post, -stealth] (t_hospital_billing_3.east) -- (p_hospital_billing_5);
   \draw[post, -stealth] (p_hospital_billing_5) -- (t_hospital_billing_14.west);
-  \node[place] (p_hospital_billing_6) at (2.7, -1.25) {};
+  \node[place] (p_hospital_billing_6) at (2.25, -0.9375) {};
   \draw[post, -stealth] (t_hospital_billing_12.east) -- (p_hospital_billing_6);
   \draw[post, -stealth] (p_hospital_billing_6) -- (t_hospital_billing_2.west);
-  \node[place] (p_hospital_billing_7) at (2.7, -1.75) {};
+  \node[place] (p_hospital_billing_7) at (2.25, -1.3125) {};
   \draw[post, -stealth] (t_hospital_billing_12.east) -- (p_hospital_billing_7);
   \draw[post, -stealth] (p_hospital_billing_7) -- (t_hospital_billing_5.west);
-  \node[place] (p_hospital_billing_8) at (3.6, 4.5) {};
+  \node[place] (p_hospital_billing_8) at (3.0, 3.375) {};
   \draw[post, -stealth] (t_hospital_billing_14.east) -- (p_hospital_billing_8);
   \draw[post, -stealth] (p_hospital_billing_8) -- (t_hospital_billing_15.west);
-  \node[place] (p_hospital_billing_9) at (3.6, 2.0) {};
+  \node[place] (p_hospital_billing_9) at (3.0, 1.5) {};
   \draw[post, -stealth] (t_hospital_billing_15.east) -- (p_hospital_billing_9);
   \draw[post, -stealth] (p_hospital_billing_9) -- (t_hospital_billing_2.west);
-  \node[place] (p_hospital_billing_10) at (3.6, 3.5) {};
+  \node[place] (p_hospital_billing_10) at (3.0, 2.625) {};
   \draw[post, -stealth] (t_hospital_billing_15.east) -- (p_hospital_billing_10);
   \draw[post, -stealth] (p_hospital_billing_10) -- (t_hospital_billing_3.west);
-  \node[place] (p_hospital_billing_11) at (3.6, -2.5) {};
+  \node[place] (p_hospital_billing_11) at (3.0, -1.875) {};
   \draw[post, -stealth] (t_hospital_billing_1.east) -- (p_hospital_billing_11);
   \draw[post, -stealth] (p_hospital_billing_11) -- (t_hospital_billing_6.west);
-  \node[place] (p_hospital_billing_12) at (3.6, -1.5) {};
+  \node[place] (p_hospital_billing_12) at (3.0, -1.125) {};
   \draw[post, -stealth] (t_hospital_billing_6.east) -- (p_hospital_billing_12);
   \draw[post, -stealth] (p_hospital_billing_12) -- (t_hospital_billing_7.west);
-  \node[place] (p_hospital_billing_13) at (3.6, -0.5) {};
+  \node[place] (p_hospital_billing_13) at (3.0, -0.375) {};
   \draw[post, -stealth] (t_hospital_billing_6.east) -- (p_hospital_billing_13);
   \draw[post, -stealth] (p_hospital_billing_13) -- (t_hospital_billing_8.west);
-  \node[place] (p_hospital_billing_14) at (3.6, -1.5) {};
+  \node[place] (p_hospital_billing_14) at (3.0, -1.125) {};
   \draw[post, -stealth] (t_hospital_billing_8.east) -- (p_hospital_billing_14);
   \draw[post, -stealth] (p_hospital_billing_14) -- (t_hospital_billing_9.west);
-  \node[place] (p_hospital_billing_15) at (3.6, -6.0) {};
+  \node[place] (p_hospital_billing_15) at (3.0, -4.5) {};
   \draw[post, -stealth] (t_hospital_billing_9.east) -- (p_hospital_billing_15);
   \draw[post, -stealth] (p_hospital_billing_15) -- (t_hospital_billing_10.west);
-  \node[place] (p_hospital_billing_16) at (3.6, -4.0) {};
+  \node[place] (p_hospital_billing_16) at (3.0, -3.0) {};
   \draw[post, -stealth] (t_hospital_billing_9.east) -- (p_hospital_billing_16);
   \draw[post, -stealth] (p_hospital_billing_16) -- (t_hospital_billing_11.west);
-  \node[place] (p_hospital_billing_17) at (3.6, -2.0) {};
+  \node[place] (p_hospital_billing_17) at (3.0, -1.5) {};
   \draw[post, -stealth] (t_hospital_billing_10.east) -- (p_hospital_billing_17);
   \draw[post, -stealth] (p_hospital_billing_17) -- (t_hospital_billing_7.west);
-  \node[place] (p_hospital_billing_18) at (3.6, 2.0) {};
+  \node[place] (p_hospital_billing_18) at (3.0, 1.5) {};
   \draw[post, -stealth] (t_hospital_billing_11.east) -- (p_hospital_billing_18);
   \draw[post, -stealth] (p_hospital_billing_18) -- (t_hospital_billing_4.west);
-  \node[place] (p_hospital_billing_19) at (3.6, 1.5) {};
+  \node[place] (p_hospital_billing_19) at (3.0, 1.125) {};
   \draw[post, -stealth] (t_hospital_billing_4.east) -- (p_hospital_billing_19);
   \draw[post, -stealth] (p_hospital_billing_19) -- (t_hospital_billing_2.west);
-  \node[place] (p_hospital_billing_20) at (3.6, 3.0) {};
+  \node[place] (p_hospital_billing_20) at (3.0, 2.25) {};
   \draw[post, -stealth] (t_hospital_billing_4.east) -- (p_hospital_billing_20);
   \draw[post, -stealth] (p_hospital_billing_20) -- (t_hospital_billing_3.west);
-  \node[place] (p_hospital_billing_21) at (3.6, 0.5) {};
+  \node[place] (p_hospital_billing_21) at (3.0, 0.375) {};
   \draw[post, -stealth] (t_hospital_billing_7.east) -- (p_hospital_billing_21);
   \draw[post, -stealth] (p_hospital_billing_21) -- (t_hospital_billing_1.west);
-  \node[place] (p_hospital_billing_22) at (3.6, 2.0) {};
+  \node[place] (p_hospital_billing_22) at (3.0, 1.5) {};
   \draw[post, -stealth] (t_hospital_billing_1.east) -- (p_hospital_billing_22);
   \draw[post, -stealth] (p_hospital_billing_22) -- (t_hospital_billing_13.west);
-  \node[place] (p_hospital_billing_23) at (3.6, 0.5) {};
+  \node[place] (p_hospital_billing_23) at (3.0, 0.375) {};
   \draw[post, -stealth] (t_hospital_billing_13.east) -- (p_hospital_billing_23);
   \draw[post, -stealth] (p_hospital_billing_23) -- (t_hospital_billing_5.west);
-  \node[place] (p_hospital_billing_24) at (1.8, -1.75) {};
+  \node[place] (p_hospital_billing_24) at (1.5, -1.3125) {};
   \draw[post, -stealth] (t_hospital_billing_5.east) -- (p_hospital_billing_24);
   \draw[post, -stealth] (p_hospital_billing_24) -- (t_hospital_billing_0.west);
-  \node[place] (p_hospital_billing_25) at (3.6, -4.0) {};
+  \node[place] (p_hospital_billing_25) at (3.0, -3.0) {};
   \draw[post, -stealth] (t_hospital_billing_16.east) -- (p_hospital_billing_25);
   \draw[post, -stealth] (p_hospital_billing_25) -- (t_hospital_billing_1.west);
-  \node[place] (p_hospital_billing_26) at (3.6, 3.5) {};
+  \node[place] (p_hospital_billing_26) at (3.0, 2.625) {};
   \draw[post, -stealth] (t_hospital_billing_17.east) -- (p_hospital_billing_26);
   \draw[post, -stealth] (p_hospital_billing_26) -- (t_hospital_billing_1.west);
 \node[font=\footnotesize] at (current bounding box.north) {Hosp.Bill.};
