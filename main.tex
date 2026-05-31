@@ -39,6 +39,7 @@
 \newcommand{\fntext}[2]{}
 \newcommand{\cortext}[2]{}
 \newcommand{\sep}{, }
+\newenvironment{keywords}{\par\noindent\textbf{Keywords: }}{\par}
 
 % Colors
 \definecolor{deepseekblue}{RGB}{26,115,232}
@@ -214,8 +215,8 @@ Figure~\ref{fig:architecture} presents the overall architecture of our proposed 
 \begin{algorithm}[t]
 \caption{Multi-LLM Consensus Augmentation}\label{alg:consensus}
 \begin{algorithmic}[1]
-\REQUIRE Event log $L$, process model $M$, augmentation factor $\alpha$
-\ENSURE Augmented log $L' = L \cup S$
+\Require Event log $L$, process model $M$, augmentation factor $\alpha$
+\Ensure Augmented log $L' = L \cup S$
 \STATE Extract context $C \leftarrow \textsc{ExtractContext}(L, M)$ \COMMENT{Stage 1}
 \STATE $N \leftarrow \lceil \alpha \cdot |L| \rceil$ \COMMENT{Number of candidates}
 \STATE $\mathcal{C} \leftarrow \emptyset$ \COMMENT{Candidate trace set}
